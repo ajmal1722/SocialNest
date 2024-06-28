@@ -49,6 +49,9 @@ const userLogin = async (req, res) => {
         // Generate JWT token
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
+        // Set the token as a cookie
+        res.cookie('userToken', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+
         // Return success response with token
         return res.status(200).json({ message: 'Login successful', token });
         
