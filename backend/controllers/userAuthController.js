@@ -25,7 +25,7 @@ const userSignup = async (req, res) => {
     } catch (error) {
         // Handle the error
         console.error('Error during user signup:', error);
-        return res.status(500).json({ error: 'Internal Server Error' });
+        return res.status(500).json({ error: error.message });
     }
 };
 
@@ -37,13 +37,13 @@ const userLogin = async (req, res) => {
         // Check if the user exists
         const user = await Users.findOne({ email });
         if (!user) {
-            return res.status(400).json({ error: 'Invalid email or password' });
+            return res.status(400).json({ error: 'user does not exist' });
         }
 
         // Compare the provided password with the stored hashed password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ error: 'Invalid email or password' });
+            return res.status(400).json({ error: 'Invalid password' });
         }
 
         // Generate JWT token
@@ -55,7 +55,7 @@ const userLogin = async (req, res) => {
     } catch (error) {
         // Handle the error
         console.error('Error during user login:', error);
-        return res.status(500).json({ error: 'Internal Server Error' });
+        return res.status(500).json({ error: error.message });
     }
 };
 
