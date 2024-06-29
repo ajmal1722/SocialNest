@@ -1,9 +1,19 @@
-
 /* Autofill styles */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
-    -webkit-text-fill-color: #000 !important;
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: #000 !important;
+}
+
+p.error-message {
+  color: #bf1650;
+  margin-top: -20px;
+  margin-bottom: 10px;
+}
+
+p.error-message::before {
+  display: inline;
+  content: "⚠ ";
 }
