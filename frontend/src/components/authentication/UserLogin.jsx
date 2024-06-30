@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { useState } from 'react';
 import { FaRegUser, FaLock, FaRegEyeSlash, FaRegEye } from "react-icons/fa";
-import { Input } from 'antd'
+import axios from 'axios'
 
 const UserLogin = () => {
     const {
@@ -22,7 +22,14 @@ const UserLogin = () => {
         setPasswordVisible(!passwordVisible);
     };
 
-    const userLogin = data => console.log(data)
+    const userLogin = async (data) => {
+        try {
+            const response = await axios.post('http://localhost:8000/user/login', data)
+            console.log(response.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <div className="flex justify-center items-center h-screen">
