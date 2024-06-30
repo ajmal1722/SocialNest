@@ -26,6 +26,12 @@ const UserLogin = () => {
         try {
             const response = await axios.post('http://localhost:8000/user/login', data)
             console.log(response.data)
+
+            const { token } = response.data
+
+            if (token) {
+                console.log('token is present')
+            }
         } catch (error) {
             console.log(error)
         }
