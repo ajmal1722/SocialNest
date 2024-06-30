@@ -1,5 +1,7 @@
 import { useForm } from 'react-hook-form'
-import { FaRegUser, FaLock } from "react-icons/fa";
+import { useState } from 'react';
+import { FaRegUser, FaLock, FaRegEyeSlash, FaRegEye } from "react-icons/fa";
+import { Input } from 'antd'
 
 const UserLogin = () => {
     const {
@@ -13,6 +15,12 @@ const UserLogin = () => {
             password: ""
         }
     });
+
+    const [passwordVisible, setPasswordVisible] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
 
     const userLogin = data => console.log(data)
 
@@ -33,16 +41,23 @@ const UserLogin = () => {
                         />
                     </div>
                         {errors.email && <p className='error-message'>This field is required</p>}
-                    <div className='flex min-w-72 items-center border-b-2 text-gray-400 mb-6 '>
+                        <div className='flex items-center border-b-2 text-gray-400 mb-6'>
                         <FaLock />
-                        <input 
-                            type="password"
+                        <input
+                            type={passwordVisible ? "text" : "password"}
                             {...register('password', { required: true })}
                             placeholder='Password'
                             className='p-3 w-full focus:outline-none'
                         />
+                        <button
+                            type="button"
+                            onClick={togglePasswordVisibility}
+                            className="focus:outline-none"
+                        >
+                            {passwordVisible ? <FaRegEye /> : <FaRegEyeSlash />}
+                        </button>
                     </div>
-                    {errors.password && <p className='error-message'>This field is required</p>}
+                    {errors.password && <p className='error-message'>Enter Password</p>}
                     <button type='submit' className='bg-blue-400 hover:bg-blue-500 text-white w-full rounded-full p-2 '>
                         Login
                     </button>

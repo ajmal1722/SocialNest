@@ -1,11 +1,13 @@
 import express from 'express';
 import dotenv from 'dotenv';
-dotenv.config();
 import morgan from 'morgan';
 import connectDB from './database/connection.js';
 import userAuthRouter from './routes/userAuthRouter.js';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import cors from 'cors'
+
+dotenv.config();
 
 const app = express();
 
@@ -19,6 +21,7 @@ app.use(cookieParser()); // Parse cookies
 // Connect to MongoDB
 connectDB();
 
+app.use(cors())
 // Load routers
 app.use('/user', userAuthRouter);
 
