@@ -1,9 +1,9 @@
 import { useForm, FormProvider } from 'react-hook-form';
 import { useState } from 'react';
-import { FaLock, FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import { GoMail } from "react-icons/go";
 import instance from '../axios_instaces/userInstance';
 import Input from '../components/reusable/Input';
+import PasswordInput from '../components/reusable/PasswordInput';
 
 const UserLogin = () => {
     const methods = useForm({
@@ -13,13 +13,7 @@ const UserLogin = () => {
         }
     });
 
-    const { handleSubmit, formState: { errors } } = methods;
-
-    const [passwordVisible, setPasswordVisible] = useState(false);
-
-    const togglePasswordVisibility = () => {
-        setPasswordVisible(!passwordVisible);
-    };
+    const { handleSubmit } = methods;
 
     const userLogin = async (data) => {
         try {
@@ -44,34 +38,25 @@ const UserLogin = () => {
                 </div>
                 <FormProvider {...methods}>
                     <form onSubmit={handleSubmit(userLogin)} >
-                    <Input
-                        type='text'
-                        name='email'
-                        placeholder='Enter your email'
-                        Icon={GoMail}
-                        errorMessage='Email is required'
-                    />
-                    <div className='flex items-center border-b-2 text-gray-400 mb-6'>
-                        <FaLock />
-                        <input
-                            type={passwordVisible ? "text" : "password"}
-                            {...methods.register('password', { required: true })}
-                            placeholder='Password'
-                            className='p-3 w-full focus:outline-none'
+                        <Input
+                            type='text'
+                            name='email'
+                            placeholder='Enter your email'
+                            Icon={GoMail}
+                            errorMessage='Email is required'
+                            validation={{
+                                required: 'Email is required',
+                                pattern: {
+                                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                                    message: 'Invalid email address'
+                                }
+                            }}
                         />
-                        <button
-                            type="button"
-                            onClick={togglePasswordVisibility}
-                            className="focus:outline-none"
-                        >
-                            {passwordVisible ? <FaRegEye /> : <FaRegEyeSlash />}
+                        <PasswordInput/>
+                        <button type='submit' className='bg-green-400 hover:bg-green-500 text-white w-full rounded-full p-2 '>
+                            Login
                         </button>
-                    </div>
-                    {errors.password && <p className='error-message'>Password is required</p>}
-                    <button type='submit' className='bg-green-400 hover:bg-green-500 text-white w-full rounded-full p-2 '>
-                        Login
-                    </button>
-                </form>
+                    </form>
                 </FormProvider>
             </div>
         </div>

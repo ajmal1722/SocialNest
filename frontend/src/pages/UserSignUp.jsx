@@ -4,6 +4,7 @@ import { FaRegUser, FaLock, FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import { GoMail } from "react-icons/go";
 import instance from '../axios_instaces/userInstance';
 import Input from '../components/reusable/Input';
+import PasswordInput from '../components/reusable/PasswordInput';
 
 const UserSignUp = () => {
     const methods = useForm({
@@ -15,15 +16,9 @@ const UserSignUp = () => {
         }
     });
 
-    const { handleSubmit, formState: { errors } } = methods;
+    const { handleSubmit } = methods;
 
-    const [passwordVisible, setPasswordVisible] = useState(false);
-
-    const togglePasswordVisibility = () => {
-        setPasswordVisible(!passwordVisible);
-    };
-
-    const userLogin = async (data) => {
+    const userSigningUp = async (data) => {
         try {
             const response = await instance.post('/login', data)
             console.log(response.data)
@@ -45,7 +40,7 @@ const UserSignUp = () => {
                     Sign Up
                 </div>
                 <FormProvider {...methods}>
-                    <form onSubmit={handleSubmit(userLogin)} >
+                    <form onSubmit={handleSubmit(userSigningUp)} >
                         <Input
                             type='text'
                             name='email'
@@ -88,34 +83,7 @@ const UserSignUp = () => {
                                 }
                             }}
                         />
-                        <div className='flex items-center border-b-2 text-gray-400 mb-6'>
-                            <FaLock />
-                            <input
-                                type={passwordVisible ? "text" : "password"}
-                                {...methods.register('password', { required: true })}
-                                placeholder='Password'
-                                className='p-3 w-full focus:outline-none'
-                                validation={{
-                                    required: 'Password is required',
-                                    minLength: {
-                                        value: 6,
-                                        message: 'Password must be 8 characters long'
-                                    },
-                                    maxLength: {
-                                        value: 14,
-                                        message: 'Password should less than 14 characters long'
-                                    }
-                                }}
-                            />
-                            <button
-                                type="button"
-                                onClick={togglePasswordVisibility}
-                                className="focus:outline-none"
-                            >
-                                {passwordVisible ? <FaRegEye /> : <FaRegEyeSlash />}
-                            </button>
-                        </div>
-                        {errors.password && <p className='error-message'>Password is required</p>}
+                        <PasswordInput/>
                         <button type='submit' className='bg-green-400 hover:bg-green-500 text-white w-full rounded-full p-2 '>
                             Sign Up
                         </button>
