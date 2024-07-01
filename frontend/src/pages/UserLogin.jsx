@@ -1,20 +1,19 @@
-import { useForm } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form';
 import { useState } from 'react';
-import { FaRegUser, FaLock, FaRegEyeSlash, FaRegEye } from "react-icons/fa";
+import { FaLock, FaRegEyeSlash, FaRegEye } from "react-icons/fa";
+import { GoMail } from "react-icons/go";
 import instance from '../axios_instaces/userInstance';
+import Input from '../components/reusable/Input';
 
 const UserLogin = () => {
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors }
-    } = useForm({
+    const methods = useForm({
         defaultValues: {
             email: "",
             password: ""
         }
     });
+
+    const { handleSubmit, formState: { errors } } = methods;
 
     const [passwordVisible, setPasswordVisible] = useState(false);
 
@@ -43,22 +42,20 @@ const UserLogin = () => {
                 <div className="textcenter text-3xl my-8 text-center font-semibold">
                     Login
                 </div>
-                <form onSubmit={handleSubmit(userLogin)} >
-                    <div className='flex min-w-72 items-center border-b-2 text-gray-400 mb-6 '>
-                        <FaRegUser />
-                        <input
-                            type="text"
-                            {...register('email', { required: true })}
-                            placeholder='Username or email'
-                            className='p-3 w-full focus:outline-none'
-                        />
-                    </div>
-                    {errors.email && <p className='error-message'>This field is required</p>}
+                <FormProvider {...methods}>
+                    <form onSubmit={handleSubmit(userLogin)} >
+                    <Input
+                        type='text'
+                        name='email'
+                        placeholder='Enter your email'
+                        Icon={GoMail}
+                        errorMessage='Email is required'
+                    />
                     <div className='flex items-center border-b-2 text-gray-400 mb-6'>
                         <FaLock />
                         <input
                             type={passwordVisible ? "text" : "password"}
-                            {...register('password', { required: true })}
+                            {...methods.register('password', { required: true })}
                             placeholder='Password'
                             className='p-3 w-full focus:outline-none'
                         />
@@ -70,11 +67,12 @@ const UserLogin = () => {
                             {passwordVisible ? <FaRegEye /> : <FaRegEyeSlash />}
                         </button>
                     </div>
-                    {errors.password && <p className='error-message'>Enter Password</p>}
-                    <button type='submit' className='bg-blue-400 hover:bg-blue-500 text-white w-full rounded-full p-2 '>
+                    {errors.password && <p className='error-message'>Password is required</p>}
+                    <button type='submit' className='bg-green-400 hover:bg-green-500 text-white w-full rounded-full p-2 '>
                         Login
                     </button>
                 </form>
+                </FormProvider>
             </div>
         </div>
     )

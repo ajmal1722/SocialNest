@@ -1,6 +1,6 @@
 import { useFormContext } from 'react-hook-form'
 
-const Input = ({ type, name, Icon, placeholder, errorMessage }) => {
+const Input = ({ type, name, Icon, placeholder, validation, errorMessage }) => {
     const {
         register,
         formState: { errors }
@@ -12,12 +12,15 @@ const Input = ({ type, name, Icon, placeholder, errorMessage }) => {
                 <Icon />
                 <input
                     type={type}
-                    {...register(name, { required: true })}
+                    {...register(name, validation)}
                     placeholder={placeholder}
                     className='p-3 w-full focus:outline-none'
                 />
             </div>
-            {errors[name] && <p className='error-message'>{errorMessage}</p>}
+            {/* {console.log(errors[name])} */}
+            {errors[name] && errors[name].type === 'required' && <p className='error-message'>{errorMessage}</p>}
+            {errors[name] && errors[name].type === 'minLength' && <p className='error-message'>{validation.minLength.message}</p>}
+            {errors[name] && errors[name].type === 'pattern' && <p className='error-message'>{validation.pattern.message}</p>}
         </>
     )
 }
