@@ -17,3 +17,7 @@ p.error-message::before {
   display: inline;
   content: "⚠ ";
 }
+
+.forgotten-password {
+  margin-top: -22px;
+}

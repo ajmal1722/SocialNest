@@ -1,9 +1,10 @@
 import { useForm, FormProvider } from 'react-hook-form';
-import { useState } from 'react';
 import { GoMail } from "react-icons/go";
 import instance from '../axios_instaces/userInstance';
 import Input from '../components/reusable/Input';
 import PasswordInput from '../components/reusable/PasswordInput';
+import { useNavigate } from 'react-router-dom';
+import { FcGoogle } from "react-icons/fc";
 
 const UserLogin = () => {
     const methods = useForm({
@@ -13,7 +14,7 @@ const UserLogin = () => {
         }
     });
 
-    const { handleSubmit } = methods;
+    const { handleSubmit, reset } = methods; // importing
 
     const userLogin = async (data) => {
         try {
@@ -23,7 +24,9 @@ const UserLogin = () => {
             const { token } = response.data
 
             if (token) {
-                console.log('token is present')
+                console.log('token is present');
+                reset();
+                // useNavigate('/')
             }
         } catch (error) {
             console.log(error)
@@ -52,12 +55,34 @@ const UserLogin = () => {
                                 }
                             }}
                         />
-                        <PasswordInput/>
-                        <button type='submit' className='bg-green-400 hover:bg-green-500 text-white w-full rounded-full p-2 '>
+                        <PasswordInput />
+                        <div className='flex justify-end mx-2 text-blue-600 text-sm mb-5 hover:text-blue-800 cursor-pointer forgotten-password' >
+                            Forgotten Your Password?
+                        </div>
+                        <button type='submit' className='bg-green-300 hover:bg-green-500 text-white w-full rounded-full p-2 '>
                             Login
                         </button>
                     </form>
                 </FormProvider>
+                <div className='bord my-6 flex justify-center'>
+                    <h1 className='text-gray-500'>
+                        Or
+                    </h1>
+                </div>
+                <div className='bg-gray-100 hover:bg-gray-200 p-3 rounded-lg flex justify-center gap-4 cursor-pointer'>
+                    <FcGoogle className='text-2xl' />
+                    <h1 className='font-semibold text-gray-600'>
+                        Login with Google
+                    </h1>
+                </div>
+                <div className="my-4">
+                    <h1 className='text-gray-600 text-center'>
+                        Don't have an account? 
+                        <span className='text-blue-600 hover:text-blue-800 font-semibold cursor-pointer px-2'>
+                            Sign Up
+                        </span>
+                    </h1>
+                </div>
             </div>
         </div>
     )

@@ -1,6 +1,5 @@
 import { useForm, FormProvider } from 'react-hook-form';
-import { useState } from 'react';
-import { FaRegUser, FaLock, FaRegEyeSlash, FaRegEye } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa";
 import { GoMail } from "react-icons/go";
 import instance from '../axios_instaces/userInstance';
 import Input from '../components/reusable/Input';
@@ -35,8 +34,8 @@ const UserSignUp = () => {
 
     return (
         <div className="flex justify-center items-center h-screen">
-            <div className=' pt-10 pb-6 px-6 max-w-md min-w-80 shadow-2xl shadow-gray-500/40'>
-                <div className="textcenter text-3xl my-8 text-center font-semibold">
+            <div className=' pt-4 pb-6 px-6 max-w-md min-w-80 shadow-2xl shadow-gray-500/40'>
+                <div className="textcenter text-3xl my-6 text-center font-semibold">
                     Sign Up
                 </div>
                 <FormProvider {...methods}>
@@ -84,11 +83,19 @@ const UserSignUp = () => {
                             }}
                         />
                         <PasswordInput/>
-                        <button type='submit' className='bg-green-400 hover:bg-green-500 text-white w-full rounded-full p-2 '>
+                        <button type='submit' className='bg-green-300 hover:bg-green-500 text-white w-full rounded-full p-2 '>
                             Sign Up
                         </button>
                     </form>
                 </FormProvider>
+                <div className="my-4">
+                    <h1 className='text-gray-600 text-center'>
+                        Already have an account? 
+                        <span className='text-blue-600 hover:text-blue-800 font-semibold cursor-pointer px-2'>
+                            Login
+                        </span>
+                    </h1>
+                </div>
             </div>
         </div>
     )
