@@ -3,7 +3,7 @@ import { GoMail } from "react-icons/go";
 import instance from '../axios_instaces/userInstance';
 import Input from '../components/reusable/Input';
 import PasswordInput from '../components/reusable/PasswordInput';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
 
 const UserLogin = () => {
@@ -16,6 +16,8 @@ const UserLogin = () => {
 
     const { handleSubmit, reset } = methods; // importing
 
+    const navigate = useNavigate()
+
     const userLogin = async (data) => {
         try {
             const response = await instance.post('/login', data)
@@ -26,7 +28,7 @@ const UserLogin = () => {
             if (token) {
                 console.log('token is present');
                 reset();
-                // useNavigate('/')
+                navigate('/home')
             }
         } catch (error) {
             console.log(error)
@@ -56,7 +58,7 @@ const UserLogin = () => {
                             }}
                         />
                         <PasswordInput />
-                        <div className='flex justify-end mx-2 text-blue-600 text-sm mb-5 hover:text-blue-800 cursor-pointer forgotten-password' >
+                        <div className='flex justify-end mx-2 text-blue-600 text-sm mb-5 hover:font-semibold cursor-pointer forgotten-password' >
                             Forgotten Your Password?
                         </div>
                         <button type='submit' className='bg-green-300 hover:bg-green-500 text-white w-full rounded-full p-2 '>
@@ -78,9 +80,9 @@ const UserLogin = () => {
                 <div className="my-4">
                     <h1 className='text-gray-600 text-center'>
                         Don't have an account? 
-                        <span className='text-blue-600 hover:text-blue-800 font-semibold cursor-pointer px-2'>
+                        <Link to={'/user/signup'} className='text-blue-600 hover:text-blue-800 font-semibold cursor-pointer px-2'>
                             Sign Up
-                        </span>
+                        </Link>
                     </h1>
                 </div>
             </div>

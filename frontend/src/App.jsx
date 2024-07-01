@@ -10,8 +10,10 @@ import {
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route >
-      
+    <Route  >
+      <Route index element={<UserLogin/>} />
+      <Route path={'user/signup'} element={<UserSignUp/>} />
+      {/* <Route path={'*'} element={<NotFound/>} /> */}
     </Route>
   )
 )
@@ -20,8 +22,7 @@ function App() {
 
   return (
     <>
-      <UserSignUp/>
-      <UserLogin/>
+      <RouterProvider router={router} />
     </>
   )
 }

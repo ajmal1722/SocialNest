@@ -4,6 +4,7 @@ import { GoMail } from "react-icons/go";
 import instance from '../axios_instaces/userInstance';
 import Input from '../components/reusable/Input';
 import PasswordInput from '../components/reusable/PasswordInput';
+import { Link } from 'react-router-dom';
 
 const UserSignUp = () => {
     const methods = useForm({
@@ -91,9 +92,9 @@ const UserSignUp = () => {
                 <div className="my-4">
                     <h1 className='text-gray-600 text-center'>
                         Already have an account? 
-                        <span className='text-blue-600 hover:text-blue-800 font-semibold cursor-pointer px-2'>
+                        <Link to={'/'} className='text-blue-600 hover:text-blue-800 font-semibold cursor-pointer px-2'>
                             Login
-                        </span>
+                        </Link>
                     </h1>
                 </div>
             </div>
