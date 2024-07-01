@@ -1,5 +1,6 @@
 import './App.css'
 import UserLogin from './pages/UserLogin'
+import UserSignUp from './pages/UserSignUp'
 import {
   Route,
   createBrowserRouter,
@@ -19,6 +20,7 @@ function App() {
 
   return (
     <>
+      <UserSignUp/>
       <UserLogin/>
     </>
   )
