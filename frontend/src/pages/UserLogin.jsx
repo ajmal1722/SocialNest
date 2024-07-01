@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { useState } from 'react';
 import { FaRegUser, FaLock, FaRegEyeSlash, FaRegEye } from "react-icons/fa";
-import axios from 'axios'
+import instance from '../axios_instaces/userInstance';
 
 const UserLogin = () => {
     const {
@@ -24,7 +24,7 @@ const UserLogin = () => {
 
     const userLogin = async (data) => {
         try {
-            const response = await axios.post('http://localhost:8000/user/login', data)
+            const response = await instance.post('/login', data)
             console.log(response.data)
 
             const { token } = response.data
@@ -46,15 +46,15 @@ const UserLogin = () => {
                 <form onSubmit={handleSubmit(userLogin)} >
                     <div className='flex min-w-72 items-center border-b-2 text-gray-400 mb-6 '>
                         <FaRegUser />
-                        <input 
+                        <input
                             type="text"
                             {...register('email', { required: true })}
                             placeholder='Username or email'
                             className='p-3 w-full focus:outline-none'
                         />
                     </div>
-                        {errors.email && <p className='error-message'>This field is required</p>}
-                        <div className='flex items-center border-b-2 text-gray-400 mb-6'>
+                    {errors.email && <p className='error-message'>This field is required</p>}
+                    <div className='flex items-center border-b-2 text-gray-400 mb-6'>
                         <FaLock />
                         <input
                             type={passwordVisible ? "text" : "password"}
