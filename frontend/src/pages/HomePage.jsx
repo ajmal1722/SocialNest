@@ -1,9 +1,20 @@
-import React from 'react'
+import { useOutletContext, Navigate } from "react-router-dom"
 
 const HomePage = () => {
+    const context = useOutletContext();
+    // const navigate = useNavigate()
+
+    if (context.user) {
+        <Navigate  />
+    }
+
+
     return (
         <div>
             Home page
+            <button onClick={context.loginUser} className='bg-green-500 px-5 p-2'>
+                Login
+            </button>
         </div>
     )
 }
