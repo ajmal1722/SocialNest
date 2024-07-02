@@ -28,7 +28,7 @@ const UserLogin = () => {
             if (token) {
                 console.log('token is present');
                 reset();
-                navigate('/home')
+                navigate('/')
             }
         } catch (error) {
             console.log(error)

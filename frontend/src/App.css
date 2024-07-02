@@ -10,7 +10,7 @@ input:-webkit-autofill:active {
 p.error-message {
   color: #bf1650;
   margin-top: -20px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 p.error-message::before {
@@ -19,5 +19,5 @@ p.error-message::before {
 }
 
 .forgotten-password {
-  margin-top: -22px;
+  margin-top: -15px;
 }

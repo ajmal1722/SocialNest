@@ -4,7 +4,7 @@ import { GoMail } from "react-icons/go";
 import instance from '../axios_instaces/userInstance';
 import Input from '../components/reusable/Input';
 import PasswordInput from '../components/reusable/PasswordInput';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const UserSignUp = () => {
     const methods = useForm({
@@ -16,17 +16,21 @@ const UserSignUp = () => {
         }
     });
 
-    const { handleSubmit } = methods;
+    const navigate = useNavigate()
+
+    const { handleSubmit, reset } = methods;
 
     const userSigningUp = async (data) => {
         try {
-            const response = await instance.post('/login', data)
+            const response = await instance.post('/signup', data)
             console.log(response.data)
 
-            const { token } = response.data
+            const { user } = response.data
 
-            if (token) {
+            if (user) {
                 console.log('token is present')
+                reset()
+                navigate('/user/login')
             }
         } catch (error) {
             console.log(error)
@@ -92,7 +96,7 @@ const UserSignUp = () => {
                 <div className="my-4">
                     <h1 className='text-gray-600 text-center'>
                         Already have an account? 
-                        <Link to={'/'} className='text-blue-600 hover:text-blue-800 font-semibold cursor-pointer px-2'>
+                        <Link to={'/user/login'} className='text-blue-600 hover:text-blue-800 font-semibold cursor-pointer px-2'>
                             Login
                         </Link>
                     </h1>
