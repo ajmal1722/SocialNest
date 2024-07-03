@@ -52,7 +52,8 @@ const userLogin = async (req, res) => {
         // Set the token as a cookie
         res.cookie('userToken', token, {
             httpOnly: true, 
-            secure: process.env.NODE_ENV === 'production' 
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'None'
         });
 
         // Return success response with token

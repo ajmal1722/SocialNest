@@ -13,7 +13,7 @@ const app = express();
 
 // Cors options
 const corsOptions = {
-    origin: 'http://localhost:5173/',
+    origin: 'http://localhost:5173',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
 }
@@ -23,7 +23,7 @@ app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(cookieParser()); // Parse cookies
 app.use(morgan('tiny')); // Logging requests
-app.use(cors()); // Enable CORS for all routes
+app.use(cors(corsOptions)); // Enable CORS for all routes
 
 // Connect to MongoDB
 connectDB();
