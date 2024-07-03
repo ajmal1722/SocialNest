@@ -53,7 +53,6 @@ const userLogin = async (req, res) => {
         res.cookie('userToken', token, {
             httpOnly: true, 
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'None'
         });
 
         // Return success response with token
