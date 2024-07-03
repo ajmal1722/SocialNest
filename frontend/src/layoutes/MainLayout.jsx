@@ -5,7 +5,10 @@ const MainLayout = () => {
   const [user, setUser] = useState(null);
 
   function loginUser() {
-    setUser('Ajmal');
+    // const token = getCookie('userToken')
+    // if (token) {
+    //   token.verify
+    // }
   }
 
   return (
