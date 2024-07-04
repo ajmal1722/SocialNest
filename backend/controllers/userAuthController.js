@@ -47,18 +47,32 @@ const userLogin = async (req, res) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '15m' });
+        const refreshToken = jwt.sign({ userId: user._id }, process.env.REFRESH_SECRET, { expiresIn: '7d' });
 
-        // Set the token as a cookie
-        res.cookie('userToken', token, {
-            httpOnly: true, 
+        // Save the refresh token with the user in the database
+        user.refreshToken = refreshToken;
+        await user.save();
+
+        // Set the tokens as cookies
+        res.cookie('accessToken', accessToken, {
+            httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',
-            maxAge: 24 * 60 * 60 * 1000
+            maxAge: 15 * 60 * 1000 // 15 minutes
+        });
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
 
-        // Return success response with token
-        return res.status(200).json({ message: 'Login successful', token });
+        // Return success response
+        return res.status(200).json({ 
+            username: user.username,
+            email: user.email,
+        });
         
     } catch (error) {
         // Handle the error
