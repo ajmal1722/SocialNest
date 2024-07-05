@@ -1,48 +1,42 @@
 import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import cookies from 'js-cookie'; 
 import instance from "../../axios_instaces/userInstance";
 
 const UserAuth = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
 
-    // useEffect(() => {
-    //     const accessToken = cookies.get('accessToken');
-    //     const refreshToken = cookies.get('refreshToken');
+    useEffect(() => {
+        // Function to check authentication status
+        const checkAuth = async () => {
+            try {
+                // Send request to verify authentication
+                await instance.get('/is-protected', { withCredentials: true });
+                // console.log(res);
+                setIsAuthenticated(true); // If request succeeds, user is authenticated
+            } catch (error) {
+                console.log('Error during authentication check:', error);
+                setIsAuthenticated(false); // If request fails, user is not authenticated
+            }
+        };
 
-    //     const verifyAndRefreshTokens = async () => {
-    //         console.log('Access Token:', accessToken);
-    //         console.log('Refresh Token:', refreshToken);
+        checkAuth();
+    }, []);
 
-    //         if (accessToken) {
-    //             setIsAuthenticated(true);
-    //         } else if (refreshToken) {
-    //             try {
-    //                 const response = await instance.post('/generate-access-token', { refreshToken });
-    //                 console.log('Response:', response);
-    //                 cookies.set('accessToken', response.data.accessToken, { httpOnly: true });
-    //                 setIsAuthenticated(true);
-    //             } catch (error) {
-    //                 console.error('Token refresh error:', error);
-    //                 setIsAuthenticated(false);
-    //             }
-    //         } else {
-    //             setIsAuthenticated(false);
-    //         }
-    //     };
+    // Render loading indicator while authentication status is being determined
+    if (isAuthenticated === null) {
+        return <div>Loading...</div>; 
+    }
 
-    //     verifyAndRefreshTokens();
-    // }, []);
-
-    // if (isAuthenticated === null) {
-    //     return <div>Loading...</div>; // or a spinner
-    // }
-
-    // if (isAuthenticated) {
-    //     return <Outlet />;
-    // } else {
-    //     return <Navigate to='/user/login' replace />;
-    // }
+    console.log('isAuthenticated:', isAuthenticated);
+    // If authenticated, render the Outlet for nested routes
+    if (isAuthenticated) {
+        console.log('User is authenticated');
+        return <Outlet />;
+    } else {
+        // If not authenticated, redirect to login page
+        console.log('Not authenticated');
+        return <Navigate to='/user/login' replace />;
+    }
 };
 
 export default UserAuth;

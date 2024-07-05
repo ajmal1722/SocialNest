@@ -1,6 +1,7 @@
 import Users from '../models/userSchema.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import router from '../routes/userAuthRouter.js';
 
 // User signup function
 const userSignup = async (req, res) => {
@@ -123,4 +124,9 @@ const generateAccessToken = async (req, res) => {
     }
 };
 
-export { userSignup, userLogin, generateAccessToken };
+// Verify access token
+const protectedRoute = (req, res) => {
+    res.status(200).json({ user: req.user });
+}
+
+export { userSignup, userLogin, generateAccessToken, protectedRoute };
