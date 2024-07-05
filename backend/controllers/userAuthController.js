@@ -81,4 +81,46 @@ const userLogin = async (req, res) => {
     }
 };
 
-export { userSignup, userLogin };
+// Generating access token funciton
+const generateAccessToken = async (req, res) => {
+    try {
+        const { refreshToken } = req.body;
+
+        if (!refreshToken) {
+            return res.status(400).json({ error: 'Refresh token is required' });
+        }
+
+        // Find the user with the refresh token
+        const user = await Users.findOne({ refreshToken });
+        if (!user) {
+            return res.status(400).json({ error: 'User not found, Invalid refresh token' });
+        }
+
+        // Verify the refresh token
+        jwt.verify(refreshToken, process.env.REFRESH_SECRET, (err, decoded) => {
+            if (err) {
+                return res.status(401).json({ error: 'Token is not verified, Invalid refresh token' });
+            }
+
+            // Generate a new access token
+            const newAccessToken = jwt.sign({ userId: decoded.userId }, process.env.JWT_SECRET, { expiresIn: '15m' });
+
+            // Set the new access token as a cookie
+            res.cookie('accessToken', newAccessToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: 15 * 60 * 1000 // 15 minutes
+            });
+
+            // Return the new access token
+            return res.status(200).json({ accessToken: newAccessToken });
+        });
+    } catch (error) {
+        // Handle the error
+        console.error('Error during token generation:', error);
+        return res.status(500).json({ error: error.message });
+    }
+};
+
+export { userSignup, userLogin, generateAccessToken };
