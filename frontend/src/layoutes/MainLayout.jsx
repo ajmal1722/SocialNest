@@ -1,15 +1,16 @@
 import { Outlet, Link } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
+import Navbar from "../components/Navbar";
 
 const MainLayout = () => {
   const  { userInfo }  = useSelector(state => state.auth)
   console.log(userInfo);
 
   return (
-    <div>
-      Navbar
+    <>
+      <Navbar />
       <Outlet context={{ userInfo }} />
-    </div>
+    </>
   );
 };
 
