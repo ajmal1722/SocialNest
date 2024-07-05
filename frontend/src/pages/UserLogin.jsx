@@ -5,6 +5,8 @@ import Input from '../components/reusable/Input';
 import PasswordInput from '../components/reusable/PasswordInput';
 import { useNavigate, Link } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
+import { useSelector, useDispatch } from 'react-redux';
+import { set_credentials } from '../redux/slices/authSlice';
 
 const UserLogin = () => {
     const methods = useForm({
@@ -14,22 +16,26 @@ const UserLogin = () => {
         }
     });
 
-    const { handleSubmit, reset } = methods; // importing
+    const { handleSubmit, reset } = methods; 
+
+    const { userInfo } = useSelector(state => state.auth)
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const userLogin = async (data) => {
         try {
             const response = await instance.post('/login', data)
             console.log(response.data)
 
-            const { token } = response.data
+            const { username, email } = response.data
 
-            if (token) {
-                console.log('token is present');
-                reset();
+            if (username && email) {
+                dispatch(set_credentials({ username, email }))
+                reset()
                 navigate('/')
             }
+            
         } catch (error) {
             console.log(error)
         }
