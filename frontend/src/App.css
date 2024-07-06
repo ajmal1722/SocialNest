@@ -21,3 +21,7 @@ p.error-message::before {
 .forgotten-password {
   margin-top: -15px;
 }
+
+.sidebar {
+  height: calc(100vh - 95px);
+}
