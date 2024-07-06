@@ -1,10 +1,7 @@
 import './App.css'
-import UserLogin from './pages/UserLogin'
-import UserSignUp from './pages/UserSignUp'
-import HomePage from './pages/HomePage'
 import router from './route/Router'
 import { RouterProvider } from 'react-router-dom'
-
+import 'react-toastify/ReactToastify.css'
 function App() {
 
   return (

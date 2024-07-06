@@ -7,6 +7,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
 import { useSelector, useDispatch } from 'react-redux';
 import { set_credentials } from '../redux/slices/authSlice';
+import { ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const UserLogin = () => {
     const methods = useForm({
@@ -27,6 +29,7 @@ const UserLogin = () => {
         try {
             const response = await instance.post('/login', data)
             console.log(response.data)
+            toast('hello')
 
             const { username, email } = response.data
 
@@ -37,7 +40,7 @@ const UserLogin = () => {
             }
             
         } catch (error) {
-            console.log(error)
+            toast.error(error.response.data.error)
         }
     }
 
@@ -47,6 +50,7 @@ const UserLogin = () => {
                 <div className="textcenter text-3xl my-8 text-center font-semibold">
                     Login
                 </div>
+                < ToastContainer />
                 <FormProvider {...methods}>
                     <form onSubmit={handleSubmit(userLogin)} >
                         <Input
