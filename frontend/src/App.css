@@ -23,5 +23,5 @@ p.error-message::before {
 }
 
 .sidebar {
-  height: calc(100vh - 95px);
+  height: calc(100vh - 64px);
 }

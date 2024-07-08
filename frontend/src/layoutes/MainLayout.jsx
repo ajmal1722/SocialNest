@@ -10,8 +10,10 @@ const MainLayout = () => {
   return (
     <>
       <Navbar />
-      <LeftSideBar />
-      <Outlet context={{ userInfo }} />
+      <div className="grid grid-cols-10">
+        <LeftSideBar />
+        <Outlet context={{ userInfo }} />
+      </div>
     </>
   );
 };
