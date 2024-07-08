@@ -3,7 +3,7 @@ import DarkMode from './DarkMode'
 
 const Navbar = () => {
     return (
-        <div className='flex items-center justify-between lg:px-20 md:px-14 sm:px-4 px-1 bg-primary-light text-white border-b h-16 sm:h-20 dark:bg-primary-dark'>
+        <div className='flex items-center justify-between lg:px-20 md:px-14 sm:px-4 px-1 text-white border-b dark:border-gray-500 h-16 sm:h-20'>
             <div>
                 <h1 className='text-2xl text-secondary-light cursor-pointer font-bold'>
                     Social

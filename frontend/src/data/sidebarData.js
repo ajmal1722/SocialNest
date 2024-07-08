@@ -1,4 +1,10 @@
-import { FaHome } from 'react-icons/fa'
+import {
+    FaHome,
+    FaFacebookMessenger,
+    FaUser,
+} from 'react-icons/fa'
+import { IoNotifications } from "react-icons/io5";
+import { BsSave2Fill } from "react-icons/bs";
 
 const sidebarData = [
     {
@@ -7,8 +13,23 @@ const sidebarData = [
         url: '/',
     },
     {
+        name: 'Messages',
+        icon: FaFacebookMessenger,
+        url: '/messages',
+    },
+    {
+        name: 'Notifications',
+        icon: IoNotifications,
+        url: '/notifications',
+    },
+    {
+        name: 'Saved',
+        icon: BsSave2Fill,
+        url: '/saved-posts',
+    },
+    {
         name: 'Profile',
-        icon: FaHome,
+        icon: FaUser,
         url: '/profile',
     },
 ]
