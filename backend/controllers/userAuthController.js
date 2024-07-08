@@ -73,6 +73,8 @@ const userLogin = async (req, res) => {
         return res.status(200).json({ 
             username: user.username,
             email: user.email,
+            accessToken,
+            refreshToken
         });
         
     } catch (error) {

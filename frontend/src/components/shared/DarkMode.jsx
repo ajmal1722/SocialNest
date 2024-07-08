@@ -27,7 +27,7 @@ function DarkMode() {
 
     return (
             <button onClick={darkModeHandler} className="md:text-3xl sm:text-2xl text-xl m-1">
-                {dark ? <IoSunny /> : <IoMoon />}
+                {dark ? <IoSunny /> : <IoMoon className="text-ternary-dark" />}
             </button>
     );
 }
