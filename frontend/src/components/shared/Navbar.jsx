@@ -12,7 +12,6 @@ const Navbar = () => {
                     </span>
                 </h1>
             </div>
-            <DarkMode />
             <div className='flex gap-2 items-center bg-gray-400 px-3 p-2 rounded-lg'>
                 <FaSearch />
                 <input type="text" 
@@ -20,10 +19,11 @@ const Navbar = () => {
                 />
             </div>
             <div className='flex gap-2'>
-                <button className='flex gap-3 items-center text-md font-semibold bg-black px-6 p-2 rounded-full'>
+                <button className='flex gap-3 items-center text-md font-semibold bg-black px-6 p-2 rounded-full mx-3'>
                     <FaPlus />
                     Create
                 </button>
+            <DarkMode />
             </div>
         </div>
     )
