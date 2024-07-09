@@ -5,8 +5,11 @@ import instance from '../axios_instaces/userInstance';
 import Input from '../components/reusable/Input';
 import PasswordInput from '../components/reusable/PasswordInput';
 import { Link, useNavigate } from 'react-router-dom';
+import useCheckAuth from '../utils/auth/AuthenticatedRedirect';
 
 const UserSignUp = () => {
+    useCheckAuth()
+
     const methods = useForm({
         defaultValues: {
             email: "",
@@ -38,7 +41,7 @@ const UserSignUp = () => {
     }
 
     return (
-        <div className="flex justify-center items-center h-screen">
+        <div className="flex justify-center items-center h-screen bg-white">
             <div className=' pt-4 pb-6 px-6 max-w-md min-w-80 shadow-2xl shadow-gray-500/40'>
                 <div className="textcenter text-3xl my-6 text-center font-semibold">
                     Sign Up

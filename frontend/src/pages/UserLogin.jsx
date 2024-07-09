@@ -9,8 +9,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { set_credentials } from '../redux/slices/authSlice';
 import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
+import useCheckAuth from '../utils/auth/AuthenticatedRedirect';
 
 const UserLogin = () => {
+    useCheckAuth()
+
     const methods = useForm({
         defaultValues: {
             email: "",
@@ -19,8 +22,6 @@ const UserLogin = () => {
     });
 
     const { handleSubmit, reset } = methods; 
-
-    const { userInfo } = useSelector(state => state.auth)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -45,8 +46,8 @@ const UserLogin = () => {
     }
 
     return (
-        <div className="flex justify-center items-center h-screen">
-            <div className=' pt-10 pb-6 px-6 max-w-md min-w-80 shadow-2xl shadow-gray-500/40'>
+        <div className="flex justify-center items-center h-screen bg-white">
+            <div className='pt-10 pb-6 px-6 max-w-md min-w-80 shadow-2xl shadow-gray-500/40'>
                 <div className="textcenter text-3xl my-8 text-center font-semibold">
                     Login
                 </div>

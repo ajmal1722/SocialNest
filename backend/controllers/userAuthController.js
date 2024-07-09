@@ -128,7 +128,7 @@ const generateAccessToken = async (req, res) => {
 
 // Verify access token
 const protectedRoute = (req, res) => {
-    res.status(200).json({ user: req.user });
+    res.status(200).json({ user: req.user, isAuthenticated: true });
 }
 
 export { userSignup, userLogin, generateAccessToken, protectedRoute };
