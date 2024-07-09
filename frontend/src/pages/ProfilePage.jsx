@@ -1,4 +1,5 @@
 import { useOutletContext, Navigate } from "react-router-dom";
+import GoogleOAuth from "../components/authentication/GoogleOAuth";
 
 
 const ProfilePage = () => {
@@ -12,6 +13,7 @@ const ProfilePage = () => {
     return (
         <div className='text-pink-500 text-center'>
         this is profile page
+        <GoogleOAuth/>
         </div>
     )
 }
