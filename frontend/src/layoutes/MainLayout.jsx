@@ -2,6 +2,7 @@ import { Outlet, Link } from "react-router-dom";
 import { useSelector } from 'react-redux'
 import Navbar from '../components/shared/Navbar';
 import LeftSideBar from "../components/shared/SideBar";
+import MenuFooter from "../components/shared/MenuFooter";
 
 const MainLayout = () => {
   const  { userInfo }  = useSelector(state => state.auth)
@@ -14,6 +15,7 @@ const MainLayout = () => {
         <LeftSideBar />
         <Outlet context={{ userInfo }} />
       </div>
+      <MenuFooter />
     </>
   );
 };
