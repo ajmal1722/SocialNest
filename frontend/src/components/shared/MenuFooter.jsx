@@ -1,4 +1,6 @@
+import { NavLink } from "react-router-dom"
 import sidebarData from "../../data/sidebarData"
+
 
 const MenuFooter = () => {
     return (
@@ -6,7 +8,9 @@ const MenuFooter = () => {
             <div className="h-full flex justify-between items-center sm:mx-8 mx-2 text-xl sm:text-2xl">
             {
                 sidebarData.map((item, index) => (
-                    <item.icon key={index} />
+                    <NavLink to={item.url}>
+                        <item.icon key={index} />
+                    </NavLink>
                 ))
             }
             </div>
