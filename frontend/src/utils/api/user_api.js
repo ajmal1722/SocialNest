@@ -28,7 +28,7 @@ export const handleLogout = async (navigate) => {
 export const googleAuthLoginSuccess = async (credentialResponse, navigate) => {
     try {
         const response = await userInstance.post(
-            '/google-auth-login',
+            '/login',
             { token: credentialResponse.credential },
             { withCredentials: true }
         )
@@ -41,6 +41,7 @@ export const googleAuthLoginSuccess = async (credentialResponse, navigate) => {
 
     } catch (error) {
         console.log('google auth error:', error);
+        toast.error(error.response.data.error);
     }
 }
 

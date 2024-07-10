@@ -75,9 +75,11 @@ const userLogin = async (req, res) => {
         }
 
         // Compare the provided password with the stored hashed password
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({ error: 'Invalid password' });
+        if (password) {
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                return res.status(400).json({ error: 'Invalid password' });
+            }
         }
 
         // Generate JWT token
