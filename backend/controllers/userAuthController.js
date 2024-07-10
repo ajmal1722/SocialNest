@@ -38,6 +38,12 @@ const userSignup = async (req, res) => {
             return res.status(400).json({ error: 'User with this email already exists' });
         }
 
+        // Check if email already exists
+        const isUserNameExist = await Users.findOne({ username: userData.username });
+        if (isUserNameExist) {
+            return res.status(400).json({ error: 'Username is already taken' });
+        }
+
         // Hashing the password
         const hashedPassword = await bcrypt.hash(userData.password, 8);
 

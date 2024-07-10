@@ -6,6 +6,8 @@ import Input from '../components/reusable/Input';
 import PasswordInput from '../components/reusable/PasswordInput';
 import { Link, useNavigate } from 'react-router-dom';
 import useCheckAuth from '../utils/auth/AuthenticatedRedirect';
+import { ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const UserSignUp = () => {
     useCheckAuth()
@@ -37,6 +39,7 @@ const UserSignUp = () => {
             }
         } catch (error) {
             console.log(error)
+            toast.error(error.response.data.error)
         }
     }
 
@@ -46,6 +49,7 @@ const UserSignUp = () => {
                 <div className="textcenter text-3xl my-6 text-center font-semibold">
                     Sign Up
                 </div>
+                <ToastContainer />
                 <FormProvider {...methods}>
                     <form onSubmit={handleSubmit(userSigningUp)} >
                         <Input
