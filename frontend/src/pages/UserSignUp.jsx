@@ -94,7 +94,7 @@ const UserSignUp = () => {
                                 }
                             }}
                         />
-                        <PasswordInput/>
+                        <PasswordInput placeholder={'Create a password'} />
                         <button type='submit' className='bg-green-300 hover:bg-green-500 text-white w-full rounded-full p-2 '>
                             Sign Up
                         </button>

@@ -6,6 +6,7 @@ import UserSignUp from "../pages/UserSignUp";
 import ProfilePage from "../pages/ProfilePage";
 import UserAuth from "../utils/auth/UserAuth";
 import CreatePostPage from "../pages/CreatePostPage";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 
 const router = createBrowserRouter([
     {
@@ -39,7 +40,11 @@ const router = createBrowserRouter([
     {
         path: '/user/signup',
         element: <UserSignUp />
-    }
+    },
+    {
+        path: '/user/forget-password',
+        element: <ForgotPasswordPage />
+    },
 ]);
 
 export default router

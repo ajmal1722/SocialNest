@@ -4,7 +4,6 @@ import instance from '../axios_instaces/userInstance';
 import Input from '../components/reusable/Input';
 import PasswordInput from '../components/reusable/PasswordInput';
 import { useNavigate, Link } from 'react-router-dom';
-import { FcGoogle } from "react-icons/fc";
 import { useDispatch } from 'react-redux';
 import { set_credentials } from '../redux/slices/authSlice';
 import { ToastContainer } from 'react-toastify';
@@ -69,9 +68,11 @@ const UserLogin = () => {
                                 }
                             }}
                         />
-                        <PasswordInput />
+                        <PasswordInput placeholder={'Enter your password'} />
                         <div className='flex justify-end mx-2 text-blue-600 text-sm mb-5 hover:font-semibold cursor-pointer forgotten-password' >
-                            Forgotten Your Password?
+                            <Link to={'/user/forget-password'}>
+                                Forgotten Your Password?
+                            </Link>
                         </div>
                         <button type='submit' className='bg-green-300 hover:bg-green-500 text-white w-full rounded-full p-2 '>
                             Login

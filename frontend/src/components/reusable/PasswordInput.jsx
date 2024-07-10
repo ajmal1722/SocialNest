@@ -2,7 +2,7 @@ import { useFormContext } from 'react-hook-form'
 import { useState } from 'react';
 import { FaLock, FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 
-const PasswordInput = ({ Icon, }) => {
+const PasswordInput = ({ placeholder }) => {
 
     const {
         register,
@@ -34,7 +34,7 @@ const PasswordInput = ({ Icon, }) => {
                 <input
                     type={passwordVisible ? "text" : "password"}
                     {...register('password', validation)}
-                    placeholder='Password'
+                    placeholder={placeholder}
                     className='p-3 w-full focus:outline-none'
                 />
                 <button
