@@ -1,7 +1,31 @@
 import Users from '../models/userSchema.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import router from '../routes/userAuthRouter.js';
+import { jwtDecode } from "jwt-decode";
+
+// const generateTokens = async (user, res) => {
+//     // Generate JWT tokens
+//     const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '15m' });
+//     const refreshToken = jwt.sign({ userId: user._id }, process.env.REFRESH_SECRET, { expiresIn: '7d' });
+
+//     // Save the refresh token with the user in the database
+//     user.refreshToken = refreshToken;
+//     await user.save();
+
+//     // Set the tokens as cookies
+//     res.cookie('accessToken', accessToken, {
+//         httpOnly: true,
+//         secure: process.env.NODE_ENV === 'production',
+//         sameSite: 'strict',
+//         maxAge: 15 * 60 * 1000 // 15 minutes
+//     });
+//     res.cookie('refreshToken', refreshToken, {
+//         httpOnly: true,
+//         secure: process.env.NODE_ENV === 'production',
+//         sameSite: 'strict',
+//         maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+//     });
+// }
 
 // User signup function
 const userSignup = async (req, res) => {
@@ -33,7 +57,16 @@ const userSignup = async (req, res) => {
 // User login function
 const userLogin = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        let { email } = req.body;
+        const { password, token } = req.body;
+
+        // if the user is signed in using google auth get email from the google token
+        if (token) {
+            // decoding token
+            const decodedToken = await jwtDecode(token)
+            email = decodedToken.email
+            console.log('decoded email:', email);
+        }
 
         // Check if the user exists
         const user = await Users.findOne({ email });
@@ -140,8 +173,27 @@ const userLogout = async (req, res) => {
         // Send a response indicating successful logout
         res.status(200).json({ message: 'Successfully logged out' });
     } catch (error) {
+        console.error('Logout error:', error);
+        res.status(500).json({ error: 'An error occurred during logout' });
+    }
+}
+
+const googleAuthLogin = async (req, res) => {
+    const { token } = req.body;
+
+    try {
+        const decodedToken = await jwtDecode(token)
+        console.log('google token:', decodedToken.email);
+
+        if (decodedToken && decodedToken.email) {
+            const user = await Users.findOne({ email: decodedToken.email})
+            if(user) {
+                
+            } 
+        }
+    } catch (error) {
         
     }
 }
 
-export { userSignup, userLogin, protectedRoute, userLogout };
+export { userSignup, userLogin, protectedRoute, userLogout, googleAuthLogin };

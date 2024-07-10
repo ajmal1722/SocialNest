@@ -1,6 +1,8 @@
 import userInstance from '../../axios_instaces/userInstance'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import instance from '../../axios_instaces/userInstance'
+import { FaAsterisk } from 'react-icons/fa'
 
 export const userLogin = async (data) => {
     try {
@@ -22,3 +24,26 @@ export const handleLogout = async (navigate) => {
         toast.error('Logout failed');
     }
 };
+
+export const googleAuthLoginSuccess = async (credentialResponse, navigate) => {
+    try {
+        const response = await userInstance.post(
+            '/google-auth-login',
+            { token: credentialResponse.credential },
+            { withCredentials: true }
+        )
+
+        if (response) {
+            navigate('/')
+        } else {
+            console.log('response not received');
+        }
+
+    } catch (error) {
+        console.log('google auth error:', error);
+    }
+}
+
+export const googleAuthLoginError = async () => {
+    console.log(error);
+}

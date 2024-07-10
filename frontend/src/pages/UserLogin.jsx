@@ -5,11 +5,12 @@ import Input from '../components/reusable/Input';
 import PasswordInput from '../components/reusable/PasswordInput';
 import { useNavigate, Link } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { set_credentials } from '../redux/slices/authSlice';
 import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import useCheckAuth from '../utils/auth/AuthenticatedRedirect';
+import GoogleOAuth from '../components/authentication/GoogleOAuth';
 
 const UserLogin = () => {
     useCheckAuth()
@@ -29,7 +30,7 @@ const UserLogin = () => {
     const userLogin = async (data) => {
         try {
             const response = await instance.post('/login', data)
-            console.log(response.data)
+            console.log('data:', response.data)
             toast('hello')
 
             const { username, email } = response.data
@@ -82,12 +83,16 @@ const UserLogin = () => {
                         Or
                     </h1>
                 </div>
-                <div className='bg-gray-100 hover:bg-gray-200 p-3 rounded-lg flex justify-center gap-4 cursor-pointer'>
+                {/* <div className='bg-gray-100 hover:bg-gray-200 p-3 rounded-lg flex justify-center gap-4 cursor-pointer'>
                     <FcGoogle className='text-2xl' />
                     <h1 className='font-semibold text-gray-600'>
                         Login with Google
                     </h1>
+                </div> */}
+                <div className='flex justify-center'>
+                    <GoogleOAuth />
                 </div>
+                
                 <div className="my-4">
                     <h1 className='text-gray-600 text-center'>
                         Don't have an account? 

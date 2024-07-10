@@ -1,11 +1,16 @@
 import { GoogleLogin } from '@react-oauth/google';
+import { googleAuthLoginSuccess } from '../../utils/api/user_api';
+import { useNavigate } from 'react-router-dom';
 
 const GoogleOAuth = () => {
+    const navigate = useNavigate()
+
+    const handleSuccess = (credentialResponse) => {
+        googleAuthLoginSuccess(credentialResponse, navigate)
+    }
     return (
         <GoogleLogin
-            onSuccess={credentialResponse => {
-                console.log(credentialResponse);
-            }}
+            onSuccess={handleSuccess}
             onError={() => {
                 console.log('Login Failed');
             }}
@@ -14,6 +19,3 @@ const GoogleOAuth = () => {
 }
 
 export default GoogleOAuth
-
-// client id = 1055536125565-teftfkurdnm5pipbmi24aujk3lph4mv6.apps.googleusercontent.com
-// client secret = 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
