@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { GoMail } from "react-icons/go";
 import CustomInput from "../components/reusable/Input";
 import PasswordInput from '../components/reusable/PasswordInput';
-import { FaHome } from 'react-icons/fa';
+import { IoMdArrowRoundBack } from "react-icons/io";
 import { Link } from 'react-router-dom';
 import OtpInput from '../components/reusable/OtpInput';
 
@@ -29,7 +29,7 @@ const ForgotPasswordPage = () => {
             <div className="pt-4 pb-6 px-6 sm:px-12 max-w-md min-w-80 sm:min-w-96 shadow-2xl shadow-gray-500/40">
                 <div className="flex justify-end w-full text-2xl mt-8 hover:text-3xl">
                     <Link to={'/user/login'}>
-                        <FaHome />
+                        <IoMdArrowRoundBack />
                     </Link>
                 </div>
                 <div className="text-center text-3xl my-8 font-semibold">
@@ -39,7 +39,7 @@ const ForgotPasswordPage = () => {
                     showOtpInput ?
                         <OtpInput /> : (
                             <FormProvider {...methods}>
-                                <form onSubmit={handleSubmit(handleForgotPassword)} >
+                                <form onSubmit={handleSubmit((data) => handleForgotPassword(data, setShowOtpInput))} >
                                     <CustomInput
                                         type='text'
                                         name='email'

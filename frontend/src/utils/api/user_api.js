@@ -1,8 +1,5 @@
 import userInstance from '../../axios_instaces/userInstance'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import instance from '../../axios_instaces/userInstance'
-import { FaAsterisk } from 'react-icons/fa'
 
 export const userLogin = async (data) => {
     try {
@@ -45,6 +42,16 @@ export const googleAuthLoginSuccess = async (credentialResponse, navigate) => {
     }
 }
 
-export const googleAuthLoginError = async () => {
-    console.log(error);
+export const handleForgotPassword = async (data, setShowOtpInput) => {
+    console.log('Forgot Password Data:', data);
+
+    try {
+        const response = await userInstance.post('/generate-otp', data)
+        if (response) {
+            setShowOtpInput(prevState => !prevState)
+        }
+    } catch (error) {
+        console.log('Error during password reset:', error);
+        toast.error(error.response.data.error)
+    }
 }

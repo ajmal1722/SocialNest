@@ -204,4 +204,28 @@ const googleAuthLogin = async (req, res) => {
     }
 }
 
-export { userSignup, userLogin, protectedRoute, userLogout, googleAuthLogin };
+const generateOtp = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email) {
+            return res.json({ error: 'User does not exist'})
+        }
+
+        // Generate a random OTP
+        const otp = Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit OTP
+
+        res.json({ otp })
+    } catch (error) {
+        
+    }
+}
+
+export {
+    userSignup, 
+    userLogin, 
+    protectedRoute, 
+    userLogout, 
+    googleAuthLogin,
+
+};
