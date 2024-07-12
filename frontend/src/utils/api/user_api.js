@@ -43,7 +43,7 @@ export const googleAuthLoginSuccess = async (credentialResponse, navigate) => {
 }
 
 export const generateOtp = async (data, setShowOtpInput) => {
-    console.log('Forgot Password Data:', data);
+    // console.log('Forgot Password Data:', data);
 
     try {
         const response = await userInstance.post('/generate-otp', data)

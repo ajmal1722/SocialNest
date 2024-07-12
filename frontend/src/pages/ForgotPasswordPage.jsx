@@ -7,6 +7,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { Link } from 'react-router-dom';
 import OtpInput from '../components/reusable/OtpInput';
 import { generateOtp } from '../utils/api/user_api';
+import { ToastContainer } from 'react-toastify';
 
 const ForgotPasswordPage = () => {
     const [showOtpInput, setShowOtpInput] = useState(false)
@@ -20,9 +21,9 @@ const ForgotPasswordPage = () => {
     const { handleSubmit } = methods;
 
     const handleForgotPassword = async (data) => {
-        setShowOtpInput(prevState => !prevState)
-        console.log('Forgot Password Data:', data);
-        generateOtp(data)
+        // setShowOtpInput(prevState => !prevState)
+        // console.log('Forgot Password Data:', data);
+        await generateOtp(data, setShowOtpInput)
     }
 
     return (
@@ -33,6 +34,7 @@ const ForgotPasswordPage = () => {
                         <IoMdArrowRoundBack />
                     </Link>
                 </div>
+                <ToastContainer />
                 <div className="text-center text-3xl my-8 font-semibold">
                     Forgot Password
                 </div>

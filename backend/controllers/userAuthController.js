@@ -207,10 +207,13 @@ const googleAuthLogin = async (req, res) => {
 
 const generateOtp = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email } = req.body;
+        console.log('mail:', email);
 
-        if (!email) {
-            return res.json({ error: 'User does not exist'})
+        const user = await Users.findOne({ email });
+        
+        if (!user) {
+            return res.status(400).json({ error: 'User does not exist' });
         }
 
         // Generate a random OTP
@@ -225,9 +228,8 @@ const generateOtp = async (req, res) => {
 
             <h4 class="text-center">${otp}</h4>
 
-            <p>The verification code is valid for  2 minutes</p>
+            <p>The verification code is valid for 2 minutes</p>
         `;
-        // console.log('hello.......', email);
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -239,7 +241,7 @@ const generateOtp = async (req, res) => {
               pass: process.env.APP_PASSWORD,
             },
         });
-                    
+
         // send mail with defined transport object
         const mailOptions = {
             from: process.env.APP_EMAIL, // sender address
@@ -248,7 +250,8 @@ const generateOtp = async (req, res) => {
             text: `Your OTP for account verification is: ${otp}`, // plain text body
             html: emailContent, // html body
         };
-        
+
+        // Send mail and wait for completion
         transporter.sendMail(mailOptions, (err, info) => {
             if (err) {
                 return console.log('err:', err)
@@ -258,7 +261,7 @@ const generateOtp = async (req, res) => {
             console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
         })
 
-        res.json({ otp })
+        res.status(200).json({ message: 'OTP sent successfully', otp });
     } catch (error) {
         console.error('Error during OTP generation:', error);
         res.status(500).json({ error: 'Internal server error' });
