@@ -2,7 +2,11 @@ import { Outlet, Link } from "react-router-dom";
 import { useSelector } from 'react-redux'
 import Navbar from '../components/shared/Navbar';
 import LeftSideBar from "../components/shared/SideBar";
+import RightSidbar from "../components/shared/RightSidbar";
+import ScrollableScreen from "../components/shared/ScrollableScreen";
 import MenuFooter from "../components/shared/MenuFooter";
+import SinglePost from "../components/posts/SinglePost";
+import Posts from "../components/posts/Posts";
 
 const MainLayout = () => {
   const  { userInfo }  = useSelector(state => state.auth)
@@ -13,7 +17,9 @@ const MainLayout = () => {
       <Navbar />
       <div className="grid grid-cols-10">
         <LeftSideBar />
-        <Outlet context={{ userInfo }} />
+        <ScrollableScreen content={<Outlet />} />
+        {/* <Outlet context={{ userInfo }} /> */}
+        <RightSidbar />
       </div>
       <MenuFooter />
     </>
