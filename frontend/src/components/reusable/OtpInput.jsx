@@ -1,4 +1,5 @@
 import { Input } from 'antd'
+import { generateOtp } from '../../utils/api/user_api';
 
 const OtpInput = () => {
     const onChange = (text) => {
@@ -6,6 +7,7 @@ const OtpInput = () => {
     };
     const sharedProps = {
         onChange,
+        generateOtp
     };
     return (
         <div className='my-4'>

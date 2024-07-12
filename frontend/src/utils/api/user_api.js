@@ -42,7 +42,7 @@ export const googleAuthLoginSuccess = async (credentialResponse, navigate) => {
     }
 }
 
-export const handleForgotPassword = async (data, setShowOtpInput) => {
+export const generateOtp = async (data, setShowOtpInput) => {
     console.log('Forgot Password Data:', data);
 
     try {

@@ -6,6 +6,7 @@ import PasswordInput from '../components/reusable/PasswordInput';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { Link } from 'react-router-dom';
 import OtpInput from '../components/reusable/OtpInput';
+import { generateOtp } from '../utils/api/user_api';
 
 const ForgotPasswordPage = () => {
     const [showOtpInput, setShowOtpInput] = useState(false)
@@ -21,7 +22,7 @@ const ForgotPasswordPage = () => {
     const handleForgotPassword = async (data) => {
         setShowOtpInput(prevState => !prevState)
         console.log('Forgot Password Data:', data);
-        // For example, send the email to your backend API to initiate the password reset process
+        generateOtp(data)
     }
 
     return (
