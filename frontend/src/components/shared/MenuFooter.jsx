@@ -8,8 +8,8 @@ const MenuFooter = () => {
             <div className="h-full flex justify-between items-center sm:mx-8 mx-2 text-xl sm:text-2xl">
             {
                 sidebarData.map((item, index) => (
-                    <NavLink to={item.url}>
-                        <item.icon key={index} />
+                    <NavLink key={index} to={item.url}>
+                        <item.icon />
                     </NavLink>
                 ))
             }
