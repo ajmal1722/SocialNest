@@ -17,9 +17,7 @@ const MainLayout = () => {
       <Navbar />
       <div className="grid grid-cols-10">
         <LeftSideBar />
-        <ScrollableScreen content={<Outlet />} />
-        {/* <Outlet context={{ userInfo }} /> */}
-        <RightSidbar />
+        <Outlet context={{ userInfo }} />
       </div>
       <MenuFooter />
     </>
