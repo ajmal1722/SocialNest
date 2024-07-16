@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import connectDB from './database/connection.js';
 import userAuthRouter from './routes/userAuthRouter.js';
+import postRouter from './routes/postRouter.js'
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
@@ -29,6 +30,7 @@ app.use(cors(corsOptions)); // Enable CORS for all routes
 connectDB();
 
 app.use('/user', userAuthRouter);
+app.use('/post', postRouter);
 
 const PORT = process.env.PORT || 3000;
 

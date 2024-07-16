@@ -2,13 +2,14 @@ import { NavLink } from "react-router-dom";
 import { useForm, FormProvider } from 'react-hook-form';
 import TextInput from "../components/reusable/TextInput";
 import SubmitButton from "../components/reusable/SubmitButton";
-import PasswordInput from "../components/reusable/PasswordInput";
+import { createPost } from "../utils/api/post_api";
 
 const CreatePostPage = () => {
     const methods = useForm();
 
     const submitTextPost = async (data) => {
         console.log('Post Data:', data);  // Check if this logs the data
+        createPost(data)
     };
 
     return (
