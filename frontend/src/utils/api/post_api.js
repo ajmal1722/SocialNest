@@ -6,10 +6,11 @@ export const createPost = async (data, contentType) => {
         const response = await postInstance.post('/create',
             { contentType, ...data }
         )
-        console.log(response.data)
-        
+        if (response) {
+            toast.success('Post created Successfully')
+        }
     } catch (error) {
-        // toast.error(error.response.data.error)
+        toast.error(error.response.data.error)
         console.log(error);
     }
 }
