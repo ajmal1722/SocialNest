@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { useForm, FormProvider } from 'react-hook-form';
 import TextInput from "../components/reusable/TextInput";
 import SubmitButton from "../components/reusable/SubmitButton";
+import PasswordInput from "../components/reusable/PasswordInput";
 
 const CreatePostPage = () => {
     const methods = useForm();
@@ -24,7 +25,7 @@ const CreatePostPage = () => {
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(submitTextPost)}>
                     <TextInput />
-                    <div className="flex justify-end">
+                    <div className="flex justify-end my-6">
                         <SubmitButton content={'Post'} />
                     </div>
                 </form>
