@@ -30,12 +30,11 @@ const UserLogin = () => {
         try {
             const response = await instance.post('/login', data)
             console.log('data:', response.data)
-            toast('hello')
 
-            const { username, email } = response.data
+            const { userId ,username, email } = response.data
 
             if (username && email) {
-                dispatch(set_credentials({ username, email }))
+                dispatch(set_credentials({ userId ,username, email }))
                 reset()
                 navigate('/')
             }

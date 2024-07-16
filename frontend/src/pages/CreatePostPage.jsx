@@ -1,15 +1,17 @@
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
 import { useForm, FormProvider } from 'react-hook-form';
 import TextInput from "../components/reusable/TextInput";
 import SubmitButton from "../components/reusable/SubmitButton";
+import ImageInput from "../components/reusable/ImageInput";
 import { createPost } from "../utils/api/post_api";
 
 const CreatePostPage = () => {
+    const [contentType, setContentType] = useState('Blog')
     const methods = useForm();
 
     const submitTextPost = async (data) => {
         console.log('Post Data:', data);  // Check if this logs the data
-        createPost(data)
+        createPost(data, contentType)
     };
 
     return (
@@ -17,15 +19,19 @@ const CreatePostPage = () => {
             <h1 className='text-2xl font-semibold my-6'>
                 Create Post
             </h1>
-            <NavLink to="/create-post/text">
+            <button onClick={() => setContentType('Blog')}>
                 Text
-            </NavLink>
-            <NavLink to="/create-post/images-video" className='mx-6'>
+            </button>
+            <button onClick={() => setContentType('Image')} className="mx-3">
                 Images & Video
-            </NavLink>
+            </button>
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(submitTextPost)}>
-                    <TextInput />
+                    {
+                        contentType === 'Blog' ? 
+                            <TextInput /> : <ImageInput />
+                    }
+                    
                     <div className="flex justify-end my-6">
                         <SubmitButton content={'Post'} />
                     </div>

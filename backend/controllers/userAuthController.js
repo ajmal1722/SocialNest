@@ -112,7 +112,8 @@ const userLogin = async (req, res) => {
         });
 
         // Return success response
-        return res.status(200).json({ 
+        return res.status(200).json({
+            userId: user._id,
             username: user.username,
             email: user.email,
             accessToken,
