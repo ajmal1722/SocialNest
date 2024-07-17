@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useOutletContext, Navigate } from "react-router-dom";
 import { useNavigate, NavLink } from "react-router-dom";
+import { getPosts } from "../utils/api/post_api";
 import ProfileImage from "../components/profileComponents/ProfileImage";
 import PostListingLinks from "../components/profileComponents/PostListingLinks";
 import LogoutButton from "../components/authentication/LogoutButton";
 
 const ProfilePage = () => {
-    const [activeLink, setActiveLink] = useState('Post')
+    const [activeLink, setActiveLink] = useState('Blog')
 
     const context = useOutletContext()
     const navigate = useNavigate()
+
+    useEffect(() => {
+        getPosts()
+    }, [])
 
     // if (!context.user){
     //     return <Navigate to='/' replace />

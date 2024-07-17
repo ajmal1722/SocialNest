@@ -14,3 +14,12 @@ export const createPost = async (data, contentType) => {
         console.log(error);
     }
 }
+
+export const getPosts = async () => {
+    try {
+        const response = await postInstance.get('/get-posts')
+        console.log('posts:', response.data);
+    } catch (error) {
+        console.log(error.response.data);
+    }
+}

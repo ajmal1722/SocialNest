@@ -1,4 +1,5 @@
 import { Post, ImagePost, BlogPost } from '../models/postSchema.js';
+import mongoose from 'mongoose';
 
 export const createPost = async (req, res) => {
     try {
@@ -25,3 +26,28 @@ export const createPost = async (req, res) => {
         res.status(500).json({ message: 'Failed to create post', error: error.message });
     }
 };
+
+export const fetchPosts = async (req, res) => {
+    try {
+        const userId = req.user;
+        console.log('userId:', userId);
+
+        const posts = await Post.aggregate([
+            {
+                $match: {
+                    author_id: new mongoose.Types.ObjectId(userId), // Convert to ObjectId
+                },
+            },
+            {
+                $sort: {
+                    createdAt: -1, // Sort posts by creation date, latest first
+                },
+            },
+        ]);
+
+        res.status(200).json({ posts });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to fetch posts', error: error.message });
+    }
+}
