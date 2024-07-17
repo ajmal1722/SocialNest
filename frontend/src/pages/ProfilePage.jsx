@@ -26,9 +26,14 @@ const ProfilePage = () => {
         fetchPosts()
     }, [])
 
-    // if (!context.user){
-    //     return <Navigate to='/' replace />
-    // }
+    const filterPost = () => {
+        if (activeLink === 'Blog') {
+            return posts.filter(post => post.content_type === 'Blog')
+        } else if (activeLink === 'Media') {
+            return posts.filter(post => post.content_type === 'Image')
+        }
+        return posts
+    }
 
     return (
         <div className='min-h-[90vh] md:col-span-8 col-span-10 text-center px-4 lg:px-8'>
@@ -36,16 +41,7 @@ const ProfilePage = () => {
             <LogoutButton navigate={navigate} />
             <PostListingLinks setActiveLink={setActiveLink} />
             <hr className="my-5" />
-            {
-                activeLink === 'Post' ? (
-                    'posts'
-                ) : activeLink === 'Blog' ? (
-                    'blogs'
-                ) : activeLink === 'Media' ? (
-                    'media'
-                ) : null
-            }
-            <ProfilePostListing posts={posts} />
+            <ProfilePostListing posts={filterPost()} />
         </div>
     )
 }
