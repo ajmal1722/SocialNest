@@ -15,7 +15,7 @@ const MainLayout = () => {
   return (
     <>
       <Navbar />
-      <div className="grid grid-cols-10">
+      <div className="pt-16 sm:pt-20 grid grid-cols-10">
         <LeftSideBar />
         <Outlet context={{ userInfo }} />
       </div>
