@@ -43,7 +43,7 @@ const ProfilePage = () => {
             <ProfileImage />
             <LogoutButton navigate={navigate} />
             <PostListingLinks setActiveLink={setActiveLink} />
-            <hr className="my-5" />
+            <hr className="my-5 dark:border-gray-500" />
             <ProfilePostListing posts={filterPost()} setShowOptions={setShowOptions} />
             {
                 showOptions && <ProfilePostOptions setShowOptions={setShowOptions} />

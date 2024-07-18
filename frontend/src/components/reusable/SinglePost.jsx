@@ -5,7 +5,7 @@ import { BsSave2Fill } from "react-icons/bs";
 
 const SinglePost = ({ post, setShowOptions }) => {
     return (
-        <div className='mx-auto border max-w-lg my-2 p-3 rounded-lg text-primary-dark dark:text-primary-light'>
+        <div className='mx-auto border dark:border-gray-500 max-w-lg my-2 p-3 rounded-lg text-primary-dark dark:text-primary-light'>
             <div className='flex justify-between items-center gap-3 h-14 p-2'>
                 <div className="flex items-center gap-3">
                 <img

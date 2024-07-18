@@ -13,7 +13,6 @@ const ProfilePostOptions = ({ setShowOptions }) => {
                 <button onClick={() => setShowOptions(false)} className=' font-semibold py-2 w-full'>
                     Cancel
                 </button>
-
             </div>
         </div>
     )
