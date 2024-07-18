@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useOutletContext, Navigate } from "react-router-dom";
 import { useNavigate, NavLink } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import { getPosts } from "../utils/api/post_api";
 import ProfileImage from "../components/profileComponents/ProfileImage";
 import PostListingLinks from "../components/profileComponents/PostListingLinks";
 import LogoutButton from "../components/authentication/LogoutButton";
 import ProfilePostListing from "../components/profileComponents/ProfilePostListing";
-import ProfilePostOptions from "../components/profileComponents/ProfilePostOptions";
 
 const ProfilePage = () => {
     const [activeLink, setActiveLink] = useState('Posts');
@@ -39,6 +39,7 @@ const ProfilePage = () => {
 
     return (
         <div className='min-h-[90vh] md:col-span-8 col-span-10 px-4 lg:px-8 mt-4 mb-16 md:mb-1'>
+            <ToastContainer />
             <ProfileImage />
             <LogoutButton navigate={navigate} />
             <PostListingLinks setActiveLink={setActiveLink} />

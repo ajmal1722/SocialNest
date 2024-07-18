@@ -27,8 +27,9 @@ export const getPosts = async () => {
 
 export const deletePost = async (id) => {
     try {
-        const response = await postInstance.delete(`/delete-post/:${id}`)
+        const response = await postInstance.delete(`/delete-post/${id}`)
         console.log('Post deleted successfully:', response.data);
+        toast.success(response.data.message)
     } catch (error) {
         console.log(error.response)
     }

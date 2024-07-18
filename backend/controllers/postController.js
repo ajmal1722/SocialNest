@@ -57,17 +57,17 @@ export const deletePost = async (req, res) => {
         const postId = req.params.id;
         console.log('postId:', postId);
 
-        // if (!postId) {
-        //     return res.status(400).json({ message: 'Post ID is required' });
-        // }
+        if (!postId) {
+            return res.status(400).json({ error: 'Post ID is required' });
+        }
 
-        // const deletedPost = await Post.findByIdAndDelete(postId);
+        const deletedPost = await Post.findByIdAndDelete(postId);
 
-        // if (!deletedPost) {
-        //     return res.status(404).json({ message: 'Post not found' });
-        // }
+        if (!deletedPost) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
 
-        res.status(200).json({ message: 'Post deleted successfully' });
+        res.status(200).json({ message: 'Post deleted successfully', deletedPost });
     } catch (error) {
         console.log('Error message:', error);
         res.status(500).json({ status: 'Failed', error: error.message });
