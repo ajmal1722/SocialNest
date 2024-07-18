@@ -25,7 +25,7 @@ const SinglePost = ({ post, setShowOptions }) => {
                 />
             </div>
             <h1 className='text-xl font-semibold my-2'>
-                blog title
+                {post.blogTitle}
             </h1>
             <p className='text-gray-700 dark:text-gray-400'>
                 {post.blogContent}

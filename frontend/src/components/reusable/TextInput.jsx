@@ -21,7 +21,7 @@ const TextInput = ({ name, validation, maxLength, placeholder, className, style 
                         showCount
                         maxLength={maxLength}
                         placeholder={placeholder}
-                        className={className}
+                        className={`${className} bg-primary-light dark:bg-primary-dark text-ternary-dark dark:text-primary-light`}
                     />
                 )}
             />

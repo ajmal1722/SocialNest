@@ -58,7 +58,7 @@ const CreatePostPage = () => {
                             validation={contentValidation}
                             maxLength={300}
                             placeholder="Type your message here"
-                            className="bg-primary-light dark:bg-primary-dark text-ternary-dark dark:text-primary-light p-2 h-32"
+                            className="p-2 h-32"
                         />
                     ) : <ImageInput />
                     }
