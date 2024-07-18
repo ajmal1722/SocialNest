@@ -6,9 +6,12 @@ import ProfileImage from "../components/profileComponents/ProfileImage";
 import PostListingLinks from "../components/profileComponents/PostListingLinks";
 import LogoutButton from "../components/authentication/LogoutButton";
 import ProfilePostListing from "../components/profileComponents/ProfilePostListing";
+import ProfilePostOptions from "../components/profileComponents/ProfilePostOptions";
 
 const ProfilePage = () => {
-    const [activeLink, setActiveLink] = useState('Posts')
+    const [activeLink, setActiveLink] = useState('Posts');
+    const [showOptions, setShowOptions] = useState(false);
+
     const [posts, setPosts] = useState([])
 
     const context = useOutletContext()
@@ -41,7 +44,10 @@ const ProfilePage = () => {
             <LogoutButton navigate={navigate} />
             <PostListingLinks setActiveLink={setActiveLink} />
             <hr className="my-5" />
-            <ProfilePostListing posts={filterPost()} />
+            <ProfilePostListing posts={filterPost()} setShowOptions={setShowOptions} />
+            {
+                showOptions && <ProfilePostOptions setShowOptions={setShowOptions} />
+            }
         </div>
     )
 }

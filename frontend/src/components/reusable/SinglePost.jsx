@@ -1,8 +1,9 @@
-import { SlOptionsVertical } from "react-icons/sl";
+import { useState } from "react";
+import { SlOptions } from "react-icons/sl";
 import { FaRegHeart, FaRegComment } from "react-icons/fa";
 import { BsSave2Fill } from "react-icons/bs";
 
-const SinglePost = ({ post }) => {
+const SinglePost = ({ post, setShowOptions }) => {
     return (
         <div className='mx-auto border max-w-lg my-2 p-3 rounded-lg text-primary-dark dark:text-primary-light'>
             <div className='flex justify-between items-center gap-3 h-14 p-2'>
@@ -18,7 +19,10 @@ const SinglePost = ({ post }) => {
                     3 hr ago
                 </p>
                 </div>
-                <SlOptionsVertical />
+                <SlOptions 
+                    onClick={() => setShowOptions(true)} 
+                    className='cursor-pointer'
+                />
             </div>
             <h1 className='text-xl font-semibold my-2'>
                 blog title
