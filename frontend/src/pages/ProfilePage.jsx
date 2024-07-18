@@ -10,7 +10,6 @@ import ProfilePostOptions from "../components/profileComponents/ProfilePostOptio
 
 const ProfilePage = () => {
     const [activeLink, setActiveLink] = useState('Posts');
-    const [showOptions, setShowOptions] = useState(false);
 
     const [posts, setPosts] = useState([])
 
@@ -44,10 +43,7 @@ const ProfilePage = () => {
             <LogoutButton navigate={navigate} />
             <PostListingLinks setActiveLink={setActiveLink} />
             <hr className="my-5 dark:border-gray-500" />
-            <ProfilePostListing posts={filterPost()} setShowOptions={setShowOptions} />
-            {
-                showOptions && <ProfilePostOptions setShowOptions={setShowOptions} />
-            }
+            <ProfilePostListing posts={filterPost()} />
         </div>
     )
 }

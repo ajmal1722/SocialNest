@@ -1,7 +1,7 @@
 import { useState } from "react"
 import DeleteModal from "../reusable/DeleteModal";
 
-const ProfilePostOptions = ({ setShowOptions }) => {
+const ProfilePostOptions = ({ setShowOptions, postId, handleDelete }) => {
     const [showModal, setShowModal] = useState(false);
 
     return (
@@ -17,7 +17,13 @@ const ProfilePostOptions = ({ setShowOptions }) => {
                     Cancel
                 </button>
             </div>
-            <DeleteModal showModal={showModal} setShowModal={setShowModal} setShowOptions={setShowOptions} />
+            <DeleteModal 
+                showModal={showModal} 
+                setShowModal={setShowModal} 
+                setShowOptions={setShowOptions}
+                postId={postId} 
+                handleDelete={handleDelete}
+            />
         </div>
     )
 }

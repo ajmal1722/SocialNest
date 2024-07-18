@@ -1,9 +1,9 @@
 import { Modal } from "antd";
 import { FaCircleExclamation } from "react-icons/fa6";
 
-const DeleteModal = ({ showModal, setShowModal, setShowOptions }) => {
+const DeleteModal = ({ showModal, setShowModal, setShowOptions, postId, handleDelete }) => {
     const handleOk = () => {
-        // Perform deletion logic here
+        handleDelete(postId)
         console.log("Deleting post...");
         setShowModal(false);
         setShowOptions(false)
