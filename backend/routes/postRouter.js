@@ -12,6 +12,6 @@ router.use(verifyUser)
 
 router.post('/create', createPost)
 router.get('/get-posts', fetchPosts)
-router.delete('/delete-post', deletePost)
+router.delete('/delete-post/:id', deletePost)
 
 export default router;

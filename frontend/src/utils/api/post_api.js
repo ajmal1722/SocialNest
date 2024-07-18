@@ -24,3 +24,11 @@ export const getPosts = async () => {
         console.log(error.response.data);
     }
 }
+
+export const deletePost = async () => {
+    try {
+        const response = await postInstance.delete(`/delete-post/:${id}` )
+    } catch (error) {
+        console.log(error.response)
+    }
+}
