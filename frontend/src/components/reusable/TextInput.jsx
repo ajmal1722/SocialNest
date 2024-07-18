@@ -1,7 +1,7 @@
 import { Input } from "antd";
 import { useFormContext, Controller } from 'react-hook-form';
 
-const TextInput = () => {
+const TextInput = ({ name, validation, maxLength, placeholder, className, style }) => {
     const { TextArea } = Input;
 
     const {
@@ -9,37 +9,25 @@ const TextInput = () => {
         formState: { errors }
     } = useFormContext();
 
-    const validation = {
-        required: 'This field is required',
-        minLength: {
-            value: 6,
-            message: 'Content must be at least 6 characters long'
-        },
-    };
-
     return (
         <div className="my-4">
             <Controller
-                name="blogContent"
+                name={name}
                 control={control}
                 rules={validation}
                 render={({ field }) => (
                     <TextArea
                         {...field}
                         showCount
-                        maxLength={250}
-                        placeholder="Type your message here"
-                        className="bg-primary-light dark:bg-primary-dark text-ternary-dark dark:text-primary-light"
-                        style={{
-                            height: 120,
-                            resize: 'none',
-                        }}
+                        maxLength={maxLength}
+                        placeholder={placeholder}
+                        className={className}
                     />
                 )}
             />
-            {errors.blogContent && (
+            {errors[name] && (
                 <p className="text-red-600">
-                    {errors.blogContent.message}
+                    {errors[name]?.message}
                 </p>
             )}
         </div>

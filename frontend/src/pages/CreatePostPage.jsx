@@ -15,6 +15,22 @@ const CreatePostPage = () => {
         createPost(data, contentType)
     };
 
+    const titleValidation = {
+        required: 'This field is required',
+        minLength: {
+            value: 3,
+            message: 'Title must be at least 3 characters long'
+        },
+    };
+
+    const contentValidation = {
+        required: 'This field is required',
+        minLength: {
+            value: 6,
+            message: 'Content must be at least 6 characters long'
+        },
+    };
+
     return (
         <div className='text-primary-dark dark:text-primary-light md:col-span-6 col-span-10 sm:m-6 m-4'>
             <h1 className='text-2xl font-semibold my-6'>
@@ -29,11 +45,23 @@ const CreatePostPage = () => {
             <ToastContainer />
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(submitTextPost)}>
-                    {
-                        contentType === 'Blog' ? 
-                            <TextInput /> : <ImageInput />
+                    <TextInput
+                        name="blogTitle"
+                        validation={titleValidation}
+                        maxLength={35}
+                        placeholder="Type your blog title here"
+                        className="bg-primary-light dark:bg-primary-dark text-ternary-dark dark:text-primary-light my-3"
+                    />
+                    {contentType === 'Blog' ? (
+                        <TextInput
+                            name="blogContent"
+                            validation={contentValidation}
+                            maxLength={300}
+                            placeholder="Type your message here"
+                            className="bg-primary-light dark:bg-primary-dark text-ternary-dark dark:text-primary-light p-2 h-32"
+                        />
+                    ) : <ImageInput />
                     }
-                    
                     <div className="flex justify-end my-6">
                         <SubmitButton content={'Post'} />
                     </div>
