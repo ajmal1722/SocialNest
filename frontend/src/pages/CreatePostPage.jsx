@@ -9,10 +9,12 @@ import { createPost } from "../utils/api/post_api";
 const CreatePostPage = () => {
     const [contentType, setContentType] = useState('Blog')
     const methods = useForm();
+    const { reset } = methods;
 
     const submitTextPost = async (data) => {
         console.log('Post Data:', data);  // Check if this logs the data
-        createPost(data, contentType)
+        createPost(data, contentType);
+        reset()
     };
 
     const titleValidation = {

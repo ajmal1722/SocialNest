@@ -10,7 +10,6 @@ import ProfilePostListing from "../components/profileComponents/ProfilePostListi
 
 const ProfilePage = () => {
     const [activeLink, setActiveLink] = useState('Posts');
-
     const [posts, setPosts] = useState([])
 
     const context = useOutletContext()
