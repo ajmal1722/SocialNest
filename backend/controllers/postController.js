@@ -11,7 +11,7 @@ export const createPost = async (req, res) => {
         if (contentType === 'Image') {
             let file = req.file;
             if (file) {
-                const result = await cloudinary.v2.uploader.upload(file.path);
+                const result = await cloudinary.uploader.upload(file.path);
                 
                 newPost = new ImagePost({
                     author_id,
