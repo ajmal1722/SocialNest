@@ -55,7 +55,7 @@ const ImagePost = Post.discriminator('Image', new Schema({
 
 // Blog Post Schema
 const BlogPost = Post.discriminator('Blog', new Schema({
-    blogTitle: {
+    caption: {
         type: String,
     },
     blogContent: {

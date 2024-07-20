@@ -48,7 +48,7 @@ const CreatePostPage = () => {
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(submitTextPost)}>
                     <TextInput
-                        name="blogTitle"
+                        name="caption"
                         validation={titleValidation}
                         maxLength={35}
                         placeholder="Type your blog title here"

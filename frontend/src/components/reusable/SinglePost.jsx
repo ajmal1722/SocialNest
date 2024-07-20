@@ -40,7 +40,7 @@ const SinglePost = ({ post }) => {
                 />
             </div>
             <h1 className='text-xl font-semibold my-2'>
-                {post.blogTitle}
+                {post.caption}
             </h1>
             <p className='text-gray-700 dark:text-gray-400'>
                 {post.blogContent}

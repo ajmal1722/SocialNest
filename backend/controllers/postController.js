@@ -1,11 +1,10 @@
 import { Post, ImagePost, BlogPost } from '../models/postSchema.js';
 import mongoose from 'mongoose';
-import upload from '../utils/multer.js';
 import cloudinary from '../utils/cloudinary.js';
 
 export const createPost = async (req, res) => {
     try {
-        const { contentType, blogTitle, blogContent } = req.body;
+        const { contentType, caption, blogContent } = req.body;
         const author_id = req.user;
         let newPost;
         
@@ -16,13 +15,14 @@ export const createPost = async (req, res) => {
                 
                 newPost = new ImagePost({
                     author_id,
+                    caption,
                     image_url: result.secure_url,
                 });
             } else {
                 return res.status(400).json({ message: 'No file uploaded for Image content type' });
             }
         } else if (contentType === 'Blog') {
-            newPost = new BlogPost({ author_id, blogTitle, blogContent });
+            newPost = new BlogPost({ author_id, caption, blogContent });
         } else {
             return res.status(400).json({ message: 'Invalid content type' });
         }
