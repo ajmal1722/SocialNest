@@ -33,7 +33,7 @@ const OtpInput = ({ email, otp, showOtpInput, setShowOtpInput }) => {
     return (
         <div className='my-4'>
             {
-                showPassword ? <CreateNewPassword /> : (
+                showPassword ? <CreateNewPassword email={email} /> : (
                     <form onSubmit={handleSubmit(checkOtp)}>
                         <Controller
                             name="otp"

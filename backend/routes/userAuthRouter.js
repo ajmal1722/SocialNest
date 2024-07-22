@@ -8,6 +8,7 @@ import {
     userLogout,
     googleAuthLogin,
     generateOtp,
+    changePassword
 } from '../controllers/userAuthController.js';
 
 router.post('/signup', userSignup);
@@ -18,7 +19,8 @@ router.post('/logout', userLogout);
 router.post('/google-auth-login', googleAuthLogin)
 
 // forget password
-router.post('/generate-otp', generateOtp)
+router.post('/generate-otp', generateOtp);
+router.post('/change-password', changePassword)
 
 // Apply middleware to all routes below this line
 router.use(verifyAccessToken);

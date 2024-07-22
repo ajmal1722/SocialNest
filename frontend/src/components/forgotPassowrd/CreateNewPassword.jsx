@@ -1,15 +1,16 @@
-import { useForm, FormProvider } from "react-hook-form"
+import { useForm, FormProvider } from "react-hook-form";
+import { toast } from "react-toastify";
 import PasswordInput from "../reusable/PasswordInput";
 import SubmitButton from "../reusable/SubmitButton";
-import { toast } from "react-toastify";
+import { changePasswordApi } from "../../utils/api/user_api";
 
-const CreateNewPassword = () => {
+const CreateNewPassword = ({ email }) => {
     const methods = useForm(); 
     
-    const changePassword = (data) => {
-        console.log(data);
+    const checkPassword = (data) => {
+        const userData = { email, ...data }
         if (data.password === data.confirmPassword) {
-            toast.success('hello')
+            changePasswordApi(userData)
         } else {
             toast.error('Password does not match')
         }
@@ -17,7 +18,7 @@ const CreateNewPassword = () => {
     return (
         <>
             <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(changePassword)}>
+            <form onSubmit={methods.handleSubmit(checkPassword)}>
             <PasswordInput placeholder={'Create a new password'} />
             <PasswordInput placeholder={'Confirm password'} name={'confirmPassword'} />
             <SubmitButton content={'Submit'} />

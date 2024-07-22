@@ -56,3 +56,15 @@ export const generateOtp = async (data, setShowOtpInput) => {
         toast.error(error.response.data.error)
     }
 }
+
+export const changePasswordApi = async (data) => {
+    // console.log('Forgot Password Data:', data);
+
+    try {
+        const response = await userInstance.post('/change-password', data)
+        console.log(response.data);
+    } catch (error) {
+        console.log('Error during password reset:', error);
+        toast.error(error.response.data.error)
+    }
+}

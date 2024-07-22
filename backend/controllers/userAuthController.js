@@ -269,6 +269,15 @@ const generateOtp = async (req, res) => {
     }
 }
 
+const changePassword = async (req, res) => {
+    try {
+        console.log(req.body);
+    } catch (error) {
+        console.error('Error during OTP generation:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
 export {
     userSignup, 
     userLogin, 
@@ -276,4 +285,5 @@ export {
     userLogout,
     googleAuthLogin,
     generateOtp,
+    changePassword,
 };
