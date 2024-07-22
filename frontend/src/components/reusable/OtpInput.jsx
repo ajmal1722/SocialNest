@@ -7,7 +7,7 @@ import { generateOtp } from '../../utils/api/user_api';
 import axios from 'axios';
 
 const OtpInput = ({ email, otp, showOtpInput, setShowOtpInput }) => {
-    const [enteredOtp, setEnteredOtp] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
 
     const {
         control,
@@ -17,17 +17,15 @@ const OtpInput = ({ email, otp, showOtpInput, setShowOtpInput }) => {
 
     const onChange = (text) => {
         console.log('onChange:', text);
-        setEnteredOtp(text)
     };
     const sharedProps = {
         onChange,
     };
 
     const checkOtp = (data) => {
-        setEnteredOtp(data.otp);
         console.log(otp, data.otp);
         if (otp == data.otp) {
-            // setShowOtpInput(false)
+            setShowPassword(true)
             toast.success('OTP verification is Successfull')
         } else {
             toast.error('OTP verification failed')
@@ -36,7 +34,7 @@ const OtpInput = ({ email, otp, showOtpInput, setShowOtpInput }) => {
     return (
         <div className='my-4'>
             {
-                showOtpInput ? (
+                showPassword ? <CreateNewPassword /> : (
                     <form onSubmit={handleSubmit(checkOtp)}>
                         <Controller
                             name="otp"
@@ -54,7 +52,7 @@ const OtpInput = ({ email, otp, showOtpInput, setShowOtpInput }) => {
                             Genereate Otp
                         </button>
                     </form>
-                ) : <CreateNewPassword />
+                )
             }
         </div>
     )

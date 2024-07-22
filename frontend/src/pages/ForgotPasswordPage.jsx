@@ -2,7 +2,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { useState } from 'react';
 import { GoMail } from "react-icons/go";
 import CustomInput from "../components/reusable/Input";
-import PasswordInput from '../components/reusable/PasswordInput';
+import CreateNewPassword from '../components/forgotPassowrd/CreateNewPassword';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { Link } from 'react-router-dom';
 import OtpInput from '../components/reusable/OtpInput';

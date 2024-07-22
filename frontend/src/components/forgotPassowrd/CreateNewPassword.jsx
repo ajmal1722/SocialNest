@@ -1,22 +1,20 @@
-import { useForm } from "react-hook-form"
+import { useForm, FormProvider } from "react-hook-form"
 import PasswordInput from "../reusable/PasswordInput"
 
 const CreateNewPassword = () => {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors }
-    } = useForm(); 
+    const methods = useForm(); 
     
     const changePassword = (data) => {
         console.log(data);
     }
     return (
         <>
-            <form onSubmit={handleSubmit(changePassword)}>
+            <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(changePassword)}>
             <PasswordInput placeholder={'Create a new password'} />
             <PasswordInput placeholder={'Confirm password'} />
             </form>
+            </FormProvider>
         </>
     )
 }
