@@ -10,7 +10,9 @@ import { generateOtp } from '../utils/api/user_api';
 import { ToastContainer } from 'react-toastify';
 
 const ForgotPasswordPage = () => {
-    const [showOtpInput, setShowOtpInput] = useState(false)
+    const [showOtpInput, setShowOtpInput] = useState(false);
+    const [email, setEmail] = useState('')
+    const [otp, setOtp] = useState('')
 
     const methods = useForm({
         defaultValues: {
@@ -23,7 +25,9 @@ const ForgotPasswordPage = () => {
     const handleForgotPassword = async (data) => {
         // setShowOtpInput(prevState => !prevState)
         // console.log('Forgot Password Data:', data);
-        await generateOtp(data, setShowOtpInput)
+        setEmail(data.email)
+        const otp = await generateOtp(data, setShowOtpInput)
+        setOtp(otp);
     }
 
     return (
@@ -40,7 +44,7 @@ const ForgotPasswordPage = () => {
                 </div>
                 {
                     showOtpInput ?
-                        <OtpInput /> : (
+                        <OtpInput email={email} otp={otp} showOtpInput={showOtpInput} setShowOtpInput={setShowOtpInput} /> : (
                             <FormProvider {...methods}>
                                 <form onSubmit={handleSubmit((data) => handleForgotPassword(data, setShowOtpInput))} >
                                     <CustomInput
@@ -57,7 +61,6 @@ const ForgotPasswordPage = () => {
                                             }
                                         }}
                                     />
-                                    <PasswordInput placeholder={'Create a new Password'} />
                                     <button type='submit' className='bg-gray-600 hover:bg-gray-700 text-white rounded-md p-2 '>
                                         Genereate Otp
                                     </button>

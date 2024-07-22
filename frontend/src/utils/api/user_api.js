@@ -49,6 +49,7 @@ export const generateOtp = async (data, setShowOtpInput) => {
         const response = await userInstance.post('/generate-otp', data)
         if (response) {
             setShowOtpInput(prevState => !prevState)
+            return response.data.otp;
         }
     } catch (error) {
         console.log('Error during password reset:', error);
