@@ -286,7 +286,7 @@ const changePassword = async (req, res) => {
         user.password = hashedPassword;
         await user.save();
 
-        res.status(200).json({ message: 'Password changed successfully' });
+        res.status(200).json({ message: 'Password updated successfully' });
     } catch (error) {
         console.error('Error during OTP generation:', error);
         res.status(500).json({ error: 'Internal server error' });

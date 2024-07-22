@@ -62,7 +62,8 @@ export const changePasswordApi = async (data) => {
 
     try {
         const response = await userInstance.post('/change-password', data)
-        console.log(response.data);
+        toast.success(response.data.message);
+
     } catch (error) {
         console.log('Error during password reset:', error);
         toast.error(error.response.data.error)

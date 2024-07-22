@@ -1,4 +1,5 @@
 import { useForm, FormProvider } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import PasswordInput from "../reusable/PasswordInput";
 import SubmitButton from "../reusable/SubmitButton";
@@ -6,11 +7,13 @@ import { changePasswordApi } from "../../utils/api/user_api";
 
 const CreateNewPassword = ({ email }) => {
     const methods = useForm(); 
+    const navigate = useNavigate()
     
     const checkPassword = (data) => {
         const userData = { email, ...data }
         if (data.password === data.confirmPassword) {
             changePasswordApi(userData)
+            navigate('/')
         } else {
             toast.error('Password does not match')
         }

@@ -3,8 +3,6 @@ import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import {  toast } from 'react-toastify';
 import CreateNewPassword from '../forgotPassowrd/CreateNewPassword';
-import { generateOtp } from '../../utils/api/user_api';
-import axios from 'axios';
 
 const OtpInput = ({ email, otp, showOtpInput, setShowOtpInput }) => {
     const [showPassword, setShowPassword] = useState(false);
