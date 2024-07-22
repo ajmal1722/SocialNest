@@ -23,7 +23,6 @@ const OtpInput = ({ email, otp, showOtpInput, setShowOtpInput }) => {
     };
 
     const checkOtp = (data) => {
-        console.log(otp, data.otp);
         if (otp == data.otp) {
             setShowPassword(true)
             toast.success('OTP verification is Successfull')
