@@ -1,19 +1,38 @@
 import postInstance from "../../axios_instaces/postInstance";
 import { toast } from "react-toastify";
 
-export const createPost = async (data, contentType) => {
+export const createPost = async (data) => {
+    const config = {
+        headers: {
+            'content-type': 'multipart/form-data',
+        },
+    };
+
     try {
-        const response = await postInstance.post('/create',
-            { contentType, ...data }
-        )
+        const formData = new FormData(); 
+
+        // Append text data
+        if (data.caption) formData.append('caption', data.caption);
+        if (data.blogContent) formData.append('blogContent', data.blogContent);
+        if (data.contentType) formData.append('contentType', data.contentType);
+
+        // Append files
+        if (data.files && data.files.length > 0) {
+            for (let i = 0; i < data.files.length; i++) {
+                formData.append('image', data.files[i]);
+            }
+        }
+
+        const response = await postInstance.post('/create', formData, config);
+
         if (response) {
-            toast.success('Post created Successfully')
+            toast.success('Post created Successfully');
         }
     } catch (error) {
-        toast.error(error.response.data.error)
+        toast.error(error.response?.data?.error || 'An error occurred'); // Added fallback for error message
         console.log(error);
     }
-}
+};
 
 export const getPosts = async () => {
     try {

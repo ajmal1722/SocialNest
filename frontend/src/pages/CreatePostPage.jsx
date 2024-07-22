@@ -8,12 +8,14 @@ import { createPost } from "../utils/api/post_api";
 
 const CreatePostPage = () => {
     const [contentType, setContentType] = useState('Blog')
+    const [files, setFiles] = useState([]);
     const methods = useForm();
     const { reset } = methods;
 
     const submitTextPost = async (data) => {
-        console.log('Post Data:', data);  // Check if this logs the data
-        createPost(data, contentType);
+        const postData = { contentType, ...data }
+        console.log('Post Data:', postData); 
+        createPost(postData);
         reset()
     };
 
@@ -62,7 +64,7 @@ const CreatePostPage = () => {
                             placeholder="Type your message here"
                             className="p-2 h-32"
                         />
-                    ) : <ImageInput />
+                    ) : <ImageInput onFilesChange={setFiles} />
                     }
                     <div className="flex justify-end my-6">
                         <SubmitButton content={'Post'} />

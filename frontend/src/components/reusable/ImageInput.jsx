@@ -1,46 +1,19 @@
-import { useState } from 'react';
-import { Upload, message } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
+import React from 'react';
+import { useFormContext } from 'react-hook-form';
 
-const { Dragger } = Upload;
-
-const ImageInput = ({ onUpload }) => {
-    const [uploadedFiles, setUploadedFiles] = useState([]);
-
-    const props = {
-        name: 'file',
-        multiple: true,
-        action: '',
-        onChange(info) {
-            const { status } = info.file;
-            if (status !== 'uploading') {
-                console.log(info.file, info.fileList);
-            }
-            if (status === 'done') {
-                message.success(`${info.file.name} file uploaded successfully.`);
-                setUploadedFiles(prevFiles => {
-                    const newFiles = [...prevFiles, info.file.response.url];
-                    onUpload(newFiles);
-                    return newFiles;
-                });
-            } else if (status === 'error') {
-                message.error(`${info.file.name} file upload failed.`);
-            }
-        },
-        onDrop(e) {
-            console.log('Dropped files', e.dataTransfer.files);
-        },
-    };
+const ImageInput = () => {
+    const { register } = useFormContext();
 
     return (
-        <div className="my-5">
-            
-            <Dragger {...props}>
-                <p className="ant-upload-drag-icon">
-                    <InboxOutlined />
-                </p>
-                <p className="text-primary-dark dark:text-primary-light text-base">Click or drag file to this area to upload</p>
-            </Dragger>
+        <div className="my-3">
+            <input
+                type="file"
+                name="files"
+                accept="image/*,video/*"
+                multiple
+                {...register('files')}
+                className="block w-full p-2 border border-gray-300 rounded"
+            />
         </div>
     );
 };

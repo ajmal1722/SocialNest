@@ -24,7 +24,7 @@ export const createPost = async (req, res) => {
         } else if (contentType === 'Blog') {
             newPost = new BlogPost({ author_id, caption, blogContent });
         } else {
-            return res.status(400).json({ message: 'Invalid content type' });
+            return res.status(400).json({ message: 'Invalid content type', res: req.body });
         }
 
         const savedPost = await newPost.save();
