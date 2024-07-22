@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 const ImageInput = () => {
-    const { register } = useFormContext();
+    const { register, formState: { errors } } = useFormContext();
 
     return (
         <div className="my-3">
@@ -11,9 +11,12 @@ const ImageInput = () => {
                 name="files"
                 accept="image/*,video/*"
                 multiple
-                {...register('files')}
+                {...register('files', { 
+                    validate: files => files.length > 0 || 'At least one file is required'
+                })}
                 className="block w-full p-2 border border-gray-300 rounded"
             />
+            {errors.files && <p className="text-red-500 mt-1">{errors.files.message}</p>}
         </div>
     );
 };

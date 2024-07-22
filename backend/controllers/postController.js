@@ -19,7 +19,7 @@ export const createPost = async (req, res) => {
                     image_url: result.secure_url,
                 });
             } else {
-                return res.status(400).json({ message: 'No file uploaded for Image content type' });
+                return res.status(400).json({ error: 'No file uploaded for Image content type' });
             }
         } else if (contentType === 'Blog') {
             newPost = new BlogPost({ author_id, caption, blogContent });
@@ -66,7 +66,7 @@ export const deletePost = async (req, res) => {
         console.log('postId:', postId);
 
         if (!postId) {
-            return res.status(400).json({ error: 'Post ID is required' });
+            return res.status(400).json({ error: 'Post not found' });
         }
 
         const deletedPost = await Post.findByIdAndDelete(postId);
