@@ -5,12 +5,13 @@ import { FaRegHeart, FaRegComment } from "react-icons/fa";
 import { BsSave2Fill } from "react-icons/bs";
 import ProfilePostOptions from "../profileComponents/ProfilePostOptions";
 import { deletePost } from "../../utils/api/post_api";
+import DateFormatter from "./DateFormatter";
 
 const SinglePost = ({ post }) => {
     const [showOptions, setShowOptions] = useState(false);
     const userInfo = useSelector(state => state.auth.userInfo)
-    console.log('userInfo:', userInfo);
-    
+    console.log('userInfo:', post.createdAt);
+
     const handleDelete = async () => {
         try {
             const response = await deletePost(post._id);
@@ -26,19 +27,17 @@ const SinglePost = ({ post }) => {
         <div className='mx-auto border dark:border-gray-500 max-w-lg my-2 p-3 rounded-lg text-primary-dark dark:text-primary-light'>
             <div className='flex justify-between items-center gap-3 h-14 p-2'>
                 <div className="flex items-center gap-3">
-                <img
-                    src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt=""
-                    className='rounded-full max-w-10'
-                />
-                <h1 className='text-lg'>
-                    Username
-                </h1>
-                <p className='text-xs'>
-                    3 hr ago
-                </p>
+                    <img
+                        src={userInfo.profilePicture.length >= 1 ? userInfo.profilePicture : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
+                        className='rounded-full max-w-8'
+                    />
+                    <h1 className='text-lg'>
+                        { userInfo.username }
+                    </h1>
+                    <DateFormatter date={post.createdAt} />
                 </div>
-                <SlOptions 
-                    onClick={() => setShowOptions(true)} 
+                <SlOptions
+                    onClick={() => setShowOptions(true)}
                     className='cursor-pointer'
                 />
             </div>

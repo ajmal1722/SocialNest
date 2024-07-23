@@ -6,7 +6,6 @@ import {
     userLogin,  
     protectedRoute,
     userLogout,
-    googleAuthLogin,
     generateOtp,
     changePassword
 } from '../controllers/userAuthController.js';
@@ -16,7 +15,7 @@ router.post('/login', userLogin);
 router.post('/logout', userLogout);
 
 // Google login authentication
-router.post('/google-auth-login', googleAuthLogin)
+// router.post('/google-auth-login', googleAuthLogin)
 
 // forget password
 router.post('/generate-otp', generateOtp);

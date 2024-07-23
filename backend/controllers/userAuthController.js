@@ -113,7 +113,9 @@ const userLogin = async (req, res) => {
 
         // Return success response
         return res.status(200).json({
-            user,
+            userId: user._id,
+            username: user.username,
+            email: user.email,
             accessToken,
             refreshToken
         });
@@ -186,23 +188,23 @@ const userLogout = async (req, res) => {
     }
 }
 
-const googleAuthLogin = async (req, res) => {
-    const { token } = req.body;
+// const googleAuthLogin = async (req, res) => {
+//     const { token } = req.body;
 
-    try {
-        const decodedToken = await jwtDecode(token)
-        console.log('google token:', decodedToken.email);
+//     try {
+//         const decodedToken = await jwtDecode(token)
+//         console.log('google token:', decodedToken.email);
 
-        if (decodedToken && decodedToken.email) {
-            const user = await Users.findOne({ email: decodedToken.email})
-            if(user) {
+//         if (decodedToken && decodedToken.email) {
+//             const user = await Users.findOne({ email: decodedToken.email})
+//             if(user) {
                 
-            } 
-        }
-    } catch (error) {
+//             } 
+//         }
+//     } catch (error) {
         
-    }
-}
+//     }
+// }
 
 const generateOtp = async (req, res) => {
     try {
@@ -296,7 +298,6 @@ export {
     userLogin, 
     protectedRoute, 
     userLogout,
-    googleAuthLogin,
     generateOtp,
     changePassword,
 };
