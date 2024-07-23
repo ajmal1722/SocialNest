@@ -1,4 +1,5 @@
 import { Post, ImagePost, BlogPost } from '../models/postSchema.js';
+import Users from '../models/userSchema.js'
 import mongoose from 'mongoose';
 import cloudinary from '../utils/cloudinary.js';
 
@@ -38,7 +39,9 @@ export const createPost = async (req, res) => {
 export const fetchPosts = async (req, res) => {
     try {
         const userId = req.user;
-        console.log('userId:', userId);
+
+        const user = await Users.findById(userId);
+        user.password = undefined // to avoid sending password as response
 
         const posts = await Post.aggregate([
             {
@@ -53,7 +56,7 @@ export const fetchPosts = async (req, res) => {
             },
         ]);
 
-        res.status(200).json({ posts });
+        res.status(200).json({ user, posts });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Failed to fetch posts', error: error.message });

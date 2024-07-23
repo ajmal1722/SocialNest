@@ -37,8 +37,8 @@ export const createPost = async (data) => {
 export const getPosts = async () => {
     try {
         const response = await postInstance.get('/get-posts')
-        console.log('posts:', response.data.posts);
-        return response.data.posts
+        // console.log('posts:', response.data);
+        return response.data
     } catch (error) {
         console.log(error.response.data);
     }

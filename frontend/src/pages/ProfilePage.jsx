@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, NavLink } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { set_posts } from "../redux/slices/postSlice";
+import { set_credentials } from '../redux/slices/authSlice';
 import { getPosts } from "../utils/api/post_api";
 import ProfileImage from "../components/profileComponents/ProfileImage";
 import PostListingLinks from "../components/profileComponents/PostListingLinks";
@@ -20,8 +21,10 @@ const ProfilePage = () => {
         const fetchPosts = async () => {
             try {
                 const result = await getPosts();
-                dispatch(set_posts(result));
-    console.log('post from redux:', postFromRedux);
+                // console.log('results:', result);
+                dispatch(set_posts(result.posts));
+                dispatch(set_credentials(result.user));
+                // console.log('post from redux:', postFromRedux);
             } catch (error) {
                 console.log('Error fetching posts,', error);
             }

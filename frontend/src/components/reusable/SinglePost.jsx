@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { SlOptions } from "react-icons/sl";
 import { FaRegHeart, FaRegComment } from "react-icons/fa";
 import { BsSave2Fill } from "react-icons/bs";
@@ -7,6 +8,8 @@ import { deletePost } from "../../utils/api/post_api";
 
 const SinglePost = ({ post }) => {
     const [showOptions, setShowOptions] = useState(false);
+    const userInfo = useSelector(state => state.auth.userInfo)
+    console.log('userInfo:', userInfo);
     
     const handleDelete = async () => {
         try {
@@ -24,7 +27,7 @@ const SinglePost = ({ post }) => {
             <div className='flex justify-between items-center gap-3 h-14 p-2'>
                 <div className="flex items-center gap-3">
                 <img
-                    src="https://sm.ign.com/ign_nordic/cover/a/avatar-gen/avatar-generations_prsz.jpg" alt=""
+                    src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt=""
                     className='rounded-full max-w-10'
                 />
                 <h1 className='text-lg'>
@@ -42,9 +45,13 @@ const SinglePost = ({ post }) => {
             <h1 className='text-xl font-semibold my-2'>
                 {post.caption}
             </h1>
-            <p className='text-gray-700 dark:text-gray-400'>
-                {post.blogContent}
-            </p>
+            {post.content_type === 'Image' ? (
+                <img src={post.image_url} alt="Post Image" className="w-full h-auto" />
+            ) : (
+                <p className='text-gray-700 dark:text-gray-400'>
+                    {post.blogContent}
+                </p>
+            )}
             <div className='flex justify-between px-3 text-2xl mt-4'>
                 <FaRegHeart />
                 <FaRegComment />
