@@ -6,7 +6,14 @@ export const fetchSuggestions = async (req, res) => {
 
         const user = await Users.findById(userId);
 
-        res.status(200).json('suggestions');
+        const followers = user.following;
+
+        const suggestions = await Users.find({
+            _id: { $ne: userId, $nin: followers }
+        }).select('username')
+        // console.log('suggestions:', suggestions);
+
+        res.status(200).json({ suggestions });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
