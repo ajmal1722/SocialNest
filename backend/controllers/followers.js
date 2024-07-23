@@ -1,4 +1,4 @@
-import Users from '../models/userSchema';
+import Users from '../models/userSchema.js';
 
 export const fetchSuggestions = async (req, res) => {
     try {
@@ -6,7 +6,7 @@ export const fetchSuggestions = async (req, res) => {
 
         const user = await Users.findById(userId);
 
-        
+        res.status(200).json('suggestions');
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
