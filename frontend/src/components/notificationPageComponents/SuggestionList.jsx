@@ -1,12 +1,16 @@
 import SingleUserSuggestion from "./SingleUserSuggestion"
 
-const SuggestionList = () => {
+const SuggestionList = ({ suggestions }) => {
     return (
-        <div>
+        <div className="pb-4">
             <h1 className="text-2xl text-center my-7">
                 Suggestions
             </h1>
-            <SingleUserSuggestion />
+            {
+                suggestions.map(suggestion => (
+                    <SingleUserSuggestion key={suggestion._id} suggestion={suggestion} />
+                ))
+            }
         </div>
     )
 }

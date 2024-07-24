@@ -28,7 +28,7 @@ const SinglePost = ({ post }) => {
             <div className='flex justify-between items-center gap-3 h-14 p-2'>
                 <div className="flex items-center gap-3">
                     <img
-                        src={userInfo.profilePicture.length >= 1 ? userInfo.profilePicture : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
+                        src={userInfo?.profilePicture?.length >= 1 ? userInfo.profilePicture : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
                         className='rounded-full max-w-8'
                     />
                     <h1 className='text-lg'>
