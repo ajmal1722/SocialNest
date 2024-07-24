@@ -7,7 +7,16 @@ import { fetchSuggestionsApi } from "../utils/api/follow_api"
 const NotificationPage = () => {
 
     useEffect(() => {
-        fetchSuggestionsApi()
+        const fetchSuggestion = async () => {
+            try {
+                const response = await fetchSuggestionsApi();
+                
+            } catch (error) {
+                console.error("Error fetching suggestions:", error);
+            }
+        }
+
+        fetchSuggestion()
     }, [])
     return (
         <div>

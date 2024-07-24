@@ -6,11 +6,11 @@ export const fetchSuggestions = async (req, res) => {
 
         const user = await Users.findById(userId);
 
-        const followers = user.following;
+        const following = user.following;
 
         const suggestions = await Users.find({
-            _id: { $ne: userId, $nin: followers }
-        }).select('username')
+            _id: { $ne: userId, $nin: following }
+        }).select('username name email profilePicture')
         // console.log('suggestions:', suggestions);
 
         res.status(200).json({ suggestions });
@@ -20,7 +20,7 @@ export const fetchSuggestions = async (req, res) => {
 }
 
 export const followUser = async (req, res) => {
-    try {
+    try { 
         const userId = req.user;
         const userToFollowId = req.params.id;
 
