@@ -3,11 +3,11 @@ import { useSelector } from "react-redux";
 import HomeScrollableSection from "../components/homeComponents/HomeScrollableSection"
 import RightSidbar from "../components/reusable/RightSidbar"
 import SuggestionList from "../components/notificationPageComponents/SuggestionList"
-import { fetchSuggestionsApi } from "../utils/api/follow_api"
+import { fetchSuggestionsApi } from "../utils/api/follow_api";
 
 const NotificationPage = () => {
     const [suggestions, setSuggestions] = useState([]);
-    const userInfo = useSelector(state => state.auth)
+    const userInfo = useSelector(state => state.auth.userInfo)
     console.log('userInfo..:', userInfo);
 
     useEffect(() => {

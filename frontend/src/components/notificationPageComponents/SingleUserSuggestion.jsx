@@ -1,15 +1,16 @@
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { followUserApi } from "../../utils/api/follow_api";
 import { follow_user } from "../../redux/slices/authSlice";
 
 const SingleUserSuggestion = ({ suggestion }) => {
-    // console.log('sugg:', suggestion);
+    const [showUnfollowButton, setShowUnfollowButton] = useState(false)
     const dispatch = useDispatch();
 
     const followUser = async (id) => {
         const response = await followUserApi(id)
-        // dispatch(followUser(re))
-        console.log('follow res:', response);
+        dispatch(follow_user(response));
+        setShowUnfollowButton(true)
     }
 
     return (
@@ -30,9 +31,18 @@ const SingleUserSuggestion = ({ suggestion }) => {
                 </h2>
             </div>
             </div>
-            <button onClick={() => followUser(suggestion._id)} className='mr-4 text-base font-semibold text-blue-500 hover:text-primary-dark hover:dark:text-primary-light'>
-                Follow
-            </button>
+            {
+                showUnfollowButton ? (
+                    <button  className='mr-4 text-base font-semibold hover:text-blue-500 text-primary-dark dark:text-primary-light'>
+                        Unfollow
+                    </button>
+                ) : (
+                    <button onClick={() => followUser(suggestion._id)} className='mr-4 text-base font-semibold text-blue-500 hover:text-primary-dark hover:dark:text-primary-light'>
+                        Follow
+                    </button>
+                )
+            }
+            
         </div>
     )
 }

@@ -14,6 +14,7 @@ export const followUserApi = async (id) => {
     try {
         const response = await followInstance.post(`/follow-user/${id}`)
         console.log('res,,,,, api:', response.data);
+        return response.data.id;
     } catch (error) {
         console.log('error following the user:', error);
     }

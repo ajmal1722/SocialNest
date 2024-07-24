@@ -42,7 +42,7 @@ export const followUser = async (req, res) => {
         await user.save()
         await userToFollow.save()
 
-        res.status(200).json({ message: 'User followed successfully' });
+        res.status(200).json({ message: 'User followed successfully', id: userToFollowId });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
