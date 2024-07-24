@@ -8,7 +8,7 @@ import { fetchSuggestionsApi } from "../utils/api/follow_api";
 const NotificationPage = () => {
     const [suggestions, setSuggestions] = useState([]);
     const userInfo = useSelector(state => state.auth.userInfo)
-    console.log('userInfo..:', userInfo.following.length);
+    // console.log('userInfo..:', userInfo.following.length);
 
     useEffect(() => {
         const fetchSuggestion = async () => {

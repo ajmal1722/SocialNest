@@ -5,7 +5,7 @@ import 'react-toastify/ReactToastify.css'
 function App() {
 
   return (
-    <div className='bg-primary-light dark:bg-primary-dark'>
+    <div className='bg-primary-light dark:bg-primary-dark text-primary-dark dark:text-primary-light'>
       <RouterProvider router={router} />
     </div>
   )
