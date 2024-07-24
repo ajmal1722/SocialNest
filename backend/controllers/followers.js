@@ -47,3 +47,38 @@ export const followUser = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+export const unfollowUser = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const userToUnfollowId = req.params.id;
+
+        // Find the current user and the user to unfollow
+        const user = await Users.findById(userId);
+        const userToUnfollow = await Users.findById(userToUnfollowId);
+
+        // Check if the user to unfollow exists
+        if (!userToUnfollow) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check if the current user is following the user to unfollow
+        if (!user.following.includes(userToUnfollowId)) {
+            return res.status(400).json({ message: 'You are not following this user' });
+        }
+
+        // Remove the user to unfollow from the current user's following array
+        user.following = user.following.filter(id => id.toString() !== userToUnfollowId);
+
+        // Remove the current user from the user to unfollow's followers array
+        userToUnfollow.followers = userToUnfollow.followers.filter(id => id.toString() !== userId.toString());
+
+        // Save both users
+        await user.save();
+        await userToUnfollow.save();
+
+        res.status(200).json({ message: 'User unfollowed successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}

@@ -17,8 +17,8 @@ const authSlice = createSlice({
         follow_user: (state, action) => {
             state.userInfo.following.push(action.payload)
         },
-        // show_suggestions: (state, action) => {
-        //     state.
+        // unfollow_user: (state, action) => {
+        //     state.userInfo.following = state.userInfo.following.filter(item => item._id !== action.payload)
         // }
     }
 })
