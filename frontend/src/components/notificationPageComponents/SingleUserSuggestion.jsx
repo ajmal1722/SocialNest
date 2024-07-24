@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { followUserApi, unoFllowUserApi } from "../../utils/api/follow_api";
-import { follow_user } from "../../redux/slices/authSlice";
+import { follow_user, unfollow_user } from "../../redux/slices/authSlice";
 
 const SingleUserSuggestion = ({ suggestion }) => {
     const [showUnfollowButton, setShowUnfollowButton] = useState(false)
@@ -15,7 +15,7 @@ const SingleUserSuggestion = ({ suggestion }) => {
 
     const unFollowUser = async (id) => {
         const response = await unoFllowUserApi(id)
-        // dispatch(follow_user(response));
+        dispatch(unfollow_user(response));
         setShowUnfollowButton(false)
     }
 

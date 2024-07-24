@@ -13,7 +13,7 @@ export const fetchSuggestionsApi = async () => {
 export const followUserApi = async (id) => {
     try {
         const response = await followInstance.post(`/follow-user/${id}`)
-        console.log('res,,,,, api:', response.data);
+        console.log('reapi:', response.data);
         return response.data.id;
     } catch (error) {
         console.log('error following the user:', error);
@@ -23,7 +23,7 @@ export const followUserApi = async (id) => {
 export const unoFllowUserApi = async (id) => {
     try {
         const response = await followInstance.post(`/unfollow-user/${id}`)
-        console.log('res,,,,, api:', response.data);
+        console.log('res,,,,, api:', response.data.id);
         return response.data.id;
     } catch (error) {
         console.log('error following the user:', error);

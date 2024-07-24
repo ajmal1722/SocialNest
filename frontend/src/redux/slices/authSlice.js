@@ -17,12 +17,12 @@ const authSlice = createSlice({
         follow_user: (state, action) => {
             state.userInfo.following.push(action.payload)
         },
-        // unfollow_user: (state, action) => {
-        //     state.userInfo.following = state.userInfo.following.filter(item => item._id !== action.payload)
-        // }
+        unfollow_user: (state, action) => {
+            state.userInfo.following = state.userInfo.following.filter(id => id !== action.payload)
+        }
     }
 })
 
-export const { set_credentials, clear_credetials, follow_user } = authSlice.actions;
+export const { set_credentials, clear_credetials, follow_user, unfollow_user } = authSlice.actions;
 
 export default authSlice.reducer;
