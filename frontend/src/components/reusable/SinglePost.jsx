@@ -10,7 +10,6 @@ import DateFormatter from "./DateFormatter";
 const SinglePost = ({ post }) => {
     const [showOptions, setShowOptions] = useState(false);
     const userInfo = useSelector(state => state.auth.userInfo)
-    console.log('userInfo:', post.createdAt);
 
     const handleDelete = async () => {
         try {

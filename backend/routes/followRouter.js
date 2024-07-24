@@ -10,5 +10,6 @@ import {
 router.use(verifyUser)
 
 router.get('/fetch-suggestions', fetchSuggestions);
+router.post('/follow-user/:id', followUser);
 
 export default router

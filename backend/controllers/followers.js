@@ -23,6 +23,7 @@ export const followUser = async (req, res) => {
     try { 
         const userId = req.user;
         const userToFollowId = req.params.id;
+        console.log('userId:', req.params);
 
         const user = await Users.findById(userId);
         const userToFollow = await Users.findById(userToFollowId);
