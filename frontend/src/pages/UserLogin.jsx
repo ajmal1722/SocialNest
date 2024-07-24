@@ -31,10 +31,10 @@ const UserLogin = () => {
             const response = await instance.post('/login', data)
             console.log('data:', response.data)
 
-            const { userId ,username, email } = response.data
+            const { userId ,username, email, following, followers } = response.data
 
             if (username && email) {
-                dispatch(set_credentials({ userId ,username, email }))
+                dispatch(set_credentials({ userId ,username, email, following, followers }))
                 reset()
                 navigate('/')
             }

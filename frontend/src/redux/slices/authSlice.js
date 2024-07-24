@@ -14,9 +14,9 @@ const authSlice = createSlice({
         clear_credetials: (state, action) => {
             state.userInfo = null
         },
-        // follow_user: (state, action) => {
-
-        // },
+        follow_user: (state, action) => {
+            state.userInfo.following.push(action.payload)
+        },
         // show_suggestions: (state, action) => {
         //     state.
         // }
