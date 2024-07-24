@@ -19,3 +19,13 @@ export const followUserApi = async (id) => {
         console.log('error following the user:', error);
     }
 }
+
+export const unoFllowUserApi = async (id) => {
+    try {
+        const response = await followInstance.post(`/unfollow-user/${id}`)
+        console.log('res,,,,, api:', response.data);
+        return response.data.id;
+    } catch (error) {
+        console.log('error following the user:', error);
+    }
+}

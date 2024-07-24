@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { followUserApi } from "../../utils/api/follow_api";
+import { followUserApi, unoFllowUserApi } from "../../utils/api/follow_api";
 import { follow_user } from "../../redux/slices/authSlice";
 
 const SingleUserSuggestion = ({ suggestion }) => {
@@ -11,6 +11,12 @@ const SingleUserSuggestion = ({ suggestion }) => {
         const response = await followUserApi(id)
         dispatch(follow_user(response));
         setShowUnfollowButton(true)
+    }
+
+    const unFollowUser = async (id) => {
+        const response = await unoFllowUserApi(id)
+        // dispatch(follow_user(response));
+        setShowUnfollowButton(false)
     }
 
     return (
@@ -33,7 +39,7 @@ const SingleUserSuggestion = ({ suggestion }) => {
             </div>
             {
                 showUnfollowButton ? (
-                    <button  className='mr-4 text-base font-semibold hover:text-blue-500 text-primary-dark dark:text-primary-light'>
+                    <button onClick={() => unFollowUser(suggestion._id)} className='mr-4 text-base font-semibold hover:text-blue-500 text-primary-dark dark:text-primary-light'>
                         Unfollow
                     </button>
                 ) : (

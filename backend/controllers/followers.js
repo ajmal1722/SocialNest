@@ -50,8 +50,9 @@ export const followUser = async (req, res) => {
 
 export const unfollowUser = async (req, res) => {
     try {
-        const userId = req.user._id;
+        const userId = req.user;
         const userToUnfollowId = req.params.id;
+        console.log(userId, userToUnfollowId);
 
         // Find the current user and the user to unfollow
         const user = await Users.findById(userId);
@@ -61,6 +62,7 @@ export const unfollowUser = async (req, res) => {
         if (!userToUnfollow) {
             return res.status(404).json({ message: 'User not found' });
         }
+        console.log(user);
 
         // Check if the current user is following the user to unfollow
         if (!user.following.includes(userToUnfollowId)) {
@@ -77,8 +79,9 @@ export const unfollowUser = async (req, res) => {
         await user.save();
         await userToUnfollow.save();
 
-        res.status(200).json({ message: 'User unfollowed successfully' });
+        res.status(200).json({ message: 'User unfollowed successfully', id: userToUnfollowId });
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message });
     }
 }
