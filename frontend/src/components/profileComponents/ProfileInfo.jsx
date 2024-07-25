@@ -1,11 +1,35 @@
-import React from 'react'
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import ContentDisplayingModal from "../reusable/ContentDisplayingModal";
 
 const ProfileInfo = () => {
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [modalContent, setModalContent] = useState([]);
+
+    const userInfo = useSelector(state => state.auth.userInfo);
+    const followers = userInfo.followers;
+    const following = userInfo.following;
+
+    const showFollowers = () => {
+        setModalContent(followers);
+        setIsModalVisible(true);
+    };
+
+    const showFollowing = () => {
+        setModalContent(following);
+        setIsModalVisible(true);
+    };
+
+    const closeModal = () => {
+        setIsModalVisible(false);
+        setModalContent([]);
+    };
+
     return (
         <div>
             <div className='flex my-4'>
                 <h1 className='text-2xl font-semibold'>
-                    Full name
+                    { userInfo.name }
                 </h1>
                 <button className='px-4'>
                     Edit Profile
@@ -13,7 +37,7 @@ const ProfileInfo = () => {
             </div>
             <h1 className='font-semibold mb-4'>
                 <span className='font-bold text-2xl m-1'>@</span>
-                Username
+                { userInfo.username }
             </h1>
             <div className='flex text-center gap-6 my-4'>
                 <div className='cursor-pointer'>
@@ -24,17 +48,17 @@ const ProfileInfo = () => {
                         Posts
                     </h1>
                 </div>
-                <div className='cursor-pointer'>
+                <div onClick={showFollowers} className='cursor-pointer'>
                     <h1 className='text-2xl font-bold'>
-                        1
+                        { followers.length }
                     </h1>
                     <h1>
                         Followers
                     </h1>
                 </div>
-                <div className='cursor-pointer'>
+                <div onClick={showFollowing} className='cursor-pointer'>
                     <h1 className='text-2xl font-bold'>
-                        0
+                        { following.length }
                     </h1>
                     <h1>
                         Following
@@ -44,8 +68,14 @@ const ProfileInfo = () => {
             <h1>
                 Member since July 2023
             </h1>
+
+            <ContentDisplayingModal
+                isVisible={isModalVisible}
+                onClose={closeModal}
+                content={modalContent}
+            />
         </div>
     )
 }
 
-export default ProfileInfo
+export default ProfileInfo;
