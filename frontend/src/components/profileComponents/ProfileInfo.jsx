@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { fetchFollowers } from "../../utils/api/follow_api";
 import ContentDisplayingModal from "../reusable/ContentDisplayingModal";
 
 const ProfileInfo = () => {
@@ -10,8 +11,9 @@ const ProfileInfo = () => {
     const followers = userInfo.followers;
     const following = userInfo.following;
 
-    const showFollowers = () => {
-        setModalContent(followers);
+    const showFollowers = async () => {
+        const followersDetails = await fetchFollowers()
+        setModalContent(followersDetails);
         setIsModalVisible(true);
     };
 

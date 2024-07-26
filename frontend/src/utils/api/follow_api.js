@@ -33,7 +33,7 @@ export const unoFllowUserApi = async (id) => {
 export const fetchFollowers = async (req, res) => {
     try {
         const response = await followInstance.get('/fetch-followers');
-        console.log(response.data)
+        return response.data;
     } catch (error) {
         console.log('error fetching followers', error);
     }

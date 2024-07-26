@@ -30,13 +30,13 @@ export const fetchFollowers = async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        const followersIds = user.following;
+        const followersIds = user.followers;
 
         // Fetch the details of all users whose IDs are in the followersIds array
         const followers = await Users.find({ _id: { $in: followersIds } })
-            // .select('username name profilePicture'); // Select only the required fields
+            .select('username name profilePicture'); // Select only the required fields
 
-        console.log(followers);
+        console.log(followersIds);
         res.status(200).json(followers);
     } catch (error) {
         console.error('Error fetching followers:', error);

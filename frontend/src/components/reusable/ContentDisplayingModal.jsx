@@ -28,7 +28,7 @@ const ContentDisplayingModal = ({ isVisible, onClose, content }) => {
                     renderItem={item => (
                         <List.Item>
                             <List.Item.Meta
-                                title={item}
+                                title={item._id}
                                 description={item.bio}
                             />
                         </List.Item>

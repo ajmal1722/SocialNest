@@ -13,8 +13,8 @@ import {
 router.use(verifyUser)
 
 router.get('/fetch-suggestions', fetchSuggestions);
-router.get('/get-followers', fetchFollowers);
-router.get('/get-following', fetchFollowing);
+router.get('/fetch-followers', fetchFollowers);
+router.get('/fetch-following', fetchFollowing);
 router.post('/follow-user/:id', followUser);
 router.post('/unfollow-user/:id', unfollowUser);
 
