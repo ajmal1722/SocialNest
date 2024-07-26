@@ -29,3 +29,21 @@ export const unoFllowUserApi = async (id) => {
         console.log('error following the user:', error);
     }
 }
+
+export const fetchFollowers = async (req, res) => {
+    try {
+        const response = await followInstance.get('/fetch-followers');
+        console.log(response.data)
+    } catch (error) {
+        console.log('error fetching followers', error);
+    }
+}
+
+export const fetchFollowing = async (req, res) => {
+    try {
+        const response = await followInstance.get('/fetch-following');
+        console.log(response.data)
+    } catch (error) {
+        console.log('error fetching followers', error);
+    }
+}

@@ -19,6 +19,44 @@ export const fetchSuggestions = async (req, res) => {
     }
 }
 
+export const fetchFollowers = async (req, res) => {
+    try {
+        const userId = req.user; // Assuming `req.user` contains the current user's ID
+
+        // Fetch the user to get the array of following IDs
+        const user = await Users.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const followersIds = user.following;
+
+        // Fetch the details of all users whose IDs are in the followersIds array
+        const followers = await Users.find({ _id: { $in: followersIds } })
+            // .select('username name profilePicture'); // Select only the required fields
+
+        console.log(followers);
+        res.status(200).json(followers);
+    } catch (error) {
+        console.error('Error fetching followers:', error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const fetchFollowing = async (req, res) => {
+    try {
+        const userId = req.user;
+
+        const user = await Users.findById(userId);
+
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: error.message });
+    }
+}
+
 export const followUser = async (req, res) => {
     try { 
         const userId = req.user;
