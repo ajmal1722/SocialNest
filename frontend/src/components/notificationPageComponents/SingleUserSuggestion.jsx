@@ -21,7 +21,7 @@ const SingleUserSuggestion = ({ data }) => {
 
     return (
         <div className='flex justify-between gap-2 border p-2 rounded-lg m-2'>
-            <div className='flex gap-2'>
+            <div className='flex gap-2 text-primary-dark dark:text-primary-light'>
             <div>
                 <img 
                     src={ data.profilePicture } alt="" 

@@ -17,19 +17,24 @@ const ContentDisplayingModal = ({ isVisible, onClose, content }) => {
             open={isVisible}
             onCancel={onClose}
             footer={null}
+            className="p-0 dark:bg-primary-dark"
+            styles={{ padding: 0 }} 
         >
-            {loading ? (
-                <div className="flex justify-center items-center h-full">
-                    <Spin size="large" />
-                </div>
-            ) : (
-                <List
-                    dataSource={content}
-                    renderItem={userData => (
-                        <SingleUserSuggestion data={userData} />
-                    )}
-                />
-            )}
+            <div className="max-h-[80vh] overflow-y-auto p-4 dark:bg-primary-dark">
+                {loading ? (
+                    <div className="flex justify-center items-center h-full">
+                        <Spin size="large" />
+                    </div>
+                ) : (
+                    <List
+                        dataSource={content}
+                        renderItem={userData => (
+                            <SingleUserSuggestion data={userData} />
+                        )}
+                        className="max-h-[60vh] overflow-y-auto  dark:bg-primary-dark"
+                    />
+                )}
+            </div>
         </Modal>
     );
 };
