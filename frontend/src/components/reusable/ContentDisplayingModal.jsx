@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Modal, List, Spin } from 'antd';
+import SingleUserSuggestion from '../notificationPageComponents/SingleUserSuggestion';
 
 const ContentDisplayingModal = ({ isVisible, onClose, content }) => {
     const [loading, setLoading] = useState(true);
-    console.log('content:', content);
 
     useEffect(() => {
         if (content) {
@@ -25,13 +25,8 @@ const ContentDisplayingModal = ({ isVisible, onClose, content }) => {
             ) : (
                 <List
                     dataSource={content}
-                    renderItem={item => (
-                        <List.Item>
-                            <List.Item.Meta
-                                title={item._id}
-                                description={item.bio}
-                            />
-                        </List.Item>
+                    renderItem={userData => (
+                        <SingleUserSuggestion data={userData} />
                     )}
                 />
             )}

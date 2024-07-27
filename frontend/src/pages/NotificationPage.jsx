@@ -25,7 +25,7 @@ const NotificationPage = () => {
     return (
         <div>
             <HomeScrollableSection />
-            <RightSidbar content={<SuggestionList suggestions={suggestions} />} />
+            <RightSidbar content={<SuggestionList userInfo={suggestions} />} />
         </div>
     )
 }
