@@ -1,10 +1,18 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { followUserApi, unoFllowUserApi } from "../../utils/api/follow_api";
 import { follow_user, unfollow_user } from "../../redux/slices/authSlice";
 
-const FollowAndUnfollowButton = ({ data }) => {const [showUnfollowButton, setShowUnfollowButton] = useState(false)
+const FollowAndUnfollowButton = ({ data }) => {
+    const following = useSelector(state => state.auth.userInfo.following);
     const dispatch = useDispatch();
+
+    const [showUnfollowButton, setShowUnfollowButton] = useState(false);
+
+    useEffect(() => {
+        // Check if the user is already followed and set the state accordingly
+        setShowUnfollowButton(following.includes(data._id));
+    }, []);
 
     const followUser = async (id) => {
         const response = await followUserApi(id)
@@ -23,7 +31,7 @@ const FollowAndUnfollowButton = ({ data }) => {const [showUnfollowButton, setSho
             {
                 showUnfollowButton ? (
                     <button onClick={() => unFollowUser(data._id)} className='mr-4 text-base font-semibold hover:text-blue-500 text-primary-dark dark:text-primary-light'>
-                        Unfollow
+                        Following
                     </button>
                 ) : (
                     <button onClick={() => followUser(data._id)} className='mr-4 text-base font-semibold text-blue-500 hover:text-primary-dark hover:dark:text-primary-light'>
