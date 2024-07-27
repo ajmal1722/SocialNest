@@ -42,7 +42,7 @@ export const fetchFollowers = async (req, res) => {
 export const fetchFollowing = async (req, res) => {
     try {
         const response = await followInstance.get('/fetch-following');
-        console.log(response.data)
+        return response.data;
     } catch (error) {
         console.log('error fetching followers', error);
     }

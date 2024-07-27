@@ -36,7 +36,6 @@ export const fetchFollowers = async (req, res) => {
         const followers = await Users.find({ _id: { $in: followersIds } })
             .select('username name profilePicture'); // Select only the required fields
 
-        console.log(followersIds);
         res.status(200).json(followers);
     } catch (error) {
         console.error('Error fetching followers:', error);
@@ -50,7 +49,12 @@ export const fetchFollowing = async (req, res) => {
 
         const user = await Users.findById(userId);
 
-        
+        const followingIds = user.following;
+
+        const following = await Users.find({ _id: { $in: followingIds } })
+            .select('username name profilePicture');
+
+        res.status(200).json(following);
     } catch (error) {
         console.log(error)
         res.status(500).json({ error: error.message });

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { fetchFollowers } from "../../utils/api/follow_api";
+import { fetchFollowers, fetchFollowing } from "../../utils/api/follow_api";
 import ContentDisplayingModal from "../reusable/ContentDisplayingModal";
 
 const ProfileInfo = () => {
@@ -17,8 +17,9 @@ const ProfileInfo = () => {
         setIsModalVisible(true);
     };
 
-    const showFollowing = () => {
-        setModalContent(following);
+    const showFollowing = async () => {
+        const followingDetails = await fetchFollowing()
+        setModalContent(followingDetails);
         setIsModalVisible(true);
     };
 
