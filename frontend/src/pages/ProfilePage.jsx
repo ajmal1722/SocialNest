@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, NavLink } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { set_posts } from "../redux/slices/postSlice";
 import { set_credentials } from '../redux/slices/authSlice';
 import { getPosts } from "../utils/api/post_api";
 import ProfileImage from "../components/profileComponents/ProfileImage";
 import ProfileInfo from "../components/profileComponents/ProfileInfo";
-import PostListingLinks from "../components/profileComponents/PostListingLinks";
 import NavigationButton from "../components/reusable/NavigationButton";
-import LogoutButton from "../components/authentication/LogoutButton";
 import ProfilePostListing from "../components/profileComponents/ProfilePostListing";
 
 const ProfilePage = () => {
@@ -17,7 +14,6 @@ const ProfilePage = () => {
     const posts = useSelector((state) => state.posts);
 
     const dispatch = useDispatch()
-    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -50,7 +46,6 @@ const ProfilePage = () => {
                 <ProfileImage />
                 <ProfileInfo />
             </div>
-            <LogoutButton navigate={navigate} />
             <NavigationButton
                 navOptions={['Posts', 'Blogs', 'Medias']}
                 activeLink={activeLink}

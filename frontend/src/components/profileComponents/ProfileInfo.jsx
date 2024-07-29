@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { LiaUserEditSolid } from "react-icons/lia";
 import { fetchFollowers, fetchFollowing } from "../../utils/api/follow_api";
 import ContentDisplayingModal from "../reusable/ContentDisplayingModal";
+import LogoutButton from "../authentication/LogoutButton";
 
 const ProfileInfo = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -31,7 +32,7 @@ const ProfileInfo = () => {
 
     return (
         <div>
-            <div className='flex my-4'>
+            <div className='flex my-4 gap-2'>
                 <h1 className='text-2xl font-semibold'>
                     { userInfo.name } 
                 </h1>
@@ -39,6 +40,7 @@ const ProfileInfo = () => {
                     Edit Profile
                     <LiaUserEditSolid className="text-2xl " />
                 </button>
+                <LogoutButton />
             </div>
             <h1 className='font-semibold mb-4'>
                 <span className='font-bold text-2xl m-1'>@</span>

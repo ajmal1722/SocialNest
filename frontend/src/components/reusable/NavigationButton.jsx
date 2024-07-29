@@ -3,7 +3,7 @@ import { useState } from "react"
 const NavigationButton = ({ navOptions, activeLink, setActiveLink }) => {
 
     return (
-        <div className="flex justify-center my-3 gap-2">
+        <div className="flex justify-center my-5 gap-2">
             {navOptions.map(option => (
                 <button
                     key={option}
