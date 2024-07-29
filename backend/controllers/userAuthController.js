@@ -211,7 +211,7 @@ const userLogout = async (req, res) => {
 const generateOtp = async (req, res) => {
     try {
         const { email } = req.body;
-        console.log('mail:', email);
+        console.log('mail:', req.body);
 
         const user = await Users.findOne({ email });
         

@@ -2,7 +2,6 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { useState } from 'react';
 import { GoMail } from "react-icons/go";
 import CustomInput from "../components/reusable/Input";
-import CreateNewPassword from '../components/forgotPassowrd/CreateNewPassword';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { Link } from 'react-router-dom';
 import OtpInput from '../components/reusable/OtpInput';
@@ -11,8 +10,8 @@ import { ToastContainer } from 'react-toastify';
 
 const ForgotPasswordPage = () => {
     const [showOtpInput, setShowOtpInput] = useState(false);
-    const [email, setEmail] = useState('')
-    const [otp, setOtp] = useState('')
+    const [email, setEmail] = useState('');
+    const [otp, setOtp] = useState('');
 
     const methods = useForm({
         defaultValues: {
@@ -23,8 +22,7 @@ const ForgotPasswordPage = () => {
     const { handleSubmit } = methods;
 
     const handleForgotPassword = async (data) => {
-        // setShowOtpInput(prevState => !prevState)
-        // console.log('Forgot Password Data:', data);
+        console.log('data from:', data);
         setEmail(data.email)
         const otp = await generateOtp(data, setShowOtpInput)
         setOtp(otp);
@@ -44,7 +42,7 @@ const ForgotPasswordPage = () => {
                 </div>
                 {
                     showOtpInput ?
-                        <OtpInput email={email} otp={otp} showOtpInput={showOtpInput} setShowOtpInput={setShowOtpInput} /> : (
+                        <OtpInput email={email} initialOtp={otp} showOtpInput={showOtpInput} setShowOtpInput={setShowOtpInput} /> : (
                             <FormProvider {...methods}>
                                 <form onSubmit={handleSubmit((data) => handleForgotPassword(data, setShowOtpInput))} >
                                     <CustomInput

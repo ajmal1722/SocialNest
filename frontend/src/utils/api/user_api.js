@@ -48,7 +48,7 @@ export const generateOtp = async (data, setShowOtpInput) => {
     try {
         const response = await userInstance.post('/generate-otp', data)
         if (response) {
-            setShowOtpInput(prevState => !prevState)
+            setShowOtpInput(true)
             return response.data.otp;
         }
     } catch (error) {
