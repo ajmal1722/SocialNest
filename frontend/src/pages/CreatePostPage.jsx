@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm, FormProvider } from 'react-hook-form';
 import { ToastContainer } from "react-toastify";
+import NavigationButton from '../components/reusable/NavigationButton'
 import TextInput from "../components/reusable/TextInput";
 import SubmitButton from "../components/reusable/SubmitButton";
 import ImageInput from "../components/reusable/ImageInput";
@@ -40,12 +41,11 @@ const CreatePostPage = () => {
             <h1 className='text-2xl font-semibold my-6'>
                 Create Post
             </h1>
-            <button onClick={() => setContentType('Blog')}>
-                Text
-            </button>
-            <button onClick={() => setContentType('Image')} className="mx-3">
-                Images & Video
-            </button>
+            <NavigationButton 
+                navOptions={['Blog', 'Image']}
+                activeLink={contentType}
+                setActiveLink={setContentType}
+            />
             <ToastContainer />
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(submitTextPost)}>
