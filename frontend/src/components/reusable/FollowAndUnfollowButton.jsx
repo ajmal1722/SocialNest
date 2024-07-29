@@ -11,8 +11,9 @@ const FollowAndUnfollowButton = ({ data }) => {
 
     useEffect(() => {
         // Check if the user is already followed and set the state accordingly
+        console.log('use effect works...');
         setShowUnfollowButton(following.includes(data._id));
-    }, []);
+    }, [data._id, following]);
 
     const followUser = async (id) => {
         const response = await followUserApi(id)

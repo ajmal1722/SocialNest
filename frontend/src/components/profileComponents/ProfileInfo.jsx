@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { LiaUserEditSolid } from "react-icons/lia";
 import { fetchFollowers, fetchFollowing } from "../../utils/api/follow_api";
 import ContentDisplayingModal from "../reusable/ContentDisplayingModal";
 
@@ -32,10 +33,11 @@ const ProfileInfo = () => {
         <div>
             <div className='flex my-4'>
                 <h1 className='text-2xl font-semibold'>
-                    { userInfo.name }
+                    { userInfo.name } 
                 </h1>
-                <button className='px-4'>
+                <button className='text-lg px-6 py-1 ml-8 rounded-lg bg-ternary-dark dark:bg-secondary-dark text-white flex items-center gap-2'>
                     Edit Profile
+                    <LiaUserEditSolid className="text-2xl " />
                 </button>
             </div>
             <h1 className='font-semibold mb-4'>
