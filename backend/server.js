@@ -5,7 +5,7 @@ import connectDB from './database/connection.js';
 import userAuthRouter from './routes/userAuthRouter.js';
 import postRouter from './routes/postRouter.js';
 import followRouter from './routes/followRouter.js'
-import bodyParser from 'body-parser';
+import { specs, swaggerUi } from './utils/swagger.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
 
@@ -19,6 +19,9 @@ const corsOptions = {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
 }
+
+// Swagger setup
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // Middleware
 app.use(express.json()); // Parse JSON bodies
