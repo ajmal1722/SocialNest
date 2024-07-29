@@ -8,12 +8,13 @@ import { getPosts } from "../utils/api/post_api";
 import ProfileImage from "../components/profileComponents/ProfileImage";
 import ProfileInfo from "../components/profileComponents/ProfileInfo";
 import PostListingLinks from "../components/profileComponents/PostListingLinks";
+import NavigationButton from "../components/reusable/NavigationButton";
 import LogoutButton from "../components/authentication/LogoutButton";
 import ProfilePostListing from "../components/profileComponents/ProfilePostListing";
 
 const ProfilePage = () => {
     const [activeLink, setActiveLink] = useState('Posts');
-    const posts = useSelector((state) => state.posts)
+    const posts = useSelector((state) => state.posts);
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -34,9 +35,9 @@ const ProfilePage = () => {
     }, [])
 
     const filterPost = () => {
-        if (activeLink === 'Blog') {
+        if (activeLink === 'Blogs') {
             return posts.filter(post => post.content_type === 'Blog')
-        } else if (activeLink === 'Media') {
+        } else if (activeLink === 'Medias') {
             return posts.filter(post => post.content_type === 'Image')
         }
         return posts
@@ -50,7 +51,11 @@ const ProfilePage = () => {
                 <ProfileInfo />
             </div>
             <LogoutButton navigate={navigate} />
-            <PostListingLinks setActiveLink={setActiveLink} />
+            <NavigationButton
+                navOptions={['Posts', 'Blogs', 'Medias']}
+                activeLink={activeLink}
+                setActiveLink={setActiveLink}
+            />
             <hr className="my-5 dark:border-gray-500" />
             <ProfilePostListing posts={filterPost()} />
         </div>
