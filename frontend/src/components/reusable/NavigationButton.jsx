@@ -8,7 +8,7 @@ const NavigationButton = ({ navOptions, activeLink, setActiveLink }) => {
                 <button
                     key={option}
                     onClick={() => setActiveLink(option)}
-                    className={`px-4 py-1 mx-4 rounded-2xl border ${option === activeLink ? 'bg-ternary-dark dark:bg-secondary-dark text-primary-light scale-110' : 'font-semibold'}`}
+                    className={`px-5 py-1 mx-4 rounded-2xl border ${option === activeLink ? 'bg-ternary-dark dark:bg-secondary-dark text-primary-light scale-110' : 'font-semibold'}`}
                 >
                     {option}
                 </button>

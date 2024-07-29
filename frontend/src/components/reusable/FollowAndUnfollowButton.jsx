@@ -28,7 +28,7 @@ const FollowAndUnfollowButton = ({ data }) => {
     }
     
     return (
-        <div>
+        <div className="flex">
             {
                 showUnfollowButton ? (
                     <button onClick={() => unFollowUser(data._id)} className='mr-4 text-base font-semibold hover:text-blue-500 text-primary-dark dark:text-primary-light'>

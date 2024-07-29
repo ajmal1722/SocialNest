@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import { SlOptions } from "react-icons/sl";
 import { FaRegHeart, FaRegComment } from "react-icons/fa";
 import { BsSave2Fill } from "react-icons/bs";
+import DateFormatter from "./DateFormatter";
 import ProfilePostOptions from "../profileComponents/ProfilePostOptions";
 import { deletePost } from "../../utils/api/post_api";
-import DateFormatter from "./DateFormatter";
 
 const SinglePost = ({ post }) => {
     const [showOptions, setShowOptions] = useState(false);

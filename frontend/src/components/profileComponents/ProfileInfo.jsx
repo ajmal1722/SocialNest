@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { LiaUserEditSolid } from "react-icons/lia";
 import { fetchFollowers, fetchFollowing } from "../../utils/api/follow_api";
+import DateFormatter from "../reusable/DateFormatter";
 import ContentDisplayingModal from "../reusable/ContentDisplayingModal";
 import LogoutButton from "../authentication/LogoutButton";
 
@@ -72,9 +73,10 @@ const ProfileInfo = () => {
                     </h1>
                 </div>
             </div>
-            <h1>
-                Member since July 2023
-            </h1>
+            <div className="flex items-center gap-1">
+                Member since
+                <DateFormatter date={userInfo.createdAt} />
+            </div>
 
             <ContentDisplayingModal
                 isVisible={isModalVisible}
