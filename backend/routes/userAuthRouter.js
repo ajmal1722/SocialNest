@@ -7,7 +7,8 @@ import {
     protectedRoute,
     userLogout,
     generateOtp,
-    changePassword
+    changePassword,
+    singleUserDetails
 } from '../controllers/userAuthController.js';
 
 router.post('/signup', userSignup);
@@ -26,5 +27,7 @@ router.use(verifyAccessToken);
 
 // Protected Routes
 router.get('/is-protected', protectedRoute);
+
+router.get('/:id/', singleUserDetails);
 
 export default router;

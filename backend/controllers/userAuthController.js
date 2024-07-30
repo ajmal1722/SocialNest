@@ -299,7 +299,7 @@ const singleUserDetails = async (req, res) => {
     try {
         const id = req.params.id;
 
-        const userDetails = await Users.findById(id);
+        const userDetails = await Users.findById(id).select('-password -refreshToken');
 
         if (!userDetails) {
             return res.status(404).json({ error: 'User not found' });
