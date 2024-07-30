@@ -295,6 +295,23 @@ const changePassword = async (req, res) => {
     }
 }
 
+const singleUserDetails = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        const userDetails = await Users.findById(id);
+
+        if (!userDetails) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.status(200).json({ user: userDetails });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: error.message });
+    }
+}
+
 export {
     userSignup, 
     userLogin, 
@@ -302,4 +319,5 @@ export {
     userLogout,
     generateOtp,
     changePassword,
+    singleUserDetails,
 };
