@@ -47,6 +47,7 @@ export const fetchPosts = async (req, res) => {
             {
                 $match: {
                     author_id: new mongoose.Types.ObjectId(userId), // Convert to ObjectId
+                    isDeleted: false,
                 },
             },
             {
@@ -72,11 +73,14 @@ export const deletePost = async (req, res) => {
             return res.status(400).json({ error: 'Post not found' });
         }
 
-        const deletedPost = await Post.findByIdAndDelete(postId);
+        const post = await Post.findById(postId);
 
-        if (!deletedPost) {
-            return res.status(404).json({ message: 'Post not found' });
+        if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
         }
+
+        post.isDeleted = true;
+        const deletedPost = await post.save();
 
         res.status(200).json({ message: 'Post deleted successfully', deletedPost });
     } catch (error) {

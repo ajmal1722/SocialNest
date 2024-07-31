@@ -32,6 +32,14 @@ const postSchema = new Schema({
         required: true,
         ref: 'User', // Reference to User model
     },
+    isDeleted: {
+        type: Boolean,
+        default: false,
+    },
+    isArchived: {
+        type: Boolean,
+        default: false,
+    },
     likes: [{
         type: Schema.Types.ObjectId,
         ref: 'User', // Reference to User model
