@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { SlOptions } from "react-icons/sl";
 import { FaRegHeart, FaRegComment } from "react-icons/fa";
 import { BsSave2Fill } from "react-icons/bs";
 import DateFormatter from "./DateFormatter";
+import { delete_post } from "../../redux/slices/postSlice";
 import ProfilePostOptions from "../profileComponents/ProfilePostOptions";
 import { deletePost } from "../../utils/api/post_api";
 
@@ -11,10 +12,12 @@ const SinglePost = ({ post }) => {
     const [showOptions, setShowOptions] = useState(false);
     const userInfo = useSelector(state => state.auth.userInfo)
 
+    const dispatch = useDispatch();
+
     const handleDelete = async () => {
         try {
             const response = await deletePost(post._id);
-            console.log('Post deleted successfully!', response);
+            dispatch(delete_post(post._id));
             setShowOptions(false); // Close options after deletion
         } catch (error) {
             // Handle error, e.g., show error message

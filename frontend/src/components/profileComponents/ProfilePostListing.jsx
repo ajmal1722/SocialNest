@@ -5,7 +5,7 @@ const ProfilePostListing = ({ posts, setShowOptions }) => {
         <div className="  " >
             {
                 posts.map(post => (
-                    <SinglePost key={post._id} post={post} setShowOptions={setShowOptions} />
+                    <SinglePost key={post._id} post={post} setShowOptions={setShowOptions} posts={posts} />
                 ))
             }
         </div>
