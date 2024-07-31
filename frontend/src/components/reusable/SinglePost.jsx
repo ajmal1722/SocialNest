@@ -1,22 +1,23 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { SlOptions } from "react-icons/sl";
-import { FaRegHeart, FaRegComment } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaRegComment } from "react-icons/fa";
 import { BsSave2, BsSave2Fill } from "react-icons/bs";
 import DateFormatter from "./DateFormatter";
-import { delete_post } from "../../redux/slices/postSlice";
+import { delete_post, like_post } from "../../redux/slices/postSlice";
 import ProfilePostOptions from "../profileComponents/ProfilePostOptions";
-import { deletePost, archivePostApi } from "../../utils/api/post_api";
+import { deletePost, archivePostApi, likePostApi } from "../../utils/api/post_api";
 
 const SinglePost = ({ post }) => {
     const [showOptions, setShowOptions] = useState(false);
     const userInfo = useSelector(state => state.auth.userInfo)
+    const [liked, setLiked] = useState(post.likes.includes(userInfo._id));
 
     const dispatch = useDispatch();
 
     const handleDelete = async () => {
         try {
-            const response = await deletePost(post._id);
+            await deletePost(post._id);
             dispatch(delete_post(post._id));
             setShowOptions(false); // Close options after deletion
         } catch (error) {
@@ -29,6 +30,16 @@ const SinglePost = ({ post }) => {
             await archivePostApi(post._id)
         } catch (error) {
             console.error('Failed to archive post:', error);
+        }
+    }
+
+    const handleLike = async () => {
+        try {
+            const response = await likePostApi(post._id);
+            dispatch(like_post({ postId: post._id, userId: userInfo._id }))
+            setLiked(true)
+        } catch (error) {
+            console.error('Failed to like post:', error);
         }
     }
 
@@ -61,7 +72,7 @@ const SinglePost = ({ post }) => {
                 </p>
             )}
             <div className='flex justify-between px-3 text-2xl mt-4'>
-                <FaRegHeart />
+            {liked ? <FaHeart onClick={handleLike} /> : <FaRegHeart onClick={handleLike} />}
                 <FaRegComment />
                 <BsSave2 />
             </div>
