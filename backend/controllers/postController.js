@@ -113,3 +113,30 @@ export const archivePost = async (req, res) => {
         res.status(500).json({ status: 'Failed', error: error.message });
     }
 };
+
+export const likePost = async (req, res) => {
+    try {
+        const postId = req.params.id;
+        const userId = req.user;
+
+        const post = Post.findById(postId);
+        if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+
+        // Check if the user has already liked the post
+        if (post.likes.includes(userId)) {
+            return res.status(400).json({ error: 'You have already liked this post' });
+        }
+
+        // Add the user ID to the likes array
+        post.likes.push(userId);
+        await post.save();
+
+        res.status(200).json({ message: 'Post liked successfully', post });
+
+    } catch (error) {
+        console.log('Error message:', error);
+        res.status(500).json({ status: 'Failed', error: error.message });
+    }
+}

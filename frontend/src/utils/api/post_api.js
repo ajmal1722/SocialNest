@@ -62,3 +62,13 @@ export const archivePostApi = async (id) => {
         console.log(error.response);
     }
 }
+
+export const likePostApi = async (postId) => {
+    try {
+        const response = await postInstance.post(`/like/${postId}`)
+        console.log(response);
+    } catch (error) {
+        console.error('Failed to like post:', error);
+        throw error;
+    }
+}

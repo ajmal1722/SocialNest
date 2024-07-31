@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { SlOptions } from "react-icons/sl";
 import { FaRegHeart, FaRegComment } from "react-icons/fa";
-import { BsSave2Fill } from "react-icons/bs";
+import { BsSave2, BsSave2Fill } from "react-icons/bs";
 import DateFormatter from "./DateFormatter";
 import { delete_post } from "../../redux/slices/postSlice";
 import ProfilePostOptions from "../profileComponents/ProfilePostOptions";
@@ -63,7 +63,7 @@ const SinglePost = ({ post }) => {
             <div className='flex justify-between px-3 text-2xl mt-4'>
                 <FaRegHeart />
                 <FaRegComment />
-                <BsSave2Fill />
+                <BsSave2 />
             </div>
             {showOptions && (
                 <ProfilePostOptions

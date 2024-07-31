@@ -7,6 +7,7 @@ import {
     fetchPosts,
     deletePost,
     archivePost,
+    likePost,
 } from '../controllers/postController.js'
 
 // authorization will be applied all the routes below this line
@@ -16,5 +17,6 @@ router.post('/create',upload.single('image'), createPost)
 router.get('/get-posts', fetchPosts)
 router.delete('/delete-post/:id', deletePost)
 router.post('/archive-post/:id', archivePost);
+router.post('/like/:id', likePost);
 
 export default router;
