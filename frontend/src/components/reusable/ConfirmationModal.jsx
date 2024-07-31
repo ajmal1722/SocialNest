@@ -1,12 +1,15 @@
 import { Modal } from "antd";
 import { FaCircleExclamation } from "react-icons/fa6";
 
-const DeleteModal = ({ showModal, setShowModal, setShowOptions, postId, handleDelete }) => {
+const DeleteModal = ({ showModal, setShowModal, setShowOptions, postId, handleDelete, handleArchive, action }) => {
     const handleOk = () => {
-        handleDelete(postId)
-        console.log("Deleting post...");
+        if (action === 'delete') {
+            handleDelete(postId);
+        } else if (action === 'archive') {
+            handleArchive(postId);
+        }
         setShowModal(false);
-        setShowOptions(false)
+        setShowOptions(false);
     };
 
     const handleCancel = () => {
@@ -15,16 +18,16 @@ const DeleteModal = ({ showModal, setShowModal, setShowOptions, postId, handleDe
 
     return (
         <Modal
-            title="Confirm Deletion"
+        title={`Confirm ${action.charAt(0).toUpperCase() + action.slice(1)}`}
             open={showModal}
             onOk={handleOk}
             onCancel={handleCancel}
-            okText="Yes, I'm sure"
+            okText={`Yes, ${action}`}
             cancelText="No, cancel"
             okType="danger"
             icon={<FaCircleExclamation />}
         >
-            <p>Are you sure you want to delete this post?</p>
+            <p>Are you sure you want to {action} this post?</p>
         </Modal>
     );
 };

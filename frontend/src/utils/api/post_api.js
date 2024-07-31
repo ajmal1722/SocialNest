@@ -53,3 +53,12 @@ export const deletePost = async (id) => {
         console.log(error.response)
     }
 }
+
+export const archivePostApi = async (id) => {
+    try {
+        const response = await postInstance.post(`/archive-post/${id}`)
+        toast.success(response.data.message);
+    } catch (error) {
+        console.log(error.response);
+    }
+}

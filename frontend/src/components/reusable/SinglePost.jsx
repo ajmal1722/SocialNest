@@ -6,7 +6,7 @@ import { BsSave2Fill } from "react-icons/bs";
 import DateFormatter from "./DateFormatter";
 import { delete_post } from "../../redux/slices/postSlice";
 import ProfilePostOptions from "../profileComponents/ProfilePostOptions";
-import { deletePost } from "../../utils/api/post_api";
+import { deletePost, archivePostApi } from "../../utils/api/post_api";
 
 const SinglePost = ({ post }) => {
     const [showOptions, setShowOptions] = useState(false);
@@ -23,6 +23,14 @@ const SinglePost = ({ post }) => {
             console.error('Failed to delete post:', error);
         }
     };
+
+    const handleArchive = async () => {
+        try {
+            await archivePostApi(post._id)
+        } catch (error) {
+            console.error('Failed to archive post:', error);
+        }
+    }
 
     return (
         <div className='mx-auto border dark:border-gray-500 max-w-lg my-2 p-3 rounded-lg text-primary-dark dark:text-primary-light'>
@@ -62,6 +70,7 @@ const SinglePost = ({ post }) => {
                     setShowOptions={setShowOptions}
                     postId={post._id}
                     handleDelete={handleDelete}
+                    handleArchive={handleArchive}
                 />
             )}
         </div>
