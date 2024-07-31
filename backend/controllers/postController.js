@@ -88,3 +88,28 @@ export const deletePost = async (req, res) => {
         res.status(500).json({ status: 'Failed', error: error.message });
     }
 };
+
+export const archivePost = async (req, res) => {
+    try {
+        const postId = req.params.id;
+        console.log('postId:', postId);
+
+        if (!postId) {
+            return res.status(400).json({ error: 'Post not found' });
+        }
+
+        const post = await Post.findById(postId);
+
+        if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+
+        post.isArchived = true;
+        const archivedPost = await post.save();
+
+        res.status(200).json({ message: 'Post archived successfully', archivedPost });
+    } catch (error) {
+        console.log('Error message:', error);
+        res.status(500).json({ status: 'Failed', error: error.message });
+    }
+};

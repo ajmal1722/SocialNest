@@ -13,6 +13,9 @@ const ProfilePostOptions = ({ setShowOptions, postId, handleDelete }) => {
                 <button className='border-b dark:border-gray-500 py-3 w-full'>
                     Edit
                 </button>
+                <button className='border-b dark:border-gray-500 py-3 w-full'>
+                    Archive
+                </button>
                 <button onClick={() => setShowOptions(false)} className=' font-semibold py-2 w-full'>
                     Cancel
                 </button>

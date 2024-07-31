@@ -20,7 +20,6 @@ const SinglePost = ({ post }) => {
             dispatch(delete_post(post._id));
             setShowOptions(false); // Close options after deletion
         } catch (error) {
-            // Handle error, e.g., show error message
             console.error('Failed to delete post:', error);
         }
     };
