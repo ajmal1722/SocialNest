@@ -11,7 +11,8 @@ import { deletePost, archivePostApi, likeOrUnlikePostApi } from "../../utils/api
 const SinglePost = ({ post }) => {
     const [showOptions, setShowOptions] = useState(false);
     const userInfo = useSelector(state => state.auth.userInfo);
-    const isLiked = useSelector(state => state.posts.find(item => item._id === post._id).likes.includes(userInfo._id));
+    const likes = useSelector(state => state.posts.find(item => item._id === post._id).likes);
+    const isLiked = likes.includes(userInfo._id)
     console.log('isLiked:', isLiked);
 
     const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const SinglePost = ({ post }) => {
     const handleLike = async () => {
         try {
             const response = await likeOrUnlikePostApi(post._id);
-            if (response.message === 'Post liked successfully'){
+            if (response.message === 'Post liked successfully') {
                 dispatch(like_post({ postId: post._id, userId: userInfo._id }))
             } else if (response.message === 'Post unliked successfully') {
                 dispatch(unLike_post({ postId: post._id, userId: userInfo._id }))
@@ -56,7 +57,7 @@ const SinglePost = ({ post }) => {
                         className='rounded-full max-w-8'
                     />
                     <h1 className='text-lg'>
-                        { userInfo.username }
+                        {userInfo.username}
                     </h1>
                     <DateFormatter date={post.createdAt} />
                 </div>
@@ -76,9 +77,16 @@ const SinglePost = ({ post }) => {
                 </p>
             )}
             <div className='flex justify-between px-3 text-2xl mt-4'>
-            {isLiked ? <FaHeart onClick={handleLike} /> : <FaRegHeart onClick={handleLike} />}
-                <FaRegComment />
-                <BsSave2 />
+                <div className="cursor-pointer">
+                    {isLiked ?
+                        <FaHeart className='text-secondary-light' onClick={handleLike} /> :
+                        <FaRegHeart className='hover:scale-110' onClick={handleLike} />}
+                    <h1 className='text-sm text-center font-semibold my-1'>
+                        {likes.length <= 1 ? `${likes.length} like` : `${likes.length} likes`}
+                    </h1>
+                </div>
+                <FaRegComment className='cursor-pointer' />
+                <BsSave2 className='cursor-pointer' />
             </div>
             {showOptions && (
                 <ProfilePostOptions
