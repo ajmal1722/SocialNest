@@ -4,14 +4,15 @@ import { SlOptions } from "react-icons/sl";
 import { FaHeart, FaRegHeart, FaRegComment } from "react-icons/fa";
 import { BsSave2, BsSave2Fill } from "react-icons/bs";
 import DateFormatter from "./DateFormatter";
-import { delete_post, like_post } from "../../redux/slices/postSlice";
+import { delete_post, like_post, unLike_post } from "../../redux/slices/postSlice";
 import ProfilePostOptions from "../profileComponents/ProfilePostOptions";
-import { deletePost, archivePostApi, likePostApi } from "../../utils/api/post_api";
+import { deletePost, archivePostApi, likeOrUnlikePostApi } from "../../utils/api/post_api";
 
 const SinglePost = ({ post }) => {
     const [showOptions, setShowOptions] = useState(false);
-    const userInfo = useSelector(state => state.auth.userInfo)
-    const [liked, setLiked] = useState(post.likes.includes(userInfo._id));
+    const userInfo = useSelector(state => state.auth.userInfo);
+    const isLiked = useSelector(state => state.posts.find(item => item._id === post._id).likes.includes(userInfo._id));
+    console.log('isLiked:', isLiked);
 
     const dispatch = useDispatch();
 
@@ -35,9 +36,12 @@ const SinglePost = ({ post }) => {
 
     const handleLike = async () => {
         try {
-            const response = await likePostApi(post._id);
-            dispatch(like_post({ postId: post._id, userId: userInfo._id }))
-            setLiked(true)
+            const response = await likeOrUnlikePostApi(post._id);
+            if (response.message === 'Post liked successfully'){
+                dispatch(like_post({ postId: post._id, userId: userInfo._id }))
+            } else if (response.message === 'Post unliked successfully') {
+                dispatch(unLike_post({ postId: post._id, userId: userInfo._id }))
+            }
         } catch (error) {
             console.error('Failed to like post:', error);
         }
@@ -72,7 +76,7 @@ const SinglePost = ({ post }) => {
                 </p>
             )}
             <div className='flex justify-between px-3 text-2xl mt-4'>
-            {liked ? <FaHeart onClick={handleLike} /> : <FaRegHeart onClick={handleLike} />}
+            {isLiked ? <FaHeart onClick={handleLike} /> : <FaRegHeart onClick={handleLike} />}
                 <FaRegComment />
                 <BsSave2 />
             </div>
