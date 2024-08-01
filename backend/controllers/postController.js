@@ -1,5 +1,6 @@
 import { Post, ImagePost, BlogPost } from '../models/postSchema.js';
-import Users from '../models/userSchema.js'
+import Users from '../models/userSchema.js';
+import SavedPost from '../models/savedPostSchema.js';
 import mongoose from 'mongoose';
 import cloudinary from '../utils/cloudinary.js';
 
@@ -138,6 +139,36 @@ export const likeOrUnlikePost = async (req, res) => {
             await post.save();
             return res.status(200).json({ message: 'Post liked successfully', post });
         }
+    } catch (error) {
+        console.log('Error message:', error);
+        res.status(500).json({ status: 'Failed', error: error.message });
+    }
+}
+
+
+// Save Post
+
+export const savePost = async (req, res) => {
+    try {
+        const userId = req.user;
+        const { postId, collectionName } = req.body;
+
+        // Check if the postId is provided
+        if (!postId) {
+            return res.status(400).json({ status: 'Failed', error: 'Post ID is required.' });
+        }
+
+        // Create a new saved post
+        const newSavedPost = new SavedPost({
+            user: userId,
+            post: postId,
+            collectionName: collectionName || 'Saved Items',
+        });
+
+        // Save the new saved post to the database
+        const savedPost = await newSavedPost.save();
+
+        res.status(201).json({ status: 'Success', data: savedPost });
     } catch (error) {
         console.log('Error message:', error);
         res.status(500).json({ status: 'Failed', error: error.message });

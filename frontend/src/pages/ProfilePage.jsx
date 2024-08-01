@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from "react-toastify";
 import { set_posts } from "../redux/slices/postSlice";
@@ -10,24 +11,25 @@ import NavigationButton from "../components/reusable/NavigationButton";
 import ProfilePostListing from "../components/profileComponents/ProfilePostListing";
 
 const ProfilePage = () => {
+    const { id } = useParams();
     const [activeLink, setActiveLink] = useState('Posts');
     const posts = useSelector((state) => state.posts);
 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        const fetchPosts = async () => {
+        const fetchUserData = async () => {
             try {
+                
                 const result = await getPosts();
-                // console.log('results:', result);
+                console.log('results:', result);
                 dispatch(set_posts(result.posts));
                 dispatch(set_credentials(result.user));
-                // console.log('post from redux:', postFromRedux);
             } catch (error) {
                 console.log('Error fetching posts,', error);
             }
         }
-        fetchPosts()
+        fetchUserData()
     }, [])
 
     const filterPost = () => {
