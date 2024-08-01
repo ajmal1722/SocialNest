@@ -116,6 +116,31 @@ export const archivePost = async (req, res) => {
     }
 };
 
+export const fetchArchivedPosts = async (req, res) => {
+    try {
+        const userId = req.user;
+
+        const posts = await Post.aggregate([
+            {
+                $match: {
+                    author_id: new mongoose.Types.ObjectId(userId), // Convert to ObjectId
+                    isArchived: true,
+                },
+            },
+            {
+                $sort: {
+                    createdAt: -1, // Sort posts by creation date, latest first
+                },
+            },
+        ]);
+
+        res.status(200).json({ archivePosts: posts });
+    } catch (error) {
+        console.log('Error message:', error);
+        res.status(500).json({ status: 'Failed', error: error.message });
+    }
+};
+
 export const likeOrUnlikePost = async (req, res) => {
     try {
         const postId = req.params.id;
