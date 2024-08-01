@@ -44,7 +44,7 @@ const ProfilePage = () => {
     return (
         <div className='min-h-[90vh] md:col-span-8 col-span-10 px-4 lg:px-8 mt-4 mb-16 md:mb-1'>
             <ToastContainer />
-            <div className='md:flex gap-20 mx-10'>
+            <div className='md:flex gap-20 md:mx-10 sm:mx-5 mx-2 '>
                 <ProfileImage />
                 <ProfileInfo />
             </div>

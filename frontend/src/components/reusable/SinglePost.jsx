@@ -30,6 +30,8 @@ const SinglePost = ({ post }) => {
     const handleArchive = async () => {
         try {
             await archivePostApi(post._id)
+            dispatch(delete_post(post._id)); // Using delete reducer for archive, because they use same logic as delete in redux
+            setShowOptions(false);
         } catch (error) {
             console.error('Failed to archive post:', error);
         }

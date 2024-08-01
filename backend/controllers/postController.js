@@ -49,6 +49,7 @@ export const fetchPosts = async (req, res) => {
                 $match: {
                     author_id: new mongoose.Types.ObjectId(userId), // Convert to ObjectId
                     isDeleted: false,
+                    isArchived: false,
                 },
             },
             {

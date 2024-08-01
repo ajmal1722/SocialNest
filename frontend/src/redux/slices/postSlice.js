@@ -23,7 +23,7 @@ const postSlice = createSlice({
             if (post) {
                 post.likes = post.likes.filter(id => id !== userId);
             }
-        }
+        },
     }
 })
 

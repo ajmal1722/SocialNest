@@ -33,8 +33,8 @@ const ProfileInfo = () => {
     console.log('date:', userInfo);
 
     return (
-        <div>
-            <div className='flex my-4 gap-2'>
+        <div >
+            <div className='flex my-4 gap-2 '>
                 <h1 className='text-2xl font-semibold'>
                     {userInfo.name}
                 </h1>
