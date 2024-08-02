@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { SlOptions } from "react-icons/sl";
-import { FaHeart, FaRegHeart, FaRegComment } from "react-icons/fa";
 import { BsSave2, BsSave2Fill } from "react-icons/bs";
 import DateFormatter from "./DateFormatter";
-import { delete_post, like_post, unLike_post } from "../../redux/slices/postSlice";
+import { delete_post } from "../../redux/slices/postSlice";
 import Likes from "../posts/Likes";
 import Comments from "../posts/Comments";
 import ProfilePostOptions from "../profileComponents/ProfilePostOptions";
-import { deletePost, archivePostApi, likeOrUnlikePostApi } from "../../utils/api/post_api";
+import { deletePost, archivePostApi } from "../../utils/api/post_api";
 
 const SinglePost = ({ post }) => {
     const [showOptions, setShowOptions] = useState(false);

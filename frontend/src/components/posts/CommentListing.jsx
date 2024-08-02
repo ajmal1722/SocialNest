@@ -8,10 +8,10 @@ import SubmitButton from "../reusable/SubmitButton";
 
 const CommentListing = () => {
 
-    const commentContent = ['sample content', 'sample comment content 1..', 'something here'];
+    const commentContent = ['sample content', 'sample comment content 1..', 'something here', 'lasdkfjlaksjfalksdfjal', 'samplelskjdlkfjs teldjlskjf'];
 
     return (
-        <div className='border p-'>
+        <div className='border dark:border-gray-500 text-primary-dark dark:text-primary-light'>
             {
                 commentContent.map((item, index) => (
                     <SingleComment key={index} comments={item} />

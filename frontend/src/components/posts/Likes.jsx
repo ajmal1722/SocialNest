@@ -28,8 +28,8 @@ const Likes = ({ post }) => {
             {isLiked ?
                 <FaHeart className='text-secondary-light' onClick={handleLike} /> :
                 <FaRegHeart className='hover:scale-110' onClick={handleLike} />}
-            <h1 className='text-sm text-center font-semibold my-1'>
-                {likes.length <= 1 ? `${likes.length} like` : `${likes.length} likes`}
+            <h1 className="text-sm text-center font-semibold my-1">
+                {likes.length === 1 ? "1 like" : `${likes.length} likes`}
             </h1>
         </div>
     )
