@@ -1,5 +1,6 @@
-import sidebarData from "../../data/sidebarData";
 import { NavLink } from "react-router-dom";
+import LogoutButton from "../authentication/LogoutButton";
+import sidebarData from "../../data/sidebarData";
 
 const SideBar = () => {
     const linkClass = ({ isActive }) => (
@@ -7,7 +8,7 @@ const SideBar = () => {
         : 'flex items-center gap-4 p-2 my-2 hover:bg-gray-300 dark:hover:bg-secondary-dark lg:px-12 md:px-8 '
     )
     return (
-        <div className='sidebar lg:col-span-2 hidden md:block border-r dark:border-gray-500'>
+        <div className='sidebar sticky top-20 lg:col-span-2 hidden md:block border-r dark:border-gray-500'>
             <div className='h-full py-8 text-xl text-ternary-dark dark:text-primary-light'>
                 {
                     sidebarData.map((item, index) => {
@@ -21,6 +22,7 @@ const SideBar = () => {
                         );
                     })
                 }
+                
             </div>
         </div>
     );
