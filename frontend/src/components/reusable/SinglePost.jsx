@@ -5,6 +5,7 @@ import { FaHeart, FaRegHeart, FaRegComment } from "react-icons/fa";
 import { BsSave2, BsSave2Fill } from "react-icons/bs";
 import DateFormatter from "./DateFormatter";
 import { delete_post, like_post, unLike_post } from "../../redux/slices/postSlice";
+import Comments from "../posts/Comments";
 import ProfilePostOptions from "../profileComponents/ProfilePostOptions";
 import { deletePost, archivePostApi, likeOrUnlikePostApi } from "../../utils/api/post_api";
 
@@ -87,7 +88,7 @@ const SinglePost = ({ post }) => {
                         {likes.length <= 1 ? `${likes.length} like` : `${likes.length} likes`}
                     </h1>
                 </div>
-                <FaRegComment className='cursor-pointer' />
+                <Comments />
                 <BsSave2 className='cursor-pointer' />
             </div>
             {showOptions && (
