@@ -176,8 +176,24 @@ export const addComment = async (req, res) => {
         const userId = req.user;
         const { comment, postId } = req.body;
 
-        console.log('data:', comment, postId);
+        const post = await Post.findById(postId);
+
+        if (!post) {
+            return res.status(404).json({ status: 'Failed', error: 'Post not found' });
+        }
+
+        const newComment = {
+            user_id: userId,
+            author_id: post.author_id,
+            content: comment,
+        }
+
+        post.comments.push(newComment);
+
+        await post.save();
         
+        console.log('Comment added successfully');
+        res.status(200).json({ status: 'Success', message: 'Comment added successfully' });
     } catch (error) {
         console.log('Error message:', error);
         res.status(500).json({ status: 'Failed', error: error.message });
