@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { Input } from 'antd';
+import { addCommentApi } from '../../utils/api/post_api';
 import EmojiSelector from '../reusable/EmojiSelector';
 
-const CommentForm = () => {
+const CommentForm = ({ post }) => {
     const [comment, setComment] = useState('');
 
     const handleChange = (event) => {
         setComment(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        alert(comment);
+        addCommentApi({comment, postId: post._id});
         setComment('');
     };
 

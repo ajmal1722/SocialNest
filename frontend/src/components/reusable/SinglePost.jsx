@@ -65,7 +65,7 @@ const SinglePost = ({ post }) => {
             )}
             <div className='flex justify-between px-3 text-2xl mt-4'>
                 <Likes post={post} />
-                <Comments />
+                <Comments post={post} />
                 <BsSave2 className='cursor-pointer' />
             </div>
             {showOptions && (

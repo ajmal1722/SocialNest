@@ -171,6 +171,18 @@ export const likeOrUnlikePost = async (req, res) => {
     }
 }
 
+export const addComment = async (req, res) => {
+    try {
+        const userId = req.user;
+        const { comment, postId } = req.body;
+
+        console.log('data:', comment, postId);
+        
+    } catch (error) {
+        console.log('Error message:', error);
+        res.status(500).json({ status: 'Failed', error: error.message });
+    }
+}
 
 // Save Post
 
