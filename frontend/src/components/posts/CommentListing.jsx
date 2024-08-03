@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input } from "antd";
 import SingleComment from "./SingleComment";
-import SubmitButton from '../reusable/SubmitButton'
+import CommentForm from "./CommentForm";
 
 const CommentListing = () => {
     const commentContent = [
@@ -20,12 +20,7 @@ const CommentListing = () => {
                 ))}
             </div>
             <div className="sticky bottom-0 left-0 right-0 border-t bg-white dark:bg-primary-dark p-2">
-                <form action="" className="flex items-center">
-                    <Input className="flex-grow" placeholder="Add a comment..." />
-                    <button type="submit" className="ml-2 bg-blue-500 text-white px-4 py-1 rounded">
-                        Post
-                    </button>
-                </form>
+                <CommentForm name={'comment'} />
             </div>
         </div>
     );
