@@ -15,6 +15,8 @@ const CommentForm = () => {
         setComment('');
     };
 
+    const isButtonDisabled = comment.trim().length === 0;
+
     const addEmoji = (emoji) => {
         setComment((prevComment) => prevComment + emoji.native);
     };
@@ -30,7 +32,11 @@ const CommentForm = () => {
                     value={comment}
                     onChange={handleChange}
                 />
-                <button type="submit" className="ml-2 bg-blue-500 text-white px-4 py-1 rounded">
+                <button
+                    type="submit"
+                    disabled={isButtonDisabled}
+                    className={`ml-2 px-4 py-1 rounded ${isButtonDisabled ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-500 text-white'}`}
+                >
                     Post
                 </button>
             </form>
