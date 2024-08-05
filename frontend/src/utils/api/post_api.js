@@ -57,16 +57,16 @@ export const deletePost = async (id) => {
 export const fetchPostByIdApi = async (id) => {
     try {
         const response = await postInstance.get(`/fetch-post-data/${id}`)
-        console.log('Post deleted successfully:', response.data);
-        toast.success(response.data.message);
+        console.log('Post fetched by id successfully:', response.data);
+        return response.data;
     } catch (error) {
         console.log(error.response)
     }
 }
 
-export const updatePostApi = async (id) => {
+export const updatePostApi = async (id, postData) => {
     try {
-        const response = await postInstance.put(`/edit-post/${id}`)
+        const response = await postInstance.put(`/update-post/${id}`, postData)
         console.log('Post updated successfully:', response.data);
         toast.success(response.data.message);
     } catch (error) {

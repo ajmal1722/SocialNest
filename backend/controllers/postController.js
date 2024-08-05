@@ -70,12 +70,54 @@ export const fetchPostById = async (req, res) => {
     try {
         const postId = req.params.id;
         console.log(postId);
-        
+
+        const post = await Post.findById(postId);
+
+        if (!post) {
+            return res.status(404).json({ status: 'Failed', error: 'Post not found' });
+        }
+
+        res.status(200).json({ status: 'Success', post });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Failed to fetch posts', error: error.message });
+        console.error('Error fetching post:', error);
+        res.status(500).json({ status: 'Failed', error: error.message });
     }
-}
+};
+
+export const updatePost = async (req, res) => {
+    try {
+        const postId = req.params.id;
+        const { contentType, caption, blogContent } = req.body;
+        const author_id = req.user;
+
+        let updatedPost;
+
+        if (contentType === 'Image') {
+            updatedPost = await ImagePost.findByIdAndUpdate(
+                postId,
+                { author_id, caption },
+                { new: true }
+            );
+        } else if (contentType === 'Blog') {
+            updatedPost = await BlogPost.findByIdAndUpdate(
+                postId,
+                { author_id, caption, blogContent },
+                { new: true }
+            );
+        } else {
+            return res.status(400).json({ message: 'Invalid content type' });
+        }
+
+        if (!updatedPost) {
+            return res.status(404).json({ status: 'Failed', message: 'Post not found' });
+        }
+
+        res.status(200).json({ status: 'Success', post: updatedPost });
+    } catch (error) {
+        console.error('Error updating post:', error);
+        res.status(500).json({ status: 'Failed', error: error.message });
+    }
+};
 
 export const deletePost = async (req, res) => {
     try {

@@ -5,7 +5,7 @@ import NavigationButton from '../components/reusable/NavigationButton'
 import TextInput from "../components/reusable/TextInput";
 import SubmitButton from "../components/reusable/SubmitButton";
 import ImageInput from "../components/reusable/ImageInput";
-import { createPost } from "../utils/api/post_api";
+import { createPost, updatePostApi } from "../utils/api/post_api";
 
 const CreatePostPage = ({ initialData = null }) => {
     const [contentType, setContentType] = useState('Blog')
@@ -27,10 +27,12 @@ const CreatePostPage = ({ initialData = null }) => {
 
     const submitTextPost = async (data) => {
         const postData = { contentType, ...data }
-        // console.log('Post Data:', postData); 
+        // console.log('Post Data:', postData);
         if (initialData) {
+            console.log('updata:', postData);
+            
             // If initialData is provided, update the post
-            await updatePost(initialData._id, postData);
+            await updatePostApi(initialData._id, postData);
         } else {
             // Otherwise, create a new post
             await createPost(postData);

@@ -15,7 +15,7 @@ const EditPostLoader = () => {
                 const data = await fetchPostByIdApi(id);
                 console.log('data for edit:', data);
                 
-                setPostData(data);
+                setPostData(data.post);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching post data:', error);
