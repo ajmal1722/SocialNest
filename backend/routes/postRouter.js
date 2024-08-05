@@ -11,6 +11,7 @@ import {
     savePost,
     fetchArchivedPosts,
     addComment,
+    fetchComments,
 } from '../controllers/postController.js'
 
 // authorization will be applied all the routes below this line
@@ -22,6 +23,7 @@ router.delete('/delete-post/:id', deletePost)
 router.post('/archive-post/:id', archivePost);
 router.get('/fetch-archived-posts', fetchArchivedPosts);
 router.post('/like/:id', likeOrUnlikePost);
+router.get('/fetch-comments/:id', fetchComments);
 router.post('/add-comment', addComment);
 
 // Saved posts

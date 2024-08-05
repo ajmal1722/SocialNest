@@ -200,6 +200,69 @@ export const addComment = async (req, res) => {
     }
 }
 
+export const fetchComments = async (req, res) => {
+    try {
+        const postId  = req.params.id;
+
+        const comments = await Post.aggregate([
+            {
+                $match: {
+                    _id: mongoose.Types.ObjectId.createFromHexString(postId)
+                }
+            },
+            {
+                $unwind: '$comments'
+            },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'comments.user_id',
+                    foreignField: '_id',
+                    as: 'commented_user_details'
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    author_id: 1,
+                    'comments._id': 1,
+                    'comments.user_id': 1,
+                    'comments.content': 1,
+                    'comments.createdAt': 1,
+                    'comments.updatedAt': 1,
+                    'comments.user_details': {
+                        _id: '$commented_user_details._id',
+                        username: '$commented_user_details.username',
+                        profilePicture: '$commented_user_details.profilePicture'
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: '$_id',
+                    author_id: { $first: '$author_id'},
+                    comments: {
+                        $push: {
+                            _id: '$comments._id',
+                            user_id: '$comments.user_id',
+                            content: '$comments.content',
+                            createdAt: '$comments.createdAt',
+                            updatedAt: '$comments.updatedAt',
+                            user_details: '$commented_user_details'
+                        }
+                    },
+                }
+            }
+        ]);
+        
+        
+        console.log('Comment fetched successfully');
+        res.status(200).json(comments);
+    } catch (error) {
+        console.log('Error message:', error);
+        res.status(500).json({ status: 'Failed', error: error.message });
+    }
+}
 // Save Post
 
 export const savePost = async (req, res) => {
