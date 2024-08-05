@@ -248,7 +248,7 @@ export const fetchComments = async (req, res) => {
                             content: '$comments.content',
                             createdAt: '$comments.createdAt',
                             updatedAt: '$comments.updatedAt',
-                            user_details: '$commented_user_details'
+                            user_details: '$comments.user_details'
                         }
                     },
                 }
@@ -257,7 +257,7 @@ export const fetchComments = async (req, res) => {
         
         
         console.log('Comment fetched successfully');
-        res.status(200).json(comments);
+        res.status(200).json({ comments });
     } catch (error) {
         console.log('Error message:', error);
         res.status(500).json({ status: 'Failed', error: error.message });

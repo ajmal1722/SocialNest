@@ -87,8 +87,8 @@ export const addCommentApi = async (data) => {
 export const fetchCommentsApi = async (id) => {
     try {
         const response = await postInstance.get(`/fetch-comments/${id}`);
-        console.log('fetching comment:', response.data);
-        
+        console.log('fetching comment:', response.data.comments[0]);
+        return response.data.comments[0]
     } catch (error) {
         console.error('Failed to fetch comments:', error);
         throw error;

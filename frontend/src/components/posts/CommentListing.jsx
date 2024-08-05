@@ -1,14 +1,15 @@
 import SingleComment from "./SingleComment";
 import CommentForm from "./CommentForm";
 
-const CommentListing = ({ post }) => {
-    const commentContent = [
-        'sample content', 
-        'sample comment content 1..', 
-        'something here', 
-        'lasdkfjlaksjfalksdfjal', 
-        'samplelskjdlkfjs teldjlskjf'
-    ];
+const CommentListing = ({ post, commentContent }) => {
+    // const commentContent = [
+    //     'sample content', 
+    //     'sample comment content 1..', 
+    //     'something here', 
+    //     'lasdkfjlaksjfalksdfjal', 
+    //     'samplelskjdlkfjs teldjlskjf'
+    // ];
+        console.log('comment content:', commentContent);
 
     return (
         <div className='h-full border dark:border-gray-500 text-primary-dark dark:text-primary-light'>
