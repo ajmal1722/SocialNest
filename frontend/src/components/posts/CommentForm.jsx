@@ -3,7 +3,7 @@ import { Input } from 'antd';
 import { addCommentApi } from '../../utils/api/post_api';
 import EmojiSelector from '../reusable/EmojiSelector';
 
-const CommentForm = ({ post }) => {
+const CommentForm = ({ post, addNewComment }) => {
     const [comment, setComment] = useState('');
 
     const handleChange = (event) => {
@@ -12,7 +12,10 @@ const CommentForm = ({ post }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        addCommentApi({comment, postId: post._id});
+        const response = await addCommentApi({ comment, postId: post._id });
+        if (response.status === 'Success') {
+            addNewComment(response.comments);
+        }
         setComment('');
     };
 

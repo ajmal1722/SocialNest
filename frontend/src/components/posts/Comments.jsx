@@ -18,8 +18,18 @@ const Comments = ({ post }) => {
         setIsModalVisible(false)
     }
 
+    const addNewComment = (newComment) => {
+        setCommentContent(prevComments => [...prevComments, newComment]);
+    }
+
     // Sending post as props to CommentListing Component
-    const CommentListingWithProps = () => <CommentListing post={post} commentContent={commentContent} />;
+    const CommentListingWithProps = () => {
+        return <CommentListing 
+            post={post} 
+            commentContent={commentContent} 
+            addNewComment={addNewComment}
+        />
+    };
     return (
         <>
             <div className="cursor-pointer" onClick={() => openModal(post._id)}>

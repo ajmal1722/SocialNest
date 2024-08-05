@@ -186,14 +186,27 @@ export const addComment = async (req, res) => {
             user_id: userId,
             author_id: post.author_id,
             content: comment,
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }
 
         post.comments.push(newComment);
 
         await post.save();
         
+        // lookup for the user details
+        const user = await Users.findById(userId, 'username profilePicture');
+        const populatedComment = {
+            ...newComment,
+            user_details: {
+                _id: user._id,
+                username: user.username,
+                profilePicture: user.profilePicture
+            }
+        };
+
         console.log('Comment added successfully');
-        res.status(200).json({ status: 'Success', message: 'Comment added successfully' });
+        res.status(200).json({ status: 'Success', comments: populatedComment });
     } catch (error) {
         console.log('Error message:', error);
         res.status(500).json({ status: 'Failed', error: error.message });

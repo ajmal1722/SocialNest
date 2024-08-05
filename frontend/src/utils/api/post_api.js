@@ -76,8 +76,7 @@ export const likeOrUnlikePostApi = async (postId) => {
 export const addCommentApi = async (data) => {
     try {
         const response = await postInstance.post('/add-comment', data);
-        console.log('comment added:', response.data);
-        
+        return response.data
     } catch (error) {
         console.error('Failed to add comment:', error);
         throw error;

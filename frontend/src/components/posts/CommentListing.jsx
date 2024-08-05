@@ -1,15 +1,7 @@
 import SingleComment from "./SingleComment";
 import CommentForm from "./CommentForm";
 
-const CommentListing = ({ post, commentContent }) => {
-    // const commentContent = [
-    //     'sample content', 
-    //     'sample comment content 1..', 
-    //     'something here', 
-    //     'lasdkfjlaksjfalksdfjal', 
-    //     'samplelskjdlkfjs teldjlskjf'
-    // ];
-        console.log('comment content:', commentContent);
+const CommentListing = ({ post, commentContent, addNewComment }) => {
 
     return (
         <div className='h-full border dark:border-gray-500 text-primary-dark dark:text-primary-light'>
@@ -19,7 +11,7 @@ const CommentListing = ({ post, commentContent }) => {
                 ))}
             </div>
             <div className="sticky bottom-0 left-0 right-0 border-t bg-white dark:bg-primary-dark p-2">
-                <CommentForm name={'comment'} post={post} />
+                <CommentForm name={'comment'} post={post} addNewComment={addNewComment} />
             </div>
         </div>
     );
