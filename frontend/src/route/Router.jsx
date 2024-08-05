@@ -8,6 +8,7 @@ import UserAuth from "../utils/auth/UserAuth";
 import CreatePostPage from "../pages/CreatePostPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import NotificationPage from "../pages/NotificationPage";
+import EditPostLoader from "../pages/EditPostLoader";
 
 const router = createBrowserRouter([
     {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
                     {
                         path: '/create-post',
                         element: <CreatePostPage />
+                    },
+                    {
+                        path: '/edit-post/:id',
+                        element: <EditPostLoader />
                     },
                 ]
             }

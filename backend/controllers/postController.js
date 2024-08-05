@@ -66,6 +66,17 @@ export const fetchPosts = async (req, res) => {
     }
 }
 
+export const fetchPostById = async (req, res) => {
+    try {
+        const postId = req.params.id;
+        console.log(postId);
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to fetch posts', error: error.message });
+    }
+}
+
 export const deletePost = async (req, res) => {
     try {
         const postId = req.params.id;

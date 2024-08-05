@@ -25,6 +25,10 @@ const SinglePost = ({ post }) => {
         }
     };
 
+    const handleEdit = async (id) => {
+        
+    }
+
     const handleArchive = async () => {
         try {
             await archivePostApi(post._id)

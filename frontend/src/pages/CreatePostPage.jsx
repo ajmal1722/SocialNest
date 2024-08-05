@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, FormProvider } from 'react-hook-form';
 import { ToastContainer } from "react-toastify";
 import NavigationButton from '../components/reusable/NavigationButton'
@@ -7,16 +7,35 @@ import SubmitButton from "../components/reusable/SubmitButton";
 import ImageInput from "../components/reusable/ImageInput";
 import { createPost } from "../utils/api/post_api";
 
-const CreatePostPage = () => {
+const CreatePostPage = ({ initialData = null }) => {
     const [contentType, setContentType] = useState('Blog')
     const [files, setFiles] = useState([]);
     const methods = useForm();
     const { reset } = methods;
 
+    useEffect(() => {
+        if (initialData) {
+            reset({
+                caption: initialData.caption,
+                blogContent: initialData.blogContent,
+                files: initialData.files
+            });
+            setContentType(initialData.contentType);
+            setFiles(initialData.files || []);
+        }
+    }, [initialData, reset]);
+
     const submitTextPost = async (data) => {
         const postData = { contentType, ...data }
-        console.log('Post Data:', postData); 
-        createPost(postData);
+        // console.log('Post Data:', postData); 
+        if (initialData) {
+            // If initialData is provided, update the post
+            await updatePost(initialData._id, postData);
+        } else {
+            // Otherwise, create a new post
+            await createPost(postData);
+        }
+
         reset()
     };
 
@@ -39,7 +58,7 @@ const CreatePostPage = () => {
     return (
         <div className='text-primary-dark dark:text-primary-light md:col-span-6 col-span-10 sm:m-6 m-4'>
             <h1 className='text-2xl font-semibold my-6'>
-                Create Post
+                {initialData ? 'Edit Post' : 'Create Post'}
             </h1>
             <NavigationButton 
                 navOptions={['Blog', 'Image']}

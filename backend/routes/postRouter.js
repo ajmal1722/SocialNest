@@ -12,14 +12,15 @@ import {
     fetchArchivedPosts,
     addComment,
     fetchComments,
+    fetchPostById,
 } from '../controllers/postController.js'
 
-router.get('/fetch-comments/:id', fetchComments);
 // authorization will be applied all the routes below this line
 router.use(verifyUser)
 
 router.post('/create',upload.single('image'), createPost)
-router.get('/get-posts', fetchPosts)
+router.get('/get-posts', fetchPosts);
+router.get('/fetch-post-data/:id', fetchPostById)
 router.delete('/delete-post/:id', deletePost)
 router.post('/archive-post/:id', archivePost);
 router.get('/fetch-archived-posts', fetchArchivedPosts);

@@ -54,6 +54,26 @@ export const deletePost = async (id) => {
     }
 }
 
+export const fetchPostByIdApi = async (id) => {
+    try {
+        const response = await postInstance.get(`/fetch-post-data/${id}`)
+        console.log('Post deleted successfully:', response.data);
+        toast.success(response.data.message);
+    } catch (error) {
+        console.log(error.response)
+    }
+}
+
+export const updatePostApi = async (id) => {
+    try {
+        const response = await postInstance.put(`/edit-post/${id}`)
+        console.log('Post updated successfully:', response.data);
+        toast.success(response.data.message);
+    } catch (error) {
+        console.log(error.response)
+    }
+}
+
 export const archivePostApi = async (id) => {
     try {
         const response = await postInstance.post(`/archive-post/${id}`)

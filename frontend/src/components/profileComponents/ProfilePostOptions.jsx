@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import ConfirmationModal from "../reusable/ConfirmationModal";
 
 const ProfilePostOptions = ({ setShowOptions, postId, handleDelete, handleArchive }) => {
@@ -16,9 +17,11 @@ const ProfilePostOptions = ({ setShowOptions, postId, handleDelete, handleArchiv
                 <button onClick={() => handleAction('delete')} className='text-secondary-light font-semibold border-b dark:border-gray-500 py-2 w-full'>
                     Delete
                 </button>
-                <button className='border-b dark:border-gray-500 py-3 w-full'>
-                    Edit
-                </button>
+                <Link to={`/edit-post/${postId}`}>
+                    <button className='border-b dark:border-gray-500 py-3 w-full'>
+                        Edit
+                    </button>
+                </Link>
                 <button onClick={() => handleAction('archive')} className='border-b dark:border-gray-500 py-3 w-full'>
                     Archive
                 </button>
