@@ -222,6 +222,9 @@ export const fetchComments = async (req, res) => {
                 }
             },
             {
+                $unwind: '$commented_user_details'
+            },
+            {
                 $project: {
                     _id: 1,
                     author_id: 1,

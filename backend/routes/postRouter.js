@@ -14,6 +14,7 @@ import {
     fetchComments,
 } from '../controllers/postController.js'
 
+router.get('/fetch-comments/:id', fetchComments);
 // authorization will be applied all the routes below this line
 router.use(verifyUser)
 

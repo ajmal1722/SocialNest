@@ -1,4 +1,4 @@
-import { Input } from "antd"
+import DateFormatter from '../reusable/DateFormatter'
 
 const SingleComment = ({ comments }) => {
   return (
@@ -9,15 +9,15 @@ const SingleComment = ({ comments }) => {
                 className='rounded-full h-8'
             />
             <h1 className='font-semibold '>
-                { comments.username }
+                { comments.user_details.username }
             </h1>
         </div>
-        <div className='text-start mx-6'>
+        <div className='text-start ml-10'>
             { comments.content }
         </div>
         <div className='flex gap-4 mx-8 mt-1'>
             <h1 className='text-xs text-gray-500 font-semibold'>
-                2hr ago
+            <DateFormatter date={comments.createdAt} />
             </h1>
             <h3 className='text-xs font-semibold text-gray-500 cursor-pointer'>
                 reply
