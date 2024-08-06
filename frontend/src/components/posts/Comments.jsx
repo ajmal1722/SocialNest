@@ -9,8 +9,11 @@ const Comments = ({ post }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const openModal = async (id) => {
-        const response = await fetchCommentsApi(id)
-        setCommentContent(response.comments)
+        const response = await fetchCommentsApi(id);
+        
+        const comments = response?.comments || [];
+
+        setCommentContent(comments)
         setIsModalVisible(true);
     }
 

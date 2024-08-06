@@ -13,7 +13,6 @@ const SingleUserProfileLoader = () => {
         const fetchUserData = async () => {
             try {
                 const result = await singleUserDetailsApi(id);
-                console.log('single user details:', result);
                 setProfileData(result);
                 setLoading(false);
             } catch (error) {
@@ -25,6 +24,7 @@ const SingleUserProfileLoader = () => {
         fetchUserData()
     }, [id])
 
+    // console.log('single user details:', profileData);
     if (loading) {
         return (
             <div className='col-span-10 md:col-span-8'>
