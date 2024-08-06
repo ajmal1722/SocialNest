@@ -2,8 +2,17 @@ import jwt from 'jsonwebtoken';
 import User from '../models/userSchema.js';
 
 const verifyAccessToken = async (req, res, next) => {
-    const accessToken = req.cookies.accessToken;
-    const refreshToken = req.cookies.refreshToken;
+    // Get tokens from cookies
+    let accessToken = req.cookies.accessToken;
+    let refreshToken = req.cookies.refreshToken;
+
+    // Get tokens from headers if not present in cookies
+    if (!accessToken) {
+        accessToken = req.headers['authorization']?.split(' ')[1];
+    }
+    if (!refreshToken) {
+        refreshToken = req.headers['x-refresh-token'];
+    }
 
     if (!accessToken && !refreshToken) {
         return res.status(401).json({ error: 'Not authorized, no token' });

@@ -27,7 +27,11 @@ const EditPostLoader = () => {
     }, [id]);
 
     if (loading) {
-        return <Spin size="large" className="flex justify-center items-center min-h-screen" />;
+        return (
+            <div className='col-span-10 md:col-span-8'>
+                <Spin size="large" className="flex justify-center items-center min-h-screen" />
+            </div>
+        )
     }
 
     return <CreatePostPage initialData={postData} />;
