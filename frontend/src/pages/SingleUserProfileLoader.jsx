@@ -34,7 +34,7 @@ const SingleUserProfileLoader = () => {
     }
 
     return (
-        <ProfilePage initialPosts={profileData.posts} initialUser={profileData?.user} />
+        <ProfilePage initialPosts={profileData?.posts} initialUser={profileData?.user} />
     )
 }
 

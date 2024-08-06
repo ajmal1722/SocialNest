@@ -1,4 +1,6 @@
 import Users from '../models/userSchema.js';
+import { Post } from '../models/postSchema.js';
+import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { jwtDecode } from "jwt-decode";
@@ -297,17 +299,33 @@ const changePassword = async (req, res) => {
 
 const singleUserDetails = async (req, res) => {
     try {
-        const id = req.params.id;
+        const userId = req.params.id;
 
-        const userDetails = await Users.findById(id).select('-password -refreshToken');
-        console.log(userDetails);
+        const userDetails = await Users.findById(userId).select('-password -refreshToken');
+        
+        const posts = await Post.aggregate([
+            {
+                $match: {
+                    author_id: new mongoose.Types.ObjectId(userId), // Convert to ObjectId
+                    isDeleted: false,
+                    isArchived: false,
+                },
+            },
+            {
+                $sort: {
+                    createdAt: -1, // Sort posts by creation date, latest first
+                },
+            },
+        ]);
+
+        console.log(posts);
         
 
         if (!userDetails) {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        res.status(200).json({ user: userDetails });
+        res.status(200).json({ user: userDetails, posts });
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: error.message });
