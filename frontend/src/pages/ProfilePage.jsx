@@ -10,7 +10,7 @@ import ProfileInfo from "../components/profileComponents/ProfileInfo";
 import NavigationButton from "../components/reusable/NavigationButton";
 import ProfilePostListing from "../components/profileComponents/ProfilePostListing";
 
-const ProfilePage = () => {
+const ProfilePage = ({ initialPosts = [], initialUser = {} }) => {
     const { id } = useParams();
     const [activeLink, setActiveLink] = useState('Posts');
     const posts = useSelector((state) => state.posts);

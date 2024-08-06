@@ -4,6 +4,7 @@ import HomePage from "../pages/HomePage";
 import UserLogin from "../pages/UserLogin";
 import UserSignUp from "../pages/UserSignUp";
 import ProfilePage from "../pages/ProfilePage";
+import SingleUserProfileLoader from "../pages/SingleUserProfileLoader";
 import UserAuth from "../utils/auth/UserAuth";
 import CreatePostPage from "../pages/CreatePostPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
@@ -33,7 +34,7 @@ const router = createBrowserRouter([
                     },
                     {
                         path: '/user/:id',
-                        element: <ProfilePage />
+                        element: <SingleUserProfileLoader />
                     },
                     {
                         path: '/create-post',

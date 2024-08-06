@@ -300,6 +300,8 @@ const singleUserDetails = async (req, res) => {
         const id = req.params.id;
 
         const userDetails = await Users.findById(id).select('-password -refreshToken');
+        console.log(userDetails);
+        
 
         if (!userDetails) {
             return res.status(404).json({ error: 'User not found' });
