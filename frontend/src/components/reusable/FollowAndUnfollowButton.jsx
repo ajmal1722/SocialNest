@@ -4,14 +4,19 @@ import { followUserApi, unoFllowUserApi } from "../../utils/api/follow_api";
 import { follow_user, unfollow_user } from "../../redux/slices/authSlice";
 
 const FollowAndUnfollowButton = ({ data }) => {
-    const following = useSelector(state => state.auth.userInfo.following);
+    const userInfo = useSelector(state => state.auth.userInfo);
+    const following = userInfo.following;
     const dispatch = useDispatch();
 
+    const [isOwner, setIsOwner] = useState(false);
     const [showUnfollowButton, setShowUnfollowButton] = useState(false);
 
     useEffect(() => {
+        if (data._id === userInfo._id) {
+            setIsOwner(true)
+        }
+        
         // Check if the user is already followed and set the state accordingly
-        console.log('use effect works...');
         setShowUnfollowButton(following.includes(data._id));
     }, [data._id, following]);
 
@@ -25,6 +30,10 @@ const FollowAndUnfollowButton = ({ data }) => {
         const response = await unoFllowUserApi(id)
         dispatch(unfollow_user(response));
         setShowUnfollowButton(false);
+    }
+
+    if (isOwner) {
+        return null
     }
     
     return (
