@@ -39,9 +39,6 @@ const ProfileInfo = ({ profileData }) => {
         }
     };
 
-    console.log('isProfileData:', profileData);
-    
-
     const closeModal = () => {
         setIsModalVisible(false);
         setModalContent([]);

@@ -12,30 +12,30 @@ const SingleUserProfileLoader = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
+                setLoading(true);
                 const result = await singleUserDetailsApi(id);
                 setProfileData(result);
-                setLoading(false);
             } catch (error) {
                 console.log('Error fetching profile data:', error);
+            } finally {
                 setLoading(false);
             }
-        }
+        };
 
-        fetchUserData()
-    }, [id])
+        fetchUserData();
+    }, [id]);
 
-    // console.log('single user details:', profileData);
     if (loading) {
         return (
             <div className='col-span-10 md:col-span-8'>
                 <Spin size="large" className="flex justify-center items-center min-h-screen" />
             </div>
-        )
+        );
     }
 
     return (
         <ProfilePage initialPosts={profileData?.posts} initialUser={profileData?.user} />
-    )
-}
+    );
+};
 
-export default SingleUserProfileLoader
+export default SingleUserProfileLoader;
