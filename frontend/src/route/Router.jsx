@@ -10,6 +10,7 @@ import CreatePostPage from "../pages/CreatePostPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import NotificationPage from "../pages/NotificationPage";
 import EditPostLoader from "../pages/EditPostLoader";
+import ArchivedPosts from "../pages/ArchivedPosts";
 
 const router = createBrowserRouter([
     {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
                     {
                         path: '/edit-post/:id',
                         element: <EditPostLoader />
+                    },
+                    {
+                        path: 'archive',
+                        element: <ArchivedPosts />
                     },
                 ]
             }

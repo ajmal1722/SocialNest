@@ -33,7 +33,7 @@ const ProfilePage = ({ initialPosts = [], initialUser = null }) => {
         };
 
         fetchUserData();
-    }, [dispatch, initialUser, initialPosts]);
+    }, []);
 
     const filterPost = () => {
         const filteredPosts = initialUser ? profilePosts : posts;
