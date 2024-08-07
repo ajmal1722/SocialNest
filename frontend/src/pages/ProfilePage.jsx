@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from "react-toastify";
 import { set_posts } from "../redux/slices/postSlice";
 import { set_credentials } from '../redux/slices/authSlice';
@@ -11,42 +10,40 @@ import NavigationButton from "../components/reusable/NavigationButton";
 import ProfilePostListing from "../components/profileComponents/ProfilePostListing";
 
 const ProfilePage = ({ initialPosts = [], initialUser = null }) => {
-    const { id } = useParams();
     const [activeLink, setActiveLink] = useState('Posts');
-    const [singleUserProfileData, setSingleUserProfileData] = useState(null);
+    const [singleUserProfileData, setSingleUserProfileData] = useState(initialUser);
+    const [profilePosts, setProfilePosts] = useState(initialPosts);
     const posts = useSelector((state) => state.posts);
 
-    const dispatch = useDispatch()
-
-    console.log('initial user:', initialUser);
-    
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                if (initialUser) {
-                    setSingleUserProfileData(initialUser);
-                } else {
+                if (!initialUser) {
                     const result = await getPosts();
-                    console.log('results:', result);
                     dispatch(set_posts(result.posts));
                     dispatch(set_credentials(result.user));
+                    setSingleUserProfileData(result.user);
+                    setProfilePosts(result.posts);
                 }
             } catch (error) {
-                console.log('Error fetching posts,', error);
+                console.log('Error fetching posts:', error);
             }
-        }
-        fetchUserData()
-    }, [])
+        };
+
+        fetchUserData();
+    }, [dispatch, initialUser]);
 
     const filterPost = () => {
+        const filteredPosts = initialUser ? profilePosts : posts;
         if (activeLink === 'Blogs') {
-            return posts.filter(post => post.content_type === 'Blog')
+            return filteredPosts.filter(post => post.content_type === 'Blog');
         } else if (activeLink === 'Medias') {
-            return posts.filter(post => post.content_type === 'Image')
+            return filteredPosts.filter(post => post.content_type === 'Image');
         }
-        return posts
-    }
+        return filteredPosts;
+    };
 
     return (
         <div className='min-h-[90vh] md:col-span-8 col-span-10 px-4 lg:px-8 mt-4 mb-16 md:mb-1'>
@@ -61,9 +58,9 @@ const ProfilePage = ({ initialPosts = [], initialUser = null }) => {
                 setActiveLink={setActiveLink}
             />
             <hr className="my-5 dark:border-gray-500" />
-            <ProfilePostListing posts={filterPost()} />
+            <ProfilePostListing posts={filterPost()} initialUser={singleUserProfileData} />
         </div>
-    )
+    );
 }
 
-export default ProfilePage
+export default ProfilePage;

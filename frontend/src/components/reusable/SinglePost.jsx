@@ -5,11 +5,12 @@ import { BsSave2, BsSave2Fill } from "react-icons/bs";
 import DateFormatter from "./DateFormatter";
 import { delete_post } from "../../redux/slices/postSlice";
 import Likes from "../posts/Likes";
+import OtherUserLikes from "../posts/OtherUserLikes";
 import Comments from "../posts/Comments";
 import ProfilePostOptions from "../profileComponents/ProfilePostOptions";
 import { deletePost, archivePostApi } from "../../utils/api/post_api";
 
-const SinglePost = ({ post }) => {
+const SinglePost = ({ post, initialUser }) => {
     const [showOptions, setShowOptions] = useState(false);
     const userInfo = useSelector(state => state.auth.userInfo);
 
@@ -68,7 +69,8 @@ const SinglePost = ({ post }) => {
                 </p>
             )}
             <div className='flex justify-between px-3 text-2xl mt-4'>
-                <Likes post={post} />
+                { initialUser ? <OtherUserLikes post={post} initialUser={initialUser} /> :
+                <Likes post={post} />}
                 <Comments post={post} />
                 <BsSave2 className='cursor-pointer' />
             </div>
