@@ -6,13 +6,14 @@ import DateFormatter from "../reusable/DateFormatter";
 import ContentDisplayingModal from "../reusable/ContentDisplayingModal";
 import LogoutButton from "../authentication/LogoutButton";
 
-const ProfileInfo = () => {
+const ProfileInfo = ({ profileData }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalContent, setModalContent] = useState([]);
 
     const userInfo = useSelector(state => state.auth.userInfo);
-    const followers = userInfo.followers;
-    const following = userInfo.following;
+    const followers = profileData ? profileData.followers : userInfo.followers;
+    const following = profileData ? profileData.following : userInfo.following;
+    const createdAt = profileData ? profileData.createdAt : userInfo.createdAt;
 
     const showFollowers = async () => {
         const followersDetails = await fetchFollowers()
@@ -30,30 +31,32 @@ const ProfileInfo = () => {
         setIsModalVisible(false);
         setModalContent([]);
     };
-    console.log('date:', userInfo);
+
+    const name = profileData ? profileData.name : userInfo.name;
+    const username = profileData ? profileData.username : userInfo.username;
 
     return (
         <div className="flex justify-center mt-5">
-            <div >
+            <div>
                 <div className='md:flex my-4 gap-2 items-center'>
                     <h1 className='text-2xl font-semibold mb-3 text-center mt-2'>
-                        {userInfo.name}
+                        {name}
                     </h1>
                     <div className="flex gap-4">
                         <button className='text-lg md:px-6 px-3 py-1 md:ml-8 rounded-lg bg-ternary-dark dark:bg-secondary-dark text-white flex items-center gap-2'>
                             Edit Profile
-                            <LiaUserEditSolid className="text-2xl " />
+                            <LiaUserEditSolid className="text-2xl" />
                         </button>
                         <LogoutButton />
                     </div>
                 </div>
                 <div className="flex justify-center md:block">
-                    <div className="">
+                    <div>
                         <h1 className='font-semibold mb-4 text-center md:text-start'>
                             <span className='font-bold text-2xl m-1'>@</span>
-                            {userInfo.username}
+                            {username}
                         </h1>
-                        <div className='flex gap-6 my-4 text-center '>
+                        <div className='flex gap-6 my-4 text-center'>
                             <div className='cursor-pointer'>
                                 <h1 className='text-2xl font-bold'>
                                     0
@@ -79,14 +82,12 @@ const ProfileInfo = () => {
                                 </h1>
                             </div>
                         </div>
-                        {
-                            userInfo.createdAt &&
+                        {createdAt && (
                             <div className="flex items-center gap-1 md:justify-normal justify-center">
                                 Member since
-                                <DateFormatter date={userInfo.createdAt} />
-
+                                <DateFormatter date={createdAt} />
                             </div>
-                        }
+                        )}
                     </div>
                 </div>
 
@@ -97,7 +98,7 @@ const ProfileInfo = () => {
                 />
             </div>
         </div>
-    )
+    );
 }
 
 export default ProfileInfo;

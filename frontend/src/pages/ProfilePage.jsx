@@ -10,21 +10,28 @@ import ProfileInfo from "../components/profileComponents/ProfileInfo";
 import NavigationButton from "../components/reusable/NavigationButton";
 import ProfilePostListing from "../components/profileComponents/ProfilePostListing";
 
-const ProfilePage = ({ initialPosts = [], initialUser = {} }) => {
+const ProfilePage = ({ initialPosts = [], initialUser = null }) => {
     const { id } = useParams();
     const [activeLink, setActiveLink] = useState('Posts');
+    const [singleUserProfileData, setSingleUserProfileData] = useState(null);
     const posts = useSelector((state) => state.posts);
 
     const dispatch = useDispatch()
 
+    console.log('initial user:', initialUser);
+    
+
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                
-                const result = await getPosts();
-                console.log('results:', result);
-                dispatch(set_posts(result.posts));
-                dispatch(set_credentials(result.user));
+                if (initialUser) {
+                    setSingleUserProfileData(initialUser);
+                } else {
+                    const result = await getPosts();
+                    console.log('results:', result);
+                    dispatch(set_posts(result.posts));
+                    dispatch(set_credentials(result.user));
+                }
             } catch (error) {
                 console.log('Error fetching posts,', error);
             }
@@ -46,7 +53,7 @@ const ProfilePage = ({ initialPosts = [], initialUser = {} }) => {
             <ToastContainer />
             <div className='md:flex gap-10 lg:gap-20 md:mx- sm:mx-5 mx-2 '>
                 <ProfileImage />
-                <ProfileInfo />
+                <ProfileInfo profileData={singleUserProfileData} />
             </div>
             <NavigationButton
                 navOptions={['Posts', 'Blogs', 'Medias']}
