@@ -16,15 +16,27 @@ const ProfileInfo = ({ profileData }) => {
     const createdAt = profileData ? profileData.createdAt : userInfo.createdAt;
 
     const showFollowers = async () => {
-        const followersDetails = await fetchFollowers()
-        setModalContent(followersDetails);
-        setIsModalVisible(true);
+        try {
+            const followersDetails = profileData
+                ? await fetchFollowers(profileData._id)
+                : await fetchFollowers(userInfo._id);
+            setModalContent(followersDetails);
+            setIsModalVisible(true);
+        } catch (error) {
+            console.error("Error fetching followers:", error);
+        }
     };
 
     const showFollowing = async () => {
-        const followingDetails = await fetchFollowing()
-        setModalContent(followingDetails);
-        setIsModalVisible(true);
+        try {
+            const followingDetails = profileData
+                ? await fetchFollowing(profileData._id)
+                : await fetchFollowing(userInfo._id);
+            setModalContent(followingDetails);
+            setIsModalVisible(true);
+        } catch (error) {
+            console.error("Error fetching following:", error);
+        }
     };
 
     const closeModal = () => {
@@ -42,13 +54,14 @@ const ProfileInfo = ({ profileData }) => {
                     <h1 className='text-2xl font-semibold mb-3 text-center mt-2'>
                         {name}
                     </h1>
-                    <div className="flex gap-4">
+                    {profileData ? '' 
+                    : (<div className="flex gap-4">
                         <button className='text-lg md:px-6 px-3 py-1 md:ml-8 rounded-lg bg-ternary-dark dark:bg-secondary-dark text-white flex items-center gap-2'>
                             Edit Profile
                             <LiaUserEditSolid className="text-2xl" />
                         </button>
                         <LogoutButton />
-                    </div>
+                    </div>)}
                 </div>
                 <div className="flex justify-center md:block">
                     <div>

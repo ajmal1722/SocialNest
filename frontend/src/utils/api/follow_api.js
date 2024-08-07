@@ -30,18 +30,18 @@ export const unoFllowUserApi = async (id) => {
     }
 }
 
-export const fetchFollowers = async (req, res) => {
+export const fetchFollowers = async (id) => {
     try {
-        const response = await followInstance.get('/fetch-followers');
+        const response = await followInstance.get(`/fetch-followers/${id}`);
         return response.data;
     } catch (error) {
         console.log('error fetching followers', error);
     }
 }
 
-export const fetchFollowing = async (req, res) => {
+export const fetchFollowing = async (id) => {
     try {
-        const response = await followInstance.get('/fetch-following');
+        const response = await followInstance.get(`/fetch-following/${id}`);
         return response.data;
     } catch (error) {
         console.log('error fetching followers', error);

@@ -116,8 +116,8 @@ router.get('/fetch-suggestions', fetchSuggestions);
  *                   type: string
  *                   example: 'Internal server error'
  */
-router.get('/fetch-followers', fetchFollowers);
-router.get('/fetch-following', fetchFollowing);
+router.get('/fetch-followers/:id', fetchFollowers);
+router.get('/fetch-following/:id', fetchFollowing);
 router.post('/follow-user/:id', followUser);
 router.post('/unfollow-user/:id', unfollowUser);
 

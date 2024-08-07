@@ -21,7 +21,7 @@ export const fetchSuggestions = async (req, res) => {
 
 export const fetchFollowers = async (req, res) => {
     try {
-        const userId = req.user; // Assuming `req.user` contains the current user's ID
+        let userId = req.params.id;
 
         // Fetch the user to get the array of following IDs
         const user = await Users.findById(userId);
@@ -45,7 +45,7 @@ export const fetchFollowers = async (req, res) => {
 
 export const fetchFollowing = async (req, res) => {
     try {
-        const userId = req.user;
+        const userId = req.params.id;
 
         const user = await Users.findById(userId);
 
