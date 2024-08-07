@@ -5,7 +5,7 @@ const SingleComment = ({ comments }) => {
         <div className=' p-2 my-1'>
             <div className='flex items-center gap-2'>
                 <img
-                    src="https://yt3.googleusercontent.com/-CFTJHU7fEWb7BYEb6Jh9gm1EpetvVGQqtof0Rbh-VQRIznYYKJxCaqv_9HeBcmJmIsp2vOO9JU=s900-c-k-c0x00ffffff-no-rj" alt=""
+                    src={comments.user_details.profilePicture} alt=""
                     className='rounded-full h-8'
                 />
                 <h1 className='font-semibold '>
