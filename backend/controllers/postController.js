@@ -1,6 +1,7 @@
 import { Post, ImagePost, BlogPost } from '../models/postSchema.js';
 import Users from '../models/userSchema.js';
 import SavedPost from '../models/savedPostSchema.js';
+import Collection from '../models/collectionsSchema.js';
 import mongoose from 'mongoose';
 import cloudinary from '../utils/cloudinary.js';
 
@@ -332,11 +333,13 @@ export const fetchComments = async (req, res) => {
         res.status(500).json({ status: 'Failed', error: error.message });
     }
 }
+
+
 // Save Post
 
 export const savePost = async (req, res) => {
     try {
-        const userId = req.user;
+        const userId = req.user._id;
         const { postId, collectionName } = req.body;
 
         // Check if the postId is provided
@@ -344,19 +347,45 @@ export const savePost = async (req, res) => {
             return res.status(400).json({ status: 'Failed', error: 'Post ID is required.' });
         }
 
+        // Find or create the collection
+        let collection = await Collection.findOne({ user: userId, collectionName });
+
+        if (!collection) {
+            collection = new Collection({
+                user: userId,
+                collectionName: collectionName || 'Saved Items',
+            });
+            await collection.save();
+        }
+
+        // Check if the post is already saved in the collection
+        const existingSavedPost = await SavedPost.findOne({
+            user: userId,
+            post: postId,
+            collection: collection._id,
+        });
+
+        if (existingSavedPost) {
+            return res.status(400).json({ status: 'Failed', error: 'Post is already saved in this collection.' });
+        }
+
         // Create a new saved post
         const newSavedPost = new SavedPost({
             user: userId,
             post: postId,
-            collectionName: collectionName || 'Saved Items',
+            collection: collection._id,
         });
 
         // Save the new saved post to the database
         const savedPost = await newSavedPost.save();
+
+        // Add the saved post to the collection
+        collection.posts.push(savedPost._id);
+        await collection.save();
 
         res.status(201).json({ status: 'Success', data: savedPost });
     } catch (error) {
         console.log('Error message:', error);
         res.status(500).json({ status: 'Failed', error: error.message });
     }
-}
+};

@@ -9,17 +9,15 @@ const savedPostSchema = new mongoose.Schema({
     post: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post',
+        required: true,
     },
-    collectionName: {
-        type: String,
-        default: 'Saved Items',
+    collection: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Collection',
+        required: true,
     },
-    savedAt: {
-        type: Date,
-        default: Date.now,
-    },
-})
+}, { timestamps: true });
 
-const savedPost = mongoose.model('SavedPost', savedPostSchema);
+const SavedPost = mongoose.model('SavedPost', savedPostSchema);
 
-export default savedPost;
+export default SavedPost;
