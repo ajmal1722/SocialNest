@@ -393,3 +393,21 @@ export const savePost = async (req, res) => {
         res.status(500).json({ status: 'Failed', error: error.message });
     }
 };
+
+export const checkIsSaved = async (req, res) => {
+    try {
+        const postId = req.params.id;
+        const userId = req.user;
+        
+        const savedPost = await SavedPost.findOne({ user: userId, post: postId });
+
+        if (savedPost) {
+            return res.status(200).json({ status: 'Success', isSaved: true });
+        } else {
+            return res.status(200).json({ status: 'Success', isSaved: false });
+        }
+    } catch (error) {
+        console.log('Error message:', error);
+        res.status(500).json({ status: 'Failed', error: error.message });
+    }
+}

@@ -14,6 +14,7 @@ import {
     fetchComments,
     fetchPostById,
     updatePost,
+    checkIsSaved,
 } from '../controllers/postController.js'
 
 // authorization will be applied all the routes below this line
@@ -33,5 +34,6 @@ router.post('/add-comment', addComment);
 // Saved posts
 
 router.post('/save-post', savePost);
+router.get('/is-saved/:id', checkIsSaved);
 
 export default router;

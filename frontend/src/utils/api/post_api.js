@@ -123,6 +123,17 @@ export const fetchCommentsApi = async (id) => {
     }
 }
 
+export const isPostSavedApi = async (id) => {
+    try {
+        const response = await postInstance.get(`/is-saved/${id}`);
+        console.log('isSaved:', response.data);
+        return response.data
+    } catch (error) {
+        console.error('Failed check is saved:', error);
+        throw error;
+    }
+}
+
 export const savePostApi = async (data) => {
     try {
         const response = await postInstance.post(`/save-post`, data);
