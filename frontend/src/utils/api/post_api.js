@@ -138,7 +138,18 @@ export const savePostApi = async (data) => {
     try {
         const response = await postInstance.post(`/save-post`, data);
         console.log('saved posts:', response.data);
-        // return response.data.comments[0]
+        return response.data
+    } catch (error) {
+        console.error('Failed to fetch comments:', error);
+        throw error;
+    }
+}
+
+export const fetchCollectionsApi = async () => {
+    try {
+        const response = await postInstance.get('fetch-collections');
+        console.log('collections :', response.data);
+        // return response.data
     } catch (error) {
         console.error('Failed to fetch comments:', error);
         throw error;
