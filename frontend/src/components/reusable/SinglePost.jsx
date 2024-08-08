@@ -7,6 +7,7 @@ import { delete_post } from "../../redux/slices/postSlice";
 import Likes from "../posts/Likes";
 import OtherUserLikes from "../posts/OtherUserLikes";
 import Comments from "../posts/Comments";
+import SavePost from "../posts/SavePost";
 import ProfilePostOptions from "../profileComponents/ProfilePostOptions";
 import { deletePost, archivePostApi } from "../../utils/api/post_api";
 
@@ -72,7 +73,7 @@ const SinglePost = ({ post, initialUser }) => {
                 { initialUser ? <OtherUserLikes post={post} initialUser={initialUser} /> :
                 <Likes post={post} />}
                 <Comments post={post} />
-                <BsSave2 className='cursor-pointer' />
+                <SavePost post={post} />
             </div>
             {showOptions && (
                 <ProfilePostOptions

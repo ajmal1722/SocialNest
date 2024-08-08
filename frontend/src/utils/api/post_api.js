@@ -122,3 +122,14 @@ export const fetchCommentsApi = async (id) => {
         throw error;
     }
 }
+
+export const savePostApi = async (data) => {
+    try {
+        const response = await postInstance.post(`/save-post`, data);
+        console.log('saved posts:', response.data);
+        // return response.data.comments[0]
+    } catch (error) {
+        console.error('Failed to fetch comments:', error);
+        throw error;
+    }
+}

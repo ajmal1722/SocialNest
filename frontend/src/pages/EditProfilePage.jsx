@@ -3,7 +3,7 @@ import React from 'react'
 const EditProfilePage = () => {
     return (
         <div>
-        
+         
         </div>
     )
 }

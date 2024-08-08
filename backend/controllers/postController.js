@@ -339,8 +339,10 @@ export const fetchComments = async (req, res) => {
 
 export const savePost = async (req, res) => {
     try {
-        const userId = req.user._id;
+        const userId = req.user;
         const { postId, collectionName } = req.body;
+        console.log(req.body);
+        
 
         // Check if the postId is provided
         if (!postId) {
@@ -350,6 +352,8 @@ export const savePost = async (req, res) => {
         // Find or create the collection
         let collection = await Collection.findOne({ user: userId, collectionName });
 
+        console.log('collection:', collection);
+        
         if (!collection) {
             collection = new Collection({
                 user: userId,
