@@ -8,13 +8,13 @@ import {
     deletePost,
     archivePost,
     likeOrUnlikePost,
-    savePost,
     fetchArchivedPosts,
     addComment,
     fetchComments,
     fetchPostById,
     updatePost,
     checkIsSaved,
+    toggleSavePost,
 } from '../controllers/postController.js'
 
 // authorization will be applied all the routes below this line
@@ -33,7 +33,7 @@ router.post('/add-comment', addComment);
 
 // Saved posts
 
-router.post('/save-post', savePost);
+router.post('/save-post', toggleSavePost);
 router.get('/is-saved/:id', checkIsSaved);
 
 export default router;
