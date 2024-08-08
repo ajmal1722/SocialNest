@@ -83,6 +83,15 @@ export const archivePostApi = async (id) => {
     }
 }
 
+export const fetchArchivedPostsApi = async (id) => {
+    try {
+        const response = await postInstance.get('/fetch-archived-posts')
+        return response.data.archivePosts;
+    } catch (error) {
+        console.log(error.response);
+    }
+}
+
 export const likeOrUnlikePostApi = async (postId) => {
     try {
         const response = await postInstance.post(`/like/${postId}`)
