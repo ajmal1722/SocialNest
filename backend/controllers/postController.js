@@ -343,7 +343,10 @@ export const toggleSavePost = async (req, res) => {
         const { postId, collectionName } = req.body;
         console.log(req.body);
 
-        // let collectionName = 'Saved Items';
+        if (!collectionName) {
+            return res.status(400).json({ status: 'Failed', error: 'Collection name is required.' });
+        }
+
         // Check if the postId is provided
         if (!postId) {
             return res.status(400).json({ status: 'Failed', error: 'Post ID is required.' });

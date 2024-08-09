@@ -23,7 +23,7 @@ const SavePost = ({ post }) => {
         };
 
         fetchIsSaved();
-    }, [post._id]);
+    }, [post._id, isSaved]);
 
     const openModal = async () => {
         try {
@@ -32,6 +32,7 @@ const SavePost = ({ post }) => {
             setModalVisible(true);
         } catch (error) {
             console.error('Error fetching collections:', error);
+            toast.error('Failed to unsave post');
         }
     };
 
