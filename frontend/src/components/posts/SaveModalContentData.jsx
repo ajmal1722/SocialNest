@@ -1,5 +1,6 @@
 import { Input, Button } from "antd";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { FaPlus } from "react-icons/fa";
 import { savePostApi } from "../../utils/api/post_api";
 import ListCollections from "./ListCollections";
@@ -13,6 +14,9 @@ const SaveModalContentData = ({ post, collections, setIsSaved, setModalVisible }
             const response = await savePostApi({ postId: post._id, collectionName })
             setCollectionName("");
             setShowInput(false);
+            setModalVisible(false);
+            setIsSaved(true)
+            toast.success(response.message)
         }
     };
 

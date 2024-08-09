@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { savePostApi } from "../../utils/api/post_api"
 
 const ListCollections = ({ post, collections, setIsSaved, setModalVisible }) => { 
@@ -7,7 +8,8 @@ const ListCollections = ({ post, collections, setIsSaved, setModalVisible }) => 
         if (response) {
             console.log('post saved successfully...,', response);
             setIsSaved(true);
-            setModalVisible(false)
+            setModalVisible(false);
+            toast.success(response.message)
         }
     }
 

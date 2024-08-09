@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { BsSave2, BsSave2Fill } from "react-icons/bs";
+import { toast } from "react-toastify";
 import { savePostApi, isPostSavedApi, fetchCollectionsApi } from "../../utils/api/post_api";
 import ReusableModal from "../reusable/ReusableModal";
 import SaveModalContentData from "./SaveModalContentData";
@@ -40,6 +41,7 @@ const SavePost = ({ post }) => {
                 const response = await savePostApi({ postId: post._id, collectionName });
                 if (response.status === 'Success') {
                     setIsSaved(false);
+                    toast.success(response.message)
                 }
             } catch (error) {
                 console.error('Error unsaving post:', error);
