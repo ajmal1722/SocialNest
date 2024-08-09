@@ -4,6 +4,7 @@ import HomePage from "../pages/HomePage";
 import UserLogin from "../pages/UserLogin";
 import UserSignUp from "../pages/UserSignUp";
 import ProfilePage from "../pages/ProfilePage";
+import EditProfilePage from "../pages/EditProfilePage";
 import SingleUserProfileLoader from "../pages/SingleUserProfileLoader";
 import UserAuth from "../utils/auth/UserAuth";
 import CreatePostPage from "../pages/CreatePostPage";
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
                     {
                         path: '/profile',
                         element: <ProfilePage />
+                    },
+                    {
+                        path: '/edit-profile',
+                        element: <EditProfilePage />
                     },
                     {
                         path: '/user/:id',
