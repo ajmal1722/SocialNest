@@ -7,6 +7,7 @@ import SaveModalContentData from "./SaveModalContentData";
 const SavePost = ({ post }) => {
     const [isSaved, setIsSaved] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
+    const [collections, setCollections] = useState([]);
 
     useEffect(() => {
         const fetchIsSaved = async () => {
@@ -16,29 +17,43 @@ const SavePost = ({ post }) => {
             } catch (error) {
                 console.error('Error fetching saved status:', error);
             }
-        }
+        };
 
         fetchIsSaved();
-    }, []);
+    }, [post._id]);
 
-    const openModal = async (id) => {
-        const response = await fetchCollectionsApi();
-        setModalVisible(true)
-    }
-
-    const closeModal = async (id) => {
-        setModalVisible(true)
-    }
+    const openModal = async () => {
+        try {
+            // const response = await fetchCollectionsApi();
+            // setCollections(response.collections);  // Assuming the API returns an array of collections
+            setModalVisible(true);
+        } catch (error) {
+            console.error('Error fetching collections:', error);
+        }
+    };
 
     const handleSave = async () => {
-        const response = await savePostApi({postId: post._id});
-        if (response.status === 'Success') {
-            setIsSaved(prev => !prev)
+        if (isSaved) {
+            try {
+                const response = await savePostApi({ postId: post._id });
+                if (response.status === 'Success') {
+                    setIsSaved(false);
+                }
+            } catch (error) {
+                console.error('Error unsaving post:', error);
+            }
         } else {
-            throw error
+            openModal();
         }
-        
-    }
+    };
+
+    // Sending modalContent as props to CommentListing Component
+    const saveModalContentDataWithProps = () => {
+        return <SaveModalContentData 
+            post={post} 
+            collections={collections}
+        />
+    };
 
     return (
         <div className='cursor-pointer'>
@@ -46,13 +61,15 @@ const SavePost = ({ post }) => {
                 <BsSave2Fill onClick={handleSave} /> :
                 <BsSave2 onClick={handleSave} />}
 
-            {/* <ReusableModal 
-                isVisible={openModal}
-                onClose={}
-                Content={<SaveModalContentData />}
-            /> */}
+            {modalVisible && (
+                <ReusableModal
+                    isVisible={modalVisible}
+                    onClose={() => setModalVisible(false)}
+                    Content={saveModalContentDataWithProps}
+                />
+            )}
         </div>
-    )
-}
+    );
+};
 
-export default SavePost
+export default SavePost;

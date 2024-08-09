@@ -398,8 +398,6 @@ export const toggleSavePost = async (req, res) => {
     }
 };
 
-
-
 export const checkIsSaved = async (req, res) => {
     try {
         const postId = req.params.id;
@@ -412,6 +410,17 @@ export const checkIsSaved = async (req, res) => {
         } else {
             return res.status(200).json({ status: 'Success', isSaved: false });
         }
+    } catch (error) {
+        console.log('Error message:', error);
+        res.status(500).json({ status: 'Failed', error: error.message });
+    }
+}
+
+export const getCollections = async (req, res) => {
+    try {
+        const userId = req.user;
+        
+       
     } catch (error) {
         console.log('Error message:', error);
         res.status(500).json({ status: 'Failed', error: error.message });
