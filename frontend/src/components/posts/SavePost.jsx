@@ -24,8 +24,8 @@ const SavePost = ({ post }) => {
 
     const openModal = async () => {
         try {
-            // const response = await fetchCollectionsApi();
-            // setCollections(response.collections);  // Assuming the API returns an array of collections
+            const response = await fetchCollectionsApi();
+            setCollections(response.collections); 
             setModalVisible(true);
         } catch (error) {
             console.error('Error fetching collections:', error);

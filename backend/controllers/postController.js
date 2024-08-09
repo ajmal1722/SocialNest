@@ -419,10 +419,14 @@ export const checkIsSaved = async (req, res) => {
 export const getCollections = async (req, res) => {
     try {
         const userId = req.user;
-        
-       
+
+        // Fetch all collections that belong to the user
+        const collections = await Collection.find({ user: userId });
+
+        // Send the collections as a response
+        res.status(200).json({ status: 'Success', collections });
     } catch (error) {
         console.log('Error message:', error);
         res.status(500).json({ status: 'Failed', error: error.message });
     }
-}
+};

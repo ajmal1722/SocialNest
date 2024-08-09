@@ -66,7 +66,7 @@ router.get('/fetch-suggestions', fetchSuggestions);
 
 /**
  * @swagger
- * /follow/fetch-followers:
+ * /follow/fetch-followers/{id}:
  *   get:
  *     summary: Fetch followers of the current user
  *     description: Retrieve a list of followers for the current user.

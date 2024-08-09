@@ -1,15 +1,17 @@
 import { Input, Button } from "antd";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
+import ListCollections from "./ListCollections";
 
-const SaveModalContentData = ({ onCreateCollection }) => {
+const SaveModalContentData = ({ post, collections }) => {
     const [showInput, setShowInput] = useState(false);
     const [collectionName, setCollectionName] = useState("");
 
     const handleCreateCollection = () => {
         if (collectionName.trim()) {
-            onCreateCollection(collectionName.trim());
+            
             setCollectionName("");
+            alert(collectionName);
             setShowInput(false);
         }
     };
@@ -17,7 +19,8 @@ const SaveModalContentData = ({ onCreateCollection }) => {
     return (
         <div className="p-4 border rounded-md bg-white">
             {!showInput ? (
-                <div className='w-full flex justify-center'>
+               <>
+               <div className='w-full flex justify-center'>
                     <button
                         className="flex justify-center items-center gap-2 p-2 px-4 bg-ternary-dark text-white rounded-full hover:bg-primary-dark hover:scale-105 transition-colors"
                         onClick={() => setShowInput(true)}
@@ -26,6 +29,8 @@ const SaveModalContentData = ({ onCreateCollection }) => {
                         <span className="font-semibold">Add New Collection</span>
                     </button>
                 </div>
+                <ListCollections post={post} collections={collections} />
+               </> 
             ) : (
                 <form
                     onSubmit={(e) => {

@@ -40,7 +40,7 @@ app.use('/follow', followRouter);
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-    res.send('hello world')
+    res.send('Hello Folk! Welcome to socialNest, Server is Running...')
 })
 
 app.listen(PORT, () => {

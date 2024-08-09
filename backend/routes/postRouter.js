@@ -15,6 +15,7 @@ import {
     updatePost,
     checkIsSaved,
     toggleSavePost,
+    getCollections,
 } from '../controllers/postController.js'
 
 // authorization will be applied all the routes below this line
@@ -35,5 +36,6 @@ router.post('/add-comment', addComment);
 
 router.post('/save-post', toggleSavePost);
 router.get('/is-saved/:id', checkIsSaved);
+router.get('/fetch-collections', getCollections)
 
 export default router;
