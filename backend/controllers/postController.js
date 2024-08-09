@@ -340,9 +340,10 @@ export const fetchComments = async (req, res) => {
 export const toggleSavePost = async (req, res) => {
     try {
         const userId = req.user;
-        const { postId } = req.body;
+        const { postId, collectionName } = req.body;
+        console.log(req.body);
 
-        let collectionName = 'Saved Items'
+        // let collectionName = 'Saved Items';
         // Check if the postId is provided
         if (!postId) {
             return res.status(400).json({ status: 'Failed', error: 'Post ID is required.' });
@@ -402,13 +403,23 @@ export const checkIsSaved = async (req, res) => {
     try {
         const postId = req.params.id;
         const userId = req.user;
-        
-        const savedPost = await SavedPost.findOne({ user: userId, post: postId });
+
+        // Find the saved post and populate the collection name
+        const savedPost = await SavedPost.findOne({ user: userId, post: postId })
+            .populate('collection', 'collectionName');
 
         if (savedPost) {
-            return res.status(200).json({ status: 'Success', isSaved: true });
+            return res.status(200).json({
+                status: 'Success',
+                isSaved: true,
+                collectionName: savedPost.collection ? savedPost.collection.collectionName : null
+            });
         } else {
-            return res.status(200).json({ status: 'Success', isSaved: false });
+            return res.status(200).json({
+                status: 'Success',
+                isSaved: false,
+                collectionName: null
+            });
         }
     } catch (error) {
         console.log('Error message:', error);

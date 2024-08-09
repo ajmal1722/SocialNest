@@ -1,17 +1,17 @@
 import { Input, Button } from "antd";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
+import { savePostApi } from "../../utils/api/post_api";
 import ListCollections from "./ListCollections";
 
-const SaveModalContentData = ({ post, collections }) => {
+const SaveModalContentData = ({ post, collections, setIsSaved, setModalVisible }) => {
     const [showInput, setShowInput] = useState(false);
     const [collectionName, setCollectionName] = useState("");
 
-    const handleCreateCollection = () => {
+    const handleCreateCollection = async () => {
         if (collectionName.trim()) {
-            
+            const response = await savePostApi({ postId: post._id, collectionName })
             setCollectionName("");
-            alert(collectionName);
             setShowInput(false);
         }
     };
@@ -29,7 +29,12 @@ const SaveModalContentData = ({ post, collections }) => {
                         <span className="font-semibold">Add New Collection</span>
                     </button>
                 </div>
-                <ListCollections post={post} collections={collections} />
+                <ListCollections 
+                    post={post} 
+                    collections={collections} 
+                    setIsSaved={setIsSaved}
+                    setModalVisible={setModalVisible}
+                />
                </> 
             ) : (
                 <form

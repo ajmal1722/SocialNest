@@ -8,12 +8,14 @@ const SavePost = ({ post }) => {
     const [isSaved, setIsSaved] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [collections, setCollections] = useState([]);
+    const [collectionName, setCollectionName] = useState('');
 
     useEffect(() => {
         const fetchIsSaved = async () => {
             try {
                 const response = await isPostSavedApi(post._id);
                 setIsSaved(response.isSaved);
+                setCollectionName(response.collectionName)
             } catch (error) {
                 console.error('Error fetching saved status:', error);
             }
@@ -35,7 +37,7 @@ const SavePost = ({ post }) => {
     const handleSave = async () => {
         if (isSaved) {
             try {
-                const response = await savePostApi({ postId: post._id });
+                const response = await savePostApi({ postId: post._id, collectionName });
                 if (response.status === 'Success') {
                     setIsSaved(false);
                 }
@@ -52,6 +54,8 @@ const SavePost = ({ post }) => {
         return <SaveModalContentData 
             post={post} 
             collections={collections}
+            setIsSaved={setIsSaved}
+            setModalVisible={setModalVisible}
         />
     };
 
