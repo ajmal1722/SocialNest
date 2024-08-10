@@ -31,7 +31,7 @@ const ArchivedPosts = () => {
                 activeLink={activeLink}
                 setActiveLink={setActiveLink}
             />
-            <Row gutter={16}>
+            <Row gutter={16} className='mt-12'>
                 {archivedPosts.map((post) => (
                     <SingleBlogCard key={post._id} post={post} />
                 ))}
