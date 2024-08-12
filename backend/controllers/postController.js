@@ -444,3 +444,17 @@ export const getCollections = async (req, res) => {
         res.status(500).json({ status: 'Failed', error: error.message });
     }
 };
+
+export const getSavedPosts = async (req, res) => {
+    try {
+        const collectionId = req.params.id;
+        const userId = req.user;
+
+        const savedPosts = await SavedPost.find({ user: userId, collection: collectionId }).populate('post');
+
+        res.status(200).json({ status: 'Success', savedPosts });
+    } catch (error) {
+        console.log('Error message:', error);
+        res.status(500).json({ status: 'Failed', error: error.message });
+    }
+};
