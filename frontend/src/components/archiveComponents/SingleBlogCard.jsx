@@ -1,22 +1,33 @@
+import { useState } from 'react';
 import { Card, Col } from 'antd';
+import { SlOptions } from "react-icons/sl";
+import ProfilePostOptions from '../profileComponents/ProfilePostOptions';
+import ArchivedPostOptionContent from './ArchivedPostOptionContent';
 
 const SingleBlogCard = ({ post }) => {
+    const [showOptions, setShowOptions] = useState(false);
+
     return (
         <Col
-            xs={24}  // Full width on extra small screens
-            sm={12}  // Half width on small screens
-            md={12}   // One-third width on medium screens
-            lg={8}   // One-third width on large screens
+            xs={24}  
+            sm={12}  
+            md={12}   
+            lg={8}   
             className='my-3'
         >
             <Card
                 title={<span className="dark:text-white font-bold">{post.caption}</span>}
                 bordered={false}
-                extra={<a href="#">More</a>}
-                className='min-h-80 lg:min-h-64 bg-white shadow-2xl dark:bg-ternary-dark text-primary-dark dark:text-primary-light hover:scale-105'
+                extra={<SlOptions className='cursor-pointer dark:text-white' onClick={() => setShowOptions(true)} />}
+                className='min-h-80 lg:min-h-64 bg-white shadow-2xl dark:bg-secondary-dark text-primary-dark dark:text-primary-light hover:scale-105'
             >
                 {post.blogContent}
             </Card>
+            {showOptions && 
+            <ProfilePostOptions 
+                content={<ArchivedPostOptionContent />}
+                setShowOptions={setShowOptions}
+            />}
         </Col>
     );
 }
