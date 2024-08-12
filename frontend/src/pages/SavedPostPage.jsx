@@ -20,7 +20,6 @@ const SavedPostPage = () => {
     
     return (
         <div className='min-h-[70vh] md:col-span-8 col-span-10 px-4 lg:px-8 mt-4 mb-16 md:mb-1'>
-            <h1>Saved Posts</h1>
             <ListCollections collections={collections} /> 
         </div>
     )

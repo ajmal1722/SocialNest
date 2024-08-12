@@ -13,6 +13,7 @@ import NotificationPage from "../pages/NotificationPage";
 import EditPostLoader from "../pages/EditPostLoader";
 import ArchivedPosts from "../pages/ArchivedPosts";
 import SavedPostPage from "../pages/SavedPostPage";
+import ListSavedPosts from "../components/savedCollections/ListSavedPosts";
 
 const router = createBrowserRouter([
     {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
                     {
                         path: '/saved-posts',
                         element: <SavedPostPage />
+                    },
+                    {
+                        path: '/saved-posts/:id',
+                        element: <ListSavedPosts />
                     },
                 ]
             }
