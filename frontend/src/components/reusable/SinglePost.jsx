@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { SlOptions } from "react-icons/sl";
-import { BsSave2, BsSave2Fill } from "react-icons/bs";
 import DateFormatter from "./DateFormatter";
 import { delete_post } from "../../redux/slices/postSlice";
 import Likes from "../posts/Likes";
@@ -14,6 +13,8 @@ import { deletePost, archivePostApi } from "../../utils/api/post_api";
 const SinglePost = ({ post, initialUser }) => {
     const [showOptions, setShowOptions] = useState(false);
     const userInfo = useSelector(state => state.auth.userInfo);
+
+    console.log('initilal user: ', initialUser)
 
     const dispatch = useDispatch();
 
@@ -50,7 +51,7 @@ const SinglePost = ({ post, initialUser }) => {
                         className='rounded-full max-w-8'
                     />
                     <h1 className='text-lg'>
-                        {userInfo.username}
+                        {initialUser ? initialUser.username : userInfo.username}
                     </h1>
                     <DateFormatter date={post.createdAt} />
                 </div>

@@ -126,7 +126,7 @@ export const fetchCommentsApi = async (id) => {
 export const isPostSavedApi = async (id) => {
     try {
         const response = await postInstance.get(`/is-saved/${id}`);
-        console.log('isSaved:', response.data);
+        // console.log('isSaved:', response.data);
         return response.data
     } catch (error) {
         console.error('Failed check is saved:', error);
@@ -159,7 +159,7 @@ export const fetchCollectionsApi = async () => {
 export const fetchSavedPostsApi = async (id) => {
     try {
         const response = await postInstance.get(`/fetch-saved-posts/${id}`)
-        console.log('response savedpostst:', response.data.savedPosts);
+        console.log('response savedpostst:', response.data);
         return response.data
     } catch (error) {
         console.error('Failed to fetch comments:', error);

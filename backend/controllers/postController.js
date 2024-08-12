@@ -450,7 +450,51 @@ export const getSavedPosts = async (req, res) => {
         const collectionId = req.params.id;
         const userId = req.user;
 
-        const savedPosts = await SavedPost.find({ user: userId, collection: collectionId }).populate('post');
+        const savedPosts = await SavedPost.aggregate([
+            // Match the saved posts by user and collection
+            {
+                $match: {
+                    user: mongoose.Types.ObjectId.createFromHexString(userId),
+                    collection: mongoose.Types.ObjectId.createFromHexString(collectionId)
+                }
+            },
+            // Lookup to join with the posts collection
+            {
+                $lookup: {
+                    from: "posts", // The name of the collection to join with
+                    localField: "post", // The field from SavedPost to match
+                    foreignField: "_id", // The field from Posts to match with localField
+                    as: "post" // The resulting array field in the output
+                }
+            },
+            // Unwind the joined array to have a flat structure
+            {
+                $unwind: "$post"
+            },
+            // Lookup to join with the users collection
+            {
+                $lookup: {
+                    from: "users", // The name of the collection to join with
+                    localField: "post.author_id", // The field from SavedPost to match
+                    foreignField: "_id", // The field from Users to match with localField
+                    as: "user" // The resulting array field in the output
+                }
+            },
+            // Unwind the joined user array
+            {
+                $unwind: "$user"
+            },
+            // Project to include/exclude fields
+            {
+                $project: {
+                    "user.password": 0, // Exclude the password field
+                    "user.refreshToken": 0,     // Exclude the token field
+                    "user.followers": 0,
+                    "user.following": 0,
+                    "user.bio": 0,
+                }
+            }
+        ]);
 
         res.status(200).json({ status: 'Success', savedPosts });
     } catch (error) {
