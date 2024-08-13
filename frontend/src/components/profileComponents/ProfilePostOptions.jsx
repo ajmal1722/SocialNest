@@ -17,19 +17,19 @@ const ProfilePostOptions = ({ setShowOptions, postId, handleDelete, handleArchiv
                 {content ?
                     content :
                     <div>
-                        <button onClick={() => handleAction('delete')} className='text-secondary-light font-semibold border-b dark:border-gray-500 py-2 w-full'>
+                        <button onClick={() => handleAction('delete')} className='text-secondary-light font-semibold border-b dark:border-gray-500 py-2 w-full hover:scale-105'>
                             Delete
                         </button>
                         <Link to={`/edit-post/${postId}`}>
-                            <button className='border-b dark:border-gray-500 py-3 w-full'>
+                            <button className='border-b dark:border-gray-500 py-3 w-full hover:scale-105'>
                                 Edit
                             </button>
                         </Link>
-                        <button onClick={() => handleAction('archive')} className='border-b dark:border-gray-500 py-3 w-full'>
+                        <button onClick={() => handleAction('archive')} className='border-b dark:border-gray-500 py-3 w-full hover:scale-105'>
                             Archive
                         </button>
                     </div>}
-                <button onClick={() => setShowOptions(false)} className=' font-semibold py-2 w-full'>
+                <button onClick={() => setShowOptions(false)} className=' font-semibold py-2 w-full hover:scale-105'>
                     Cancel
                 </button>
             </div>

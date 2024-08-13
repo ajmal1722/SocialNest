@@ -25,7 +25,7 @@ const SingleBlogCard = ({ post }) => {
             </Card>
             {showOptions && 
             <ProfilePostOptions 
-                content={<ArchivedPostOptionContent />}
+                content={<ArchivedPostOptionContent post={post} setShowOptions={setShowOptions} />}
                 setShowOptions={setShowOptions}
             />}
         </Col>
