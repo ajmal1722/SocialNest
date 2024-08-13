@@ -12,7 +12,7 @@ const ArchivedPosts = () => {
     const fetchArchivedPosts = async (activeLink) => {
         try {
             const response = await fetchArchivedPostsApi();
-            const filteredPosts = response.filter(post => 
+            const filteredPosts = response.filter(post =>
                 activeLink === 'Blogs' ? post.content_type === 'Blog' : post.content_type === 'Image'
             );
             setArchivedPosts(filteredPosts);
@@ -34,9 +34,9 @@ const ArchivedPosts = () => {
             />
             <Row gutter={16} className='mt-12'>
                 {archivedPosts.map((post) => (
-                    activeLink === 'Blogs' ? 
-                    <SingleBlogCard key={post._id} post={post} setArchivedPosts={setArchivedPosts} /> : 
-                    <SinglePostCard key={post._id} post={post} setArchivedPosts={setArchivedPosts} />
+                    activeLink === 'Blogs' ?
+                        <SingleBlogCard key={post._id} post={post} setArchivedPosts={setArchivedPosts} /> :
+                        <SinglePostCard key={post._id} post={post} setArchivedPosts={setArchivedPosts} />
                 ))}
             </Row>
         </div>

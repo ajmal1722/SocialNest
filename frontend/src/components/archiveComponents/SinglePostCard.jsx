@@ -2,17 +2,29 @@ import { useState } from 'react';
 import { Card, Col } from 'antd';
 const { Meta } = Card;
 import { SlOptions } from 'react-icons/sl';
+import { deletePost } from '../../utils/api/post_api';
+import { delete_post } from '../../redux/slices/postSlice';
 import ProfilePostOptions from '../profileComponents/ProfilePostOptions';
 import ArchivedPostOptionContent from './ArchivedPostOptionContent';
 
 const SinglePostCard = ({ post, setArchivedPosts }) => {
     const [showOptions, setShowOptions] = useState(false);
 
+    const handleDelete = async () => {
+        try {
+            await deletePost(post._id);
+            dispatch(delete_post(post._id));
+            setShowOptions(false)
+        } catch (error) {
+            console.log('Error deleting post:', deletePost);
+        }
+    }
+
     return (
         <Col span={8}>
             <Card
                 hoverable
-                cover={<img alt="example" src={post.image_url} />}
+                cover={<img alt="example" src={post.image_url} className='h-[350px] object-cover' />}
                 className='hover:scale-105 transition-transform duration-500'
             >
                 <Meta
@@ -31,6 +43,7 @@ const SinglePostCard = ({ post, setArchivedPosts }) => {
             <ProfilePostOptions 
                 content={<ArchivedPostOptionContent post={post} setShowOptions={setShowOptions} setArchivedPosts={setArchivedPosts} />}
                 setShowOptions={setShowOptions}
+                handleDelete={handleDelete}
             />}
         </Col>
     );
