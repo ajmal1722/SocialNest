@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Card, Col } from 'antd';
 const { Meta } = Card;
 import { SlOptions } from 'react-icons/sl';
@@ -8,13 +9,15 @@ import ProfilePostOptions from '../profileComponents/ProfilePostOptions';
 import ArchivedPostOptionContent from './ArchivedPostOptionContent';
 
 const SinglePostCard = ({ post, setArchivedPosts }) => {
+    const dispatch = useDispatch()
     const [showOptions, setShowOptions] = useState(false);
 
     const handleDelete = async () => {
         try {
             await deletePost(post._id);
             dispatch(delete_post(post._id));
-            setShowOptions(false)
+            setShowOptions(false);
+            setArchivedPosts(prevPost => prevPost.filter(archivedPost => archivedPost._id !== post._id))
         } catch (error) {
             console.log('Error deleting post:', deletePost);
         }

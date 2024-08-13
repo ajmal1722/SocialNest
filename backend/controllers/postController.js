@@ -180,6 +180,7 @@ export const fetchArchivedPosts = async (req, res) => {
                 $match: {
                     author_id: new mongoose.Types.ObjectId(userId), // Convert to ObjectId
                     isArchived: true,
+                    isDeleted: false,
                 },
             },
             {
