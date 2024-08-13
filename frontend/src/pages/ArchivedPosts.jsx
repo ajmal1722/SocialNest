@@ -35,8 +35,8 @@ const ArchivedPosts = () => {
             <Row gutter={16} className='mt-12'>
                 {archivedPosts.map((post) => (
                     activeLink === 'Blogs' ? 
-                    <SingleBlogCard key={post._id} post={post} /> : 
-                    <SinglePostCard key={post._id} post={post} />
+                    <SingleBlogCard key={post._id} post={post} setArchivedPosts={setArchivedPosts} /> : 
+                    <SinglePostCard key={post._id} post={post} setArchivedPosts={setArchivedPosts} />
                 ))}
             </Row>
         </div>

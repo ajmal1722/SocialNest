@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { archivePostApi } from "../../utils/api/post_api";
 
-const ArchivedPostOptionContent = ({ post, setShowOptions }) => {
+const ArchivedPostOptionContent = ({ post, setShowOptions, setArchivedPosts }) => {
 
     const removeFromArchive = async (id) => {
         try {
             await archivePostApi(id);
+            setArchivedPosts(prevPosts => prevPosts.filter(archivedPost => archivedPost._id !== id));
             setShowOptions(false)
         } catch (error) {
             console.log('Error removing from archive:', error);

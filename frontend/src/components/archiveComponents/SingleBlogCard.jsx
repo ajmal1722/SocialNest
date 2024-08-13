@@ -4,7 +4,7 @@ import { SlOptions } from "react-icons/sl";
 import ProfilePostOptions from '../profileComponents/ProfilePostOptions';
 import ArchivedPostOptionContent from './ArchivedPostOptionContent';
 
-const SingleBlogCard = ({ post }) => {
+const SingleBlogCard = ({ post, setArchivedPosts }) => {
     const [showOptions, setShowOptions] = useState(false);
 
     return (
@@ -25,7 +25,7 @@ const SingleBlogCard = ({ post }) => {
             </Card>
             {showOptions && 
             <ProfilePostOptions 
-                content={<ArchivedPostOptionContent post={post} setShowOptions={setShowOptions} />}
+                content={<ArchivedPostOptionContent post={post} setShowOptions={setShowOptions} setArchivedPosts={setArchivedPosts} />}
                 setShowOptions={setShowOptions}
             />}
         </Col>
