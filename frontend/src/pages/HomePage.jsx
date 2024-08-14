@@ -30,7 +30,7 @@ const HomePage = () => {
             ) : (
                 posts.length > 0 ? (
                     posts.map((post) => (
-                        <SinglePost key={post._id} post={post} />
+                        <SinglePost key={post._id} post={post} initialUser={post.author_details} />
                     ))
                 ) : (
                     <h1 className='flex justify-center items-center h-full'>No posts available</h1>

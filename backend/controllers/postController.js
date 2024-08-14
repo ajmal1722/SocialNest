@@ -7,7 +7,38 @@ import cloudinary from '../utils/cloudinary.js';
 
 export const getHomePagePosts = async (req, res) => {
     try {
-        const posts = await Post.find({ isDeleted: false, isArchived: false })
+        const posts = await Post.aggregate([
+            {
+                $match: {
+                  isDeleted: false,
+                  isArchived: false
+                }
+            },
+            {
+                $lookup: {
+                  from: 'users',
+                  localField: 'author_id',
+                  foreignField: '_id',
+                  as: 'author_details'
+                }
+            }, 
+            {
+                $unwind: {
+                  path: '$author_details',
+                }
+            },
+            {
+                $project: {
+                    'author_details.refreshToken': 0,
+                    'author_details.password': 0,
+                }
+            },
+            {
+                $sort: {
+                  createdAt: -1
+                }
+            }
+        ])
 
         res.status(200).json(posts);
     } catch (error) {
