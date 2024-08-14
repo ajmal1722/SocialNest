@@ -24,7 +24,13 @@ const SinglePostCard = ({ post, setArchivedPosts }) => {
     }
 
     return (
-        <Col span={8}>
+        <Col
+            xs={24}  // Full width on extra small screens
+            sm={12}  // Half width on small screens
+            md={12}  // Half width on medium screens
+            lg={8}   // Third width on large screens
+            className='my-3'
+        >
             <Card
                 hoverable
                 cover={<img alt="example" src={post.image_url} className='h-[350px] object-cover' />}

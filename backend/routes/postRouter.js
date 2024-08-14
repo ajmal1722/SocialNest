@@ -3,6 +3,7 @@ const router = express.Router()
 import upload from '../utils/multer.js'
 import verifyUser from '../middlewares/authMiddleware.js'
 import {
+    getHomePagePosts,
     createPost,
     fetchPosts,
     deletePost,
@@ -22,6 +23,7 @@ import {
 // authorization will be applied all the routes below this line
 router.use(verifyUser)
 
+router.get('/', getHomePagePosts);
 router.post('/create',upload.single('image'), createPost)
 router.get('/get-posts', fetchPosts);
 router.get('/fetch-post-data/:id', fetchPostById);

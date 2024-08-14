@@ -5,6 +5,16 @@ import Collection from '../models/collectionsSchema.js';
 import mongoose from 'mongoose';
 import cloudinary from '../utils/cloudinary.js';
 
+export const getHomePagePosts = async (req, res) => {
+    try {
+        const posts = await Post.find({ isDeleted: false, isArchived: false })
+
+        res.status(200).json(posts);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching posts', error });
+    }
+}
+
 export const createPost = async (req, res) => {
     try {
         const { contentType, caption, blogContent } = req.body;

@@ -1,6 +1,17 @@
 import postInstance from "../../axios_instaces/postInstance";
 import { toast } from "react-toastify";
 
+
+export const getHomePagePostsApi = async () => {
+    try {
+        const response = await postInstance.get('/');
+        console.log('response for fetching posts', response.data);
+        return response.data
+    } catch (error) {
+        console.log('Error fetching Posts:', error)
+    }
+}
+
 export const createPost = async (data) => {
     const config = {
         headers: {
