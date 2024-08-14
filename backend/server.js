@@ -4,10 +4,10 @@ import morgan from 'morgan';
 import connectDB from './database/connection.js';
 import userAuthRouter from './routes/userAuthRouter.js';
 import postRouter from './routes/postRouter.js';
-import followRouter from './routes/followRouter.js'
+import followRouter from './routes/followRouter.js';
 import { specs, swaggerUi } from './utils/swagger.js';
 import cookieParser from 'cookie-parser';
-import cors from 'cors'
+import cors from 'cors';
 
 dotenv.config();
 
@@ -18,10 +18,7 @@ const corsOptions = {
     origin: 'http://localhost:5173',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
-}
-
-// Swagger setup
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+};
 
 // Middleware
 app.use(express.json()); // Parse JSON bodies
@@ -33,6 +30,10 @@ app.use(cors(corsOptions)); // Enable CORS for all routes
 // Connect to MongoDB
 connectDB();
 
+// Serve static Swagger UI assets
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
+// Routes
 app.use('/user', userAuthRouter);
 app.use('/post', postRouter);
 app.use('/follow', followRouter);
@@ -40,9 +41,11 @@ app.use('/follow', followRouter);
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-    res.send('Hello Folk! Welcome to socialNest, Server is Running...')
-})
+    res.send('Hello Folk! Welcome to socialNest, Server is Running...');
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port: http://localhost:${PORT}`);
 });
+
+export default app;
