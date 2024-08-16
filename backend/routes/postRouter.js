@@ -23,7 +23,7 @@ import {
 // authorization will be applied all the routes below this line
 router.use(verifyUser)
 
-router.get('/', getHomePagePosts);
+router.get('/all-posts', getHomePagePosts);
 router.post('/create',upload.single('image'), createPost)
 router.get('/get-posts', fetchPosts);
 router.get('/fetch-post-data/:id', fetchPostById);

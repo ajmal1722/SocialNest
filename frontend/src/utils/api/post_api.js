@@ -2,9 +2,9 @@ import postInstance from "../../axios_instaces/postInstance";
 import { toast } from "react-toastify";
 
 
-export const getHomePagePostsApi = async () => {
+export const getHomePagePostsApi = async (page = 1) => {
     try {
-        const response = await postInstance.get('/');
+        const response = await postInstance.get(`/all-posts?page=${page}&limit=2`);
         console.log('response for fetching posts', response.data);
         return response.data
     } catch (error) {

@@ -14,7 +14,8 @@ const SinglePost = ({ post, initialUser }) => {
     const [showOptions, setShowOptions] = useState(false);
     const userInfo = useSelector(state => state.auth.userInfo);
 
-    console.log('initilal user: ', initialUser)
+    console.log('post.caption:', post.caption);
+    
 
     const dispatch = useDispatch();
 

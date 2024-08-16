@@ -6,7 +6,9 @@ import mongoose from 'mongoose';
 import cloudinary from '../utils/cloudinary.js';
 
 export const getHomePagePosts = async (req, res) => {
-    try {
+    const { page, limit } = req.query;    
+
+    try {        
         const posts = await Post.aggregate([
             {
                 $match: {
@@ -37,6 +39,12 @@ export const getHomePagePosts = async (req, res) => {
                 $sort: {
                   createdAt: -1
                 }
+            }, 
+            {
+                $skip: (page - 1) * limit
+            }, 
+            {
+                $limit: parseInt(limit)
             }
         ])
 
