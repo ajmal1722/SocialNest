@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { SlOptions } from "react-icons/sl";
 import DateFormatter from "./DateFormatter";
 import { delete_post } from "../../redux/slices/postSlice";
@@ -15,7 +16,7 @@ const SinglePost = ({ post, initialUser }) => {
     const userInfo = useSelector(state => state.auth.userInfo);
 
     console.log('post.caption:', post.caption);
-    
+
 
     const dispatch = useDispatch();
 
@@ -30,7 +31,7 @@ const SinglePost = ({ post, initialUser }) => {
     };
 
     const handleEdit = async (id) => {
-        
+
     }
 
     const handleArchive = async () => {
@@ -46,7 +47,11 @@ const SinglePost = ({ post, initialUser }) => {
     return (
         <div className='mx-auto border dark:border-gray-500 max-w-lg my-2 p-3 rounded-lg text-primary-dark dark:text-primary-light'>
             <div className='flex justify-between items-center gap-3 h-14 p-2'>
-                <div className="flex items-center gap-3">
+                <Link
+                    to={`/user/${initialUser ? initialUser._id : userInfo._id}`}
+                    key={initialUser ? initialUser._id : userInfo._id} // Use user ID as key
+                    className="flex items-center gap-3"
+                >
                     <img
                         src={userInfo?.profilePicture?.length >= 1 ? userInfo.profilePicture : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
                         className='rounded-full max-w-8'
@@ -55,7 +60,7 @@ const SinglePost = ({ post, initialUser }) => {
                         {initialUser ? initialUser.username : userInfo.username}
                     </h1>
                     <DateFormatter date={post.createdAt} />
-                </div>
+                </Link>
                 <SlOptions
                     onClick={() => setShowOptions(true)}
                     className='cursor-pointer'
@@ -72,8 +77,8 @@ const SinglePost = ({ post, initialUser }) => {
                 </p>
             )}
             <div className='flex justify-between px-3 text-2xl mt-4'>
-                { initialUser ? <OtherUserLikes post={post} initialUser={initialUser} /> :
-                <Likes post={post} />}
+                {initialUser ? <OtherUserLikes post={post} initialUser={initialUser} /> :
+                    <Likes post={post} />}
                 <Comments post={post} />
                 <SavePost post={post} />
             </div>
