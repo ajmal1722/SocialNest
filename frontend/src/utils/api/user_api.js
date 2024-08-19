@@ -82,3 +82,13 @@ export const singleUserDetailsApi = async (id) => {
         toast.error(error.response.data.error)
     }
 }
+
+export const searchUserApi = async (searchText) => {
+    try {
+        const response = await userInstance.post('/search', searchText)
+        console.log('response for searching user: ', response.data);
+        
+    } catch (error) {
+        console.log('Error during searching user:', error);
+    }
+}
