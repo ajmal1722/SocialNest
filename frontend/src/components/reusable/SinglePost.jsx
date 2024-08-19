@@ -15,8 +15,7 @@ const SinglePost = ({ post, initialUser }) => {
     const [showOptions, setShowOptions] = useState(false);
     const userInfo = useSelector(state => state.auth.userInfo);
 
-    console.log('post.caption:', post.caption);
-
+    const isOwner = !initialUser || userInfo._id === initialUser._id;
 
     const dispatch = useDispatch();
 
@@ -43,6 +42,12 @@ const SinglePost = ({ post, initialUser }) => {
             console.error('Failed to archive post:', error);
         }
     }
+
+    const blockUserButton = (
+        <button className='text-secondary-light font-semibold border-b dark:border-gray-500 py-2 w-full hover:scale-105'>
+            Block User
+        </button>
+    );
 
     return (
         <div className='mx-auto border dark:border-gray-500 max-w-lg my-2 p-3 rounded-lg text-primary-dark dark:text-primary-light'>
@@ -88,6 +93,8 @@ const SinglePost = ({ post, initialUser }) => {
                     postId={post._id}
                     handleDelete={handleDelete}
                     handleArchive={handleArchive}
+                    isOwner={isOwner}
+                    content={!isOwner ? blockUserButton : null} // Pass Block User button if not owner
                 />
             )}
         </div>
