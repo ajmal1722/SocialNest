@@ -332,6 +332,38 @@ const singleUserDetails = async (req, res) => {
     }
 }
 
+const searchUser = async (req, res) => {
+    try {
+        const { searchText } = req.body;
+
+        // Validate input
+        if (!searchText) {
+            return res.status(400).json({ error: 'Search text is required.' });
+        }
+
+        // Build the search query
+        const query = {
+            $or: [
+                { username: { $regex: searchText, $options: 'i' } }, 
+                { email: { $regex: searchText, $options: 'i' } },    
+                { name: { $regex: searchText, $options: 'i' } }, 
+            ]
+        };
+
+        // Execute the query
+        const users = await Users.find(query).select('-password -__v');
+
+        if (users.length === 0) {
+            return res.status(404).json({ error: 'No users found.' });
+        }
+
+        res.status(200).json({ users });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: error.message });
+    }
+}
+
 export {
     userSignup, 
     userLogin, 
@@ -340,4 +372,5 @@ export {
     generateOtp,
     changePassword,
     singleUserDetails,
+    searchUser,
 };

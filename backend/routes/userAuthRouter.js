@@ -8,7 +8,8 @@ import {
     userLogout,
     generateOtp,
     changePassword,
-    singleUserDetails
+    singleUserDetails,
+    searchUser
 } from '../controllers/userAuthController.js';
 
 router.post('/signup', userSignup);
@@ -29,5 +30,7 @@ router.use(verifyAccessToken);
 router.get('/is-protected', protectedRoute);
 
 router.get('/:id/', singleUserDetails);
+
+router.post('/search', searchUser)
 
 export default router;
