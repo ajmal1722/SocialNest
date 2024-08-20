@@ -364,6 +364,22 @@ const searchUser = async (req, res) => {
     }
 }
 
+const blockUser = async (req, res) => {
+    try {
+        const userId = req.user;
+        const { blockUserId } = req.body;
+
+        await Users.findByIdAndUpdate(userId, {
+            $addToSet: { blockedUsers: blockUserId }
+        });
+
+        res.status(200).json({ message: 'User blocked successfully' });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: error.message });
+    }
+}
+
 export {
     userSignup, 
     userLogin, 
@@ -373,4 +389,5 @@ export {
     changePassword,
     singleUserDetails,
     searchUser,
+    blockUser,
 };

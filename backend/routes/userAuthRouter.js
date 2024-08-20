@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import verifyAccessToken from '../middlewares/authMiddleware.js';
+import isUserBlocked from '../middlewares/isUserBlockedMiddleware.js';
 import {
     userSignup, 
     userLogin,  
@@ -29,8 +30,8 @@ router.use(verifyAccessToken);
 // Protected Routes
 router.get('/is-protected', protectedRoute);
 
-router.get('/:id/', singleUserDetails);
+router.get('/:id/', isUserBlocked, singleUserDetails);
 
-router.post('/search', searchUser)
+router.post('/search', searchUser);
 
 export default router;
