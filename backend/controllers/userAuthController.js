@@ -351,7 +351,7 @@ const searchUser = async (req, res) => {
         };
 
         // Execute the query
-        const users = await Users.find(query).select('-password -__v');
+        const users = await Users.find(query).select('-password -__v -refreshToken');
 
         if (users.length === 0) {
             return res.status(404).json({ error: 'No users found.' });

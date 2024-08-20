@@ -14,6 +14,7 @@ import EditPostLoader from "../pages/EditPostLoader";
 import ArchivedPosts from "../pages/ArchivedPosts";
 import SavedPostPage from "../pages/SavedPostPage";
 import ListSavedPosts from "../components/savedCollections/ListSavedPosts";
+import SearchUserPage from "../pages/SearchUserPage";
 
 const router = createBrowserRouter([
     {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
                         path: '/',
                         element: <HomePage />,
                         index: true,
+                    },
+                    {
+                        path: '/search-user',
+                        element: <SearchUserPage />,
                     },
                     {
                         path: '/notifications',
