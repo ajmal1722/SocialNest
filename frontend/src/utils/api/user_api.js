@@ -87,7 +87,7 @@ export const searchUserApi = async (searchText) => {
     try {
         const response = await userInstance.post('/search', searchText)
         console.log('response for searching user: ', response.data);
-        
+        return response.data.users;
     } catch (error) {
         console.log('Error during searching user:', error);
     }
