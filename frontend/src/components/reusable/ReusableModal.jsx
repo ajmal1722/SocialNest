@@ -1,12 +1,9 @@
-import { useState, useEffect } from 'react';
 import { Modal, Spin } from 'antd';
 
-const ReusableModal = ({ isVisible, onClose, Content }) => {
-    
-
+const ReusableModal = ({ isVisible, onClose, Content, title }) => {
     return (
          <Modal
-            title="Details"
+            title={title && title}
             open={isVisible}
             onCancel={onClose}
             footer={null}
@@ -14,7 +11,7 @@ const ReusableModal = ({ isVisible, onClose, Content }) => {
             style={{ padding: 0 }}
         >
             <div className="max-h-[70vh] overflow-y-auto dark:bg-primary-dark">
-                <Content />
+                {Content && <Content />}
             </div>
         </Modal>
     )

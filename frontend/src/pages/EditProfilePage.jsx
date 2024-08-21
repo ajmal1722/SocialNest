@@ -1,18 +1,23 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useForm, FormProvider, useFormContext } from 'react-hook-form';
+import { useForm, FormProvider, } from 'react-hook-form';
 import { Spin, message } from 'antd';
 import { updateUserProfileApi } from '../utils/api/user_api';
 import TextInput from '../components/reusable/TextInput';
-import ImageInput from '../components/reusable/ImageInput';
+import ReusableModal from '../components/reusable/ReusableModal';
+import ImageCropper from '../components/editProfilePage/ImageCropper';
 import SubmitButton from '../components/reusable/SubmitButton';
 
 const EditProfilePage = () => {
     const methods = useForm();
     const { reset } = methods;
     const [loading, setLoading] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const userData = useSelector(state => state.auth.userInfo);
 
+    const closeModal = () => {
+        setShowModal(false)
+    }
     const submitProfileData = async (data) => {
         setLoading(true);
         const response = await updateUserProfileApi(data);
@@ -36,19 +41,28 @@ const EditProfilePage = () => {
         },
     };
 
+    // const ImageCropperComponent = () => {
+    //     return <ImageCropper />
+    // }
+
     return (
         <div className='min-h-[70vh] md:col-span-8 col-span-10 px-4 lg:px-8 mt-4 mb-16 md:mb-1'>
             <div className='lg:w-9/12 w-full'>
+                <div className='flex items-center justify-between border p-3 my-4 mt-8 rounded-lg'>
+                    <img
+                        alt={userData?.name}
+                        src={userData?.profilePicture}
+                        className='rounded-full max-h-20'
+                    />
+                    <button
+                        onClick={() => setShowModal(true)}
+                        className='mx-2 sm:mr-5 md:mr-8 px-3 p-1 rounded-lg text-primary-light bg-ternary-dark '
+                    >
+                        Change Photo
+                    </button>
+                </div>
                 <FormProvider {...methods}>
                     <form onSubmit={methods.handleSubmit(submitProfileData)}>
-                        <div className='flex items-center justify-between border p-3 my-4 mt-8 rounded-lg'>
-                            <img 
-                                alt={userData?.name} 
-                                src={userData?.profilePicture}
-                                className='rounded-full max-h-20'
-                            />
-                            <ImageInput />
-                        </div>
                         <TextInput
                             name="name"
                             validation={nameValidation}
@@ -72,6 +86,13 @@ const EditProfilePage = () => {
                     </form>
                 </FormProvider>
             </div>
+            {showModal && 
+                <ReusableModal 
+                    isVisible={showModal}
+                    onClose={closeModal}
+                    Content={ImageCropper}
+                />
+            }
         </div>
     );
 };
