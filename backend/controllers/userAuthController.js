@@ -340,10 +340,25 @@ const updateUserProfile = async (req, res) => {
 
         let updateData = { name, bio };
 
-        // If a new profile image is provided, upload it to Cloudinary
+        // Fetch the user's current data to get the existing profile picture's public_id
+        const user = await Users.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // If a new profile image is provided, delete the old one and upload the new one
         if (req.file) {
+            if (user.profilePictureId) {
+                // Delete the old profile picture from Cloudinary using its public_id
+                await cloudinary.uploader.destroy(user.profilePictureId);
+            }
+
+            // Upload the new profile picture to Cloudinary
             const result = await cloudinary.uploader.upload(req.file.path);
+
+            // Update the profile picture URL and public_id
             updateData.profilePicture = result.secure_url;
+            updateData.profilePictureId = result.public_id;
         }
 
         // Find the user by ID and update their name, bio, and optionally profile picture

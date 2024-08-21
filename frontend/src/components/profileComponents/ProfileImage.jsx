@@ -25,7 +25,7 @@ const ProfileImage = () => {
       <img
         onClick={openModal}
         src={userInfo.profilePicture} alt=""
-        className='rounded-full w-auto max-w-52 cursor-pointer'
+        className='rounded-full w-auto max-w-52 cursor-pointer object-cover'
       />
       {showModal && (
         <PopConfirm

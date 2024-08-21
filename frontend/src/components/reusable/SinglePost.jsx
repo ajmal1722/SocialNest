@@ -59,7 +59,7 @@ const SinglePost = ({ post, initialUser }) => {
                 >
                     <img
                         src={userInfo?.profilePicture?.length >= 1 ? userInfo.profilePicture : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
-                        className='rounded-full max-w-8'
+                        className='rounded-full max-w-8 object-cover'
                     />
                     <h1 className='text-lg'>
                         {initialUser ? initialUser.username : userInfo.username}

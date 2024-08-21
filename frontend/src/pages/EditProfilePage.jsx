@@ -16,6 +16,7 @@ const EditProfilePage = () => {
         const response = await updateUserProfileApi(data);
 
         console.log('update user profile Data:', response);
+        // userData.profilePicture = response.user.profilePicture;
 
         reset()
     };
