@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm, FormProvider, useFormContext } from 'react-hook-form';
+import { Spin, message } from 'antd';
 import { updateUserProfileApi } from '../utils/api/user_api';
 import TextInput from '../components/reusable/TextInput';
 import ImageInput from '../components/reusable/ImageInput';
@@ -9,16 +10,22 @@ import SubmitButton from '../components/reusable/SubmitButton';
 const EditProfilePage = () => {
     const methods = useForm();
     const { reset } = methods;
+    const [loading, setLoading] = useState(false);
     const userData = useSelector(state => state.auth.userInfo);
 
     const submitProfileData = async (data) => {
-
+        setLoading(true);
         const response = await updateUserProfileApi(data);
 
-        console.log('update user profile Data:', response);
-        // userData.profilePicture = response.user.profilePicture;
+        if (response) {
+            setLoading(false);
+            message.success('Profile updated');
+        } else {
+            setLoading(false);
+            message.error('Failed to update profile');
+        }
 
-        reset()
+        reset();
     };
 
     const nameValidation = {
@@ -35,7 +42,8 @@ const EditProfilePage = () => {
                 <FormProvider {...methods}>
                     <form onSubmit={methods.handleSubmit(submitProfileData)}>
                         <div className='flex items-center justify-between border p-3 my-4 mt-8 rounded-lg'>
-                            <img  alt={userData?.name} 
+                            <img 
+                                alt={userData?.name} 
                                 src={userData?.profilePicture}
                                 className='rounded-full max-h-20'
                             />
@@ -55,13 +63,17 @@ const EditProfilePage = () => {
                             className="p-2 h-32"
                         />
                         <div className="flex justify-end my-6">
-                            <SubmitButton content={'Update'} />
+                            {loading ? (
+                                <Spin />
+                            ) : (
+                                <SubmitButton content={'Update'} />
+                            )}
                         </div>
                     </form>
                 </FormProvider>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default EditProfilePage
+export default EditProfilePage;
