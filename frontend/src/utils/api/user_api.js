@@ -82,9 +82,27 @@ export const singleUserDetailsApi = async (id) => {
 }
 
 export const updateUserProfileApi = async (data) => {
+    const config = {
+        headers: {
+            'content-type': 'multipart/form-data',
+        },
+    };
+
     try {
-        const response = await userInstance.put('/update-data', data)
-        console.log(response);
+        const formData = new FormData()
+
+        if (data.name) formData.append('name', data.name);
+        if (data.bio) formData.append('bio', data.bio);
+
+        // Append profile image
+        if (data.files && data.files.length > 0) {
+            for (let i = 0; i < data.files.length; i++) {
+                formData.append('image', data.files[i]);
+            }
+        }
+
+        const response = await userInstance.put('/update-data', formData, config)
+        console.log(data.files);
         return response.data;
     } catch (error) {
         console.log('Error during password reset:', error);

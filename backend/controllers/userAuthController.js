@@ -4,7 +4,8 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { jwtDecode } from "jwt-decode";
-import nodemailer from 'nodemailer'
+import nodemailer from 'nodemailer';
+import cloudinary from '../utils/cloudinary.js';
 
 // const generateTokens = async (user, res) => {
 //     // Generate JWT tokens
@@ -339,18 +340,18 @@ const updateUserProfile = async (req, res) => {
 
         let updateData = { name, bio };
 
-        // If a new profile image is provided, add it to the update data
+        // If a new profile image is provided, upload it to Cloudinary
         if (req.file) {
-            console.log('image:', req.file); // Assuming you're using multer for file uploads
+            const result = await cloudinary.uploader.upload(req.file.path);
+            updateData.profilePicture = result.secure_url;
         }
-        console.log('image:', req.file);
 
-        // Find the user by ID and update their name and bio
+        // Find the user by ID and update their name, bio, and optionally profile picture
         const updatedUser = await Users.findByIdAndUpdate(
             userId,
             updateData,
             { new: true, runValidators: true }
-        )
+        );
 
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
@@ -361,7 +362,7 @@ const updateUserProfile = async (req, res) => {
         console.error('Error:', error);
         res.status(500).json({ error: error.message });
     }
-}
+};
 
 const searchUser = async (req, res) => {
     try {

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider, useFormContext } from 'react-hook-form';
 import { updateUserProfileApi } from '../utils/api/user_api';
 import TextInput from '../components/reusable/TextInput';
+import ImageInput from '../components/reusable/ImageInput';
 import SubmitButton from '../components/reusable/SubmitButton';
 
 const EditProfilePage = () => {
@@ -11,12 +12,6 @@ const EditProfilePage = () => {
     const userData = useSelector(state => state.auth.userInfo);
 
     const submitProfileData = async (data) => {
-        if (userData) {
-            reset({
-                name: userData.name,
-                bio: userData.bio,
-            })
-        }
 
         const response = await updateUserProfileApi(data);
 
@@ -43,7 +38,7 @@ const EditProfilePage = () => {
                                 src={userData?.profilePicture}
                                 className='rounded-full max-h-20'
                             />
-                            <input type="file" placeholder='changePhoto' />
+                            <ImageInput />
                         </div>
                         <TextInput
                             name="name"
