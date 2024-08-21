@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import cloudinary from '../utils/cloudinary.js';
 
 export const getHomePagePosts = async (req, res) => {
-    const { page, limit } = req.query;    
+    const { page, limit } = req.query;
 
     try {        
         const posts = await Post.aggregate([

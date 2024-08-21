@@ -332,6 +332,37 @@ const singleUserDetails = async (req, res) => {
     }
 }
 
+const updateUserProfile = async (req, res) => {
+    try {
+        const { name, bio } = req.body;
+        const userId = req.user;
+
+        let updateData = { name, bio };
+
+        // If a new profile image is provided, add it to the update data
+        if (req.file) {
+            console.log('image:', req.file); // Assuming you're using multer for file uploads
+        }
+        console.log('image:', req.file);
+
+        // Find the user by ID and update their name and bio
+        const updatedUser = await Users.findByIdAndUpdate(
+            userId,
+            updateData,
+            { new: true, runValidators: true }
+        )
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ message: 'Profile updated successfully', user: updatedUser });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: error.message });
+    }
+}
+
 const searchUser = async (req, res) => {
     try {
         const { searchText } = req.body;
@@ -388,6 +419,7 @@ export {
     generateOtp,
     changePassword,
     singleUserDetails,
+    updateUserProfile,
     searchUser,
     blockUser,
 };

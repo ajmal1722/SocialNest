@@ -71,10 +71,19 @@ export const changePasswordApi = async (data) => {
 }
 
 export const singleUserDetailsApi = async (id) => {
-    // console.log('Forgot Password Data:', data);
-
     try {
         const response = await userInstance.get(`/${id}`)
+        console.log(response);
+        return response.data;
+    } catch (error) {
+        console.log('Error during password reset:', error);
+        toast.error(error.response.data.error)
+    }
+}
+
+export const updateUserProfileApi = async (data) => {
+    try {
+        const response = await userInstance.put('/update-data', data)
         console.log(response);
         return response.data;
     } catch (error) {

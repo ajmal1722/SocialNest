@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router()
 import upload from '../utils/multer.js'
-import verifyUser from '../middlewares/authMiddleware.js'
+import verifyUser from '../middlewares/authMiddleware.js';
 import {
     getHomePagePosts,
     createPost,
@@ -24,7 +24,7 @@ import {
 router.use(verifyUser)
 
 router.get('/all-posts', getHomePagePosts);
-router.post('/create',upload.single('image'), createPost)
+router.post('/create', upload.single('image'), createPost)
 router.get('/get-posts', fetchPosts);
 router.get('/fetch-post-data/:id', fetchPostById);
 router.put('/update-post/:id', updatePost);
