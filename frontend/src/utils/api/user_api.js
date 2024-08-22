@@ -89,26 +89,27 @@ export const updateUserProfileApi = async (data) => {
     };
 
     try {
-        const formData = new FormData()
-
-        if (data.name) formData.append('name', data.name);
-        if (data.bio) formData.append('bio', data.bio);
-
-        // Append profile image
-        if (data.files && data.files.length > 0) {
-            for (let i = 0; i < data.files.length; i++) {
-                formData.append('image', data.files[i]);
-            }
+        const formData = new FormData();
+        
+        if (data.image) {
+            formData.append('image', data.image);
+        }
+        if (data.name) {
+            formData.append('name', data.name);
+        }
+        if (data.bio) {
+            formData.append('bio', data.bio);
         }
 
-        const response = await userInstance.put('/update-data', formData, config)
-        console.log(data.files);
-        return response.data;
+        // Replace the following line with the actual API call
+        // const response = await userInstance.put('/update-data', formData, config)
+        console.log('Form Data:', data);
+        // return response.data;
     } catch (error) {
-        console.log('Error during password reset:', error);
-        toast.error(error.response.data.error)
+        console.log('Error during profile update:', error);
+        toast.error(error.response?.data?.error || 'Failed to update profile');
     }
-}
+};
 
 export const searchUserApi = async (searchText) => {
     try {

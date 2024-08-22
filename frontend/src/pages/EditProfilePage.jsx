@@ -7,6 +7,7 @@ import TextInput from '../components/reusable/TextInput';
 import ReusableModal from '../components/reusable/ReusableModal';
 import ImageCropper from '../components/editProfilePage/ImageCropper';
 import SubmitButton from '../components/reusable/SubmitButton';
+import ImageInput from '../components/reusable/ImageInput'
 
 const EditProfilePage = () => {
     const methods = useForm();
@@ -41,9 +42,9 @@ const EditProfilePage = () => {
         },
     };
 
-    // const ImageCropperComponent = () => {
-    //     return <ImageCropper />
-    // }
+    const uploadImage = async (imgUrl) => {
+        const response = await updateUserProfileApi(imgUrl)
+    }
 
     return (
         <div className='min-h-[70vh] md:col-span-8 col-span-10 px-4 lg:px-8 mt-4 mb-16 md:mb-1'>
@@ -86,11 +87,16 @@ const EditProfilePage = () => {
                     </form>
                 </FormProvider>
             </div>
-            {showModal && 
-                <ReusableModal 
+            {showModal &&
+                <ReusableModal
                     isVisible={showModal}
                     onClose={closeModal}
-                    Content={ImageCropper}
+                    Content={() => (
+                        <ImageCropper
+                            onClose={closeModal}
+                            uploadImage={uploadImage}
+                        />
+                    )}
                 />
             }
         </div>
