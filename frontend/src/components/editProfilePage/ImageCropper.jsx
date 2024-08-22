@@ -7,6 +7,7 @@ const ImageCropper = ({ onClose, uploadImage }) => {
     const [crop, setCrop] = useState(null);
     const imageRef = useRef(null);
     const previewCanvasRef = useRef(null)
+    
 
     const onSelectFile = (e) => {
         const file = e.target.files?.[0];
@@ -25,7 +26,7 @@ const ImageCropper = ({ onClose, uploadImage }) => {
         const cropSetup = makeAspectCrop(
             {
                 unit: '%',
-                width: 60,
+                width: 50,
             },
             1,
             width,

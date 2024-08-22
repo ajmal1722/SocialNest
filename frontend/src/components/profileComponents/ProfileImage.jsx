@@ -1,10 +1,7 @@
-import { useState } from "react";
 import { useSelector } from "react-redux";
-import PopConfirm from "../reusable/PopConfirm";
 
 const ProfileImage = ({ initialUser }) => {
   const userInfo = useSelector(state => state.auth.userInfo);
-  console.log(initialUser, 'initial user');
   
   return (
     <div className='mt-10 flex justify-center'>

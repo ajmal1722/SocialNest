@@ -3,14 +3,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useForm, FormProvider, } from 'react-hook-form';
 import { Spin, message } from 'antd';
 import { updateUserProfileApi } from '../utils/api/user_api';
+import { set_credentials } from '../redux/slices/authSlice';
 import TextInput from '../components/reusable/TextInput';
 import ReusableModal from '../components/reusable/ReusableModal';
 import ImageCropper from '../components/editProfilePage/ImageCropper';
 import SubmitButton from '../components/reusable/SubmitButton';
-import ImageInput from '../components/reusable/ImageInput'
 
 const EditProfilePage = () => {
     const methods = useForm();
+    const dispatch = useDispatch()
     const { reset } = methods;
     const [loading, setLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -20,17 +21,7 @@ const EditProfilePage = () => {
         setShowModal(false)
     }
     const submitProfileData = async (data) => {
-        setLoading(true);
-        const response = await updateUserProfileApi(data);
-
-        if (response) {
-            setLoading(false);
-            message.success('Profile updated');
-        } else {
-            setLoading(false);
-            message.error('Failed to update profile');
-        }
-
+        await updateUserProfileApi(data);
         reset();
     };
 
@@ -44,11 +35,16 @@ const EditProfilePage = () => {
 
     const uploadImage = async (formData) => {
         try {
+            setLoading(true)
             const response = await updateUserProfileApi(formData);
             if (response) {
+                setLoading(false);
+                console.log(response);
+                dispatch(set_credentials(response.user))
                 message.success('Profile image updated');
             }
         } catch (error) {
+            setLoading(false)
             message.error('Failed to update profile image');
         }
     };
@@ -62,12 +58,15 @@ const EditProfilePage = () => {
                         src={userData?.profilePicture}
                         className='rounded-full max-h-20'
                     />
-                    <button
-                        onClick={() => setShowModal(true)}
-                        className='mx-2 sm:mr-5 md:mr-8 px-3 p-1 rounded-lg text-primary-light bg-ternary-dark '
-                    >
-                        Change Photo
-                    </button>
+                    {loading ?
+                        (<Spin className='mr-5 sm:mr-14 md:mr-18' />) : (
+                            <button
+                                onClick={() => setShowModal(true)}
+                                className='mx-2 sm:mr-5 md:mr-8 px-3 p-1 rounded-lg text-primary-light bg-ternary-dark '
+                            >
+                                Change Photo
+                            </button>
+                        )}
                 </div>
                 <FormProvider {...methods}>
                     <form onSubmit={methods.handleSubmit(submitProfileData)}>
@@ -85,11 +84,7 @@ const EditProfilePage = () => {
                             className="p-2 h-32"
                         />
                         <div className="flex justify-end my-6">
-                            {loading ? (
-                                <Spin />
-                            ) : (
-                                <SubmitButton content={'Update'} />
-                            )}
+                            <SubmitButton content={'Update'} />
                         </div>
                     </form>
                 </FormProvider>

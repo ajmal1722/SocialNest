@@ -341,7 +341,7 @@ const updateUserProfile = async (req, res) => {
         let updateData = { name, bio };
 
         // Fetch the user's current data to get the existing profile picture's public_id
-        const user = await Users.findById(userId);
+        const user = await Users.findById(userId).select('-password -refreshToken -v');
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
