@@ -5,6 +5,7 @@ import { fetchFollowers, fetchFollowing } from "../../utils/api/follow_api";
 import DateFormatter from "../reusable/DateFormatter";
 import ContentDisplayingModal from "../reusable/ContentDisplayingModal";
 import LogoutButton from "../authentication/LogoutButton";
+import FollowAndUnfollowButton from "../reusable/FollowAndUnfollowButton";
 import { Link } from "react-router-dom";
 
 const ProfileInfo = ({ profileData, posts }) => {
@@ -65,7 +66,15 @@ const ProfileInfo = ({ profileData, posts }) => {
                             </button>
                         </Link>
                         <LogoutButton />
-                    </div> : ''}
+                    </div> : (
+                        <div className="flex justify-center px-5">
+                            <FollowAndUnfollowButton 
+                                data={profileData} 
+                                followButtonStyle={'bg-blue-500 text-white font-semibold px-10 p-1 rounded-lg'}
+                                unFollowButtonStyle={'bg-ternary-dark dark:bg-secondary-dark text-white font-semibold px-10 p-1 rounded-lg '}
+                            />
+                        </div>
+                )}
                 </div>
                 <div className="flex justify-center md:block">
                     <div>
