@@ -7,7 +7,7 @@ import ContentDisplayingModal from "../reusable/ContentDisplayingModal";
 import LogoutButton from "../authentication/LogoutButton";
 import { Link } from "react-router-dom";
 
-const ProfileInfo = ({ profileData }) => {
+const ProfileInfo = ({ profileData, posts }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalContent, setModalContent] = useState([]);
 
@@ -56,16 +56,16 @@ const ProfileInfo = ({ profileData }) => {
                     <h1 className='text-2xl font-semibold mb-3 text-center mt-2'>
                         {name}
                     </h1>
-                    {userInfo._id === userId ?
-                        <div className="flex gap-4">
-                            <Link to='/edit-profile'>
-                                <button className='text-lg md:px-6 px-3 py-1 md:ml-8 rounded-lg bg-ternary-dark dark:bg-secondary-dark text-white flex items-center gap-2'>
-                                    Edit Profile
-                                    <LiaUserEditSolid className="text-2xl" />
-                                </button>
-                            </Link>
-                            <LogoutButton />
-                        </div> : ''}
+                    {userInfo._id === userId ?  
+                    <div className="flex gap-4">
+                        <Link to='/edit-profile'>
+                            <button className='text-lg md:px-6 px-3 py-1 md:ml-8 rounded-lg bg-ternary-dark dark:bg-secondary-dark text-white flex items-center gap-2'>
+                                Edit Profile
+                                <LiaUserEditSolid className="text-2xl" />
+                            </button>
+                        </Link>
+                        <LogoutButton />
+                    </div> : ''}
                 </div>
                 <div className="flex justify-center md:block">
                     <div>
@@ -76,7 +76,7 @@ const ProfileInfo = ({ profileData }) => {
                         <div className='flex gap-6 my-4 text-center'>
                             <div className='cursor-pointer'>
                                 <h1 className='text-2xl font-bold'>
-                                    0
+                                    {posts.length}
                                 </h1>
                                 <h1>
                                     Posts

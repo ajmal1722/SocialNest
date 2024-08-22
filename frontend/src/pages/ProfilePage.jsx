@@ -50,7 +50,7 @@ const ProfilePage = ({ initialPosts = [], initialUser = null }) => {
             <ToastContainer />
             <div className='md:flex gap-10 lg:gap-20 md:mx- sm:mx-5 mx-2 '>
                 <ProfileImage initialUser={initialUser} />
-                <ProfileInfo profileData={singleUserProfileData} />
+                <ProfileInfo profileData={singleUserProfileData} posts={initialUser ? initialPosts : posts} />
             </div>
             <NavigationButton
                 navOptions={['Posts', 'Blogs', 'Medias']}
