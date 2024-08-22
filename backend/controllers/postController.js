@@ -78,7 +78,7 @@ export const createPost = async (req, res) => {
         } else {
             return res.status(400).json({ message: 'Invalid content type', res: req.body });
         }
-
+        
         const savedPost = await newPost.save();
         res.status(201).json(savedPost);
     } catch (error) {

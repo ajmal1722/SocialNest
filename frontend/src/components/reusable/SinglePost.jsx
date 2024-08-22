@@ -58,7 +58,7 @@ const SinglePost = ({ post, initialUser }) => {
                     className="flex items-center gap-3"
                 >
                     <img
-                        src={userInfo?.profilePicture?.length >= 1 ? userInfo.profilePicture : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
+                        src={initialUser ? initialUser.profilePicture : userInfo.profilePicture }
                         className='rounded-full max-w-8 object-cover'
                     />
                     <h1 className='text-lg'>

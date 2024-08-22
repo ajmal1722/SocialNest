@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import 'react-image-crop/dist/ReactCrop.css';
 import ReactCrop, { centerCrop, convertToPixelCrop, makeAspectCrop } from 'react-image-crop';
-import { updateUserProfileApi } from "../../utils/api/user_api";
 
 const ImageCropper = ({ onClose, uploadImage }) => {
     const [imageSrc, setImageSrc] = useState('');
@@ -81,6 +80,38 @@ const ImageCropper = ({ onClose, uploadImage }) => {
         ctx.restore();
     };
 
+    const dataURLToBlob = (dataURL) => {
+        const parts = dataURL.split(';base64,');
+        const contentType = parts[0].split(':')[1];
+        const raw = window.atob(parts[1]);
+        const rawLength = raw.length;
+
+        const uInt8Array = new Uint8Array(rawLength);
+
+        for (let i = 0; i < rawLength; ++i) {
+            uInt8Array[i] = raw.charCodeAt(i);
+        }
+
+        return new Blob([uInt8Array], { type: contentType });
+    };
+    
+    const handleCropUpdate = () => {
+        setCanvasPreview(
+            imageRef.current,
+            previewCanvasRef.current,
+            convertToPixelCrop(crop, imageRef.current.width, imageRef.current.height)
+        );
+        const dataUrl = previewCanvasRef.current.toDataURL('image/jpeg', 0.8);
+        const blob = dataURLToBlob(dataUrl);
+
+        const formData = new FormData();
+        formData.append('image', blob, 'croppedImage.jpg');
+
+        uploadImage(formData);
+        console.log('uInt8array: ', blob);
+        onClose();
+    };
+
     return (
         <>
             <label htmlFor="" className='mb-3'>
@@ -114,16 +145,7 @@ const ImageCropper = ({ onClose, uploadImage }) => {
 
                     <div className='flex justify-end'>
                         <button
-                            onClick={() => {
-                                setCanvasPreview(
-                                    imageRef.current, 
-                                    previewCanvasRef.current, 
-                                    convertToPixelCrop(crop, imageRef.current.width, imageRef.current.height)
-                                )
-                                const dataUrl = previewCanvasRef.current.toDataURL();
-                                uploadImage(dataUrl)
-                                onClose()
-                            }}
+                            onClick={handleCropUpdate}
                             className='mx-8 mt-2 bg-sky-500 px-5 p-1 rounded-md font-semibold text-primary-light'
                         >
                             Crop & Update

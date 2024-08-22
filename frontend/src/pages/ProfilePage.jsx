@@ -49,7 +49,7 @@ const ProfilePage = ({ initialPosts = [], initialUser = null }) => {
         <div className='min-h-[90vh] md:col-span-8 col-span-10 px-4 lg:px-8 mt-4 mb-16 md:mb-1'>
             <ToastContainer />
             <div className='md:flex gap-10 lg:gap-20 md:mx- sm:mx-5 mx-2 '>
-                <ProfileImage />
+                <ProfileImage initialUser={initialUser} />
                 <ProfileInfo profileData={singleUserProfileData} />
             </div>
             <NavigationButton

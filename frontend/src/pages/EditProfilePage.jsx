@@ -42,9 +42,16 @@ const EditProfilePage = () => {
         },
     };
 
-    const uploadImage = async (imgUrl) => {
-        const response = await updateUserProfileApi(imgUrl)
-    }
+    const uploadImage = async (formData) => {
+        try {
+            const response = await updateUserProfileApi(formData);
+            if (response) {
+                message.success('Profile image updated');
+            }
+        } catch (error) {
+            message.error('Failed to update profile image');
+        }
+    };
 
     return (
         <div className='min-h-[70vh] md:col-span-8 col-span-10 px-4 lg:px-8 mt-4 mb-16 md:mb-1'>

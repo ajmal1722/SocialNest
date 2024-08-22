@@ -33,6 +33,8 @@ export const createPost = async (data) => {
                 formData.append('image', data.files[i]);
             }
         }
+        console.log('data:', data);
+        console.log('formdata:', formData);
 
         const response = await postInstance.post('/create', formData, config);
 

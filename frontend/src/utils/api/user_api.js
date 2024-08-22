@@ -81,33 +81,19 @@ export const singleUserDetailsApi = async (id) => {
     }
 }
 
-export const updateUserProfileApi = async (data) => {
+export const updateUserProfileApi = async (formData) => {
     const config = {
         headers: {
-            'content-type': 'multipart/form-data',
+            'Content-Type': 'multipart/form-data',
         },
     };
 
     try {
-        const formData = new FormData();
-        
-        if (data.image) {
-            formData.append('image', data.image);
-        }
-        if (data.name) {
-            formData.append('name', data.name);
-        }
-        if (data.bio) {
-            formData.append('bio', data.bio);
-        }
-
-        // Replace the following line with the actual API call
-        // const response = await userInstance.put('/update-data', formData, config)
-        console.log('Form Data:', data);
-        // return response.data;
+        const response = await userInstance.put('/update-data', formData, config);
+        return response.data;
     } catch (error) {
-        console.log('Error during profile update:', error);
-        toast.error(error.response?.data?.error || 'Failed to update profile');
+        console.error('Error during profile update:', error);
+        throw error; // Ensure errors are propagated
     }
 };
 
