@@ -6,7 +6,6 @@ import MenuFooter from "../components/shared/MenuFooter";
 
 const MainLayout = () => {
   const  { userInfo }  = useSelector(state => state.auth)
-  // console.log(userInfo);
 
   return (
     <>

@@ -15,6 +15,9 @@ import ArchivedPosts from "../pages/ArchivedPosts";
 import SavedPostPage from "../pages/SavedPostPage";
 import ListSavedPosts from "../components/savedCollections/ListSavedPosts";
 import SearchUserPage from "../pages/SearchUserPage";
+import AdminLogin from "../admin/pages/AdminLogin";
+import AdminLayout from "../admin/Layout/AdminLayout";
+import AdminDashboard from "../admin/pages/AdminDashboard";
 
 const router = createBrowserRouter([
     {
@@ -85,6 +88,20 @@ const router = createBrowserRouter([
         path: '/user/forget-password',
         element: <ForgotPasswordPage />
     },
+    {
+        path: '/admin',
+        element: <AdminLayout />,
+        children: [
+            {
+                path: 'dashboard',
+                element: <AdminDashboard />
+            }
+        ]
+    },
+    {
+        path: '/admin/login',
+        element: <AdminLogin />
+    }
 ]);
 
 export default router
