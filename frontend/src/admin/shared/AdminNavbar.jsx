@@ -1,11 +1,17 @@
-import React from 'react'
+import React from 'react';
 
-const AdminNavbar = () => {
+const AdminNavbar = ({ onToggleSidebar }) => {
     return (
-        <div className='text-2xl text-center'>
-            Admin Navbar
-        </div>
-    )
-}
+        <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
+            <h1 className="text-lg font-semibold">Admin Dashboard</h1>
+            <button
+                className="md:hidden p-2 focus:outline-none focus:bg-gray-700"
+                onClick={onToggleSidebar}
+            >
+                ☰
+            </button>
+        </nav>
+    );
+};
 
-export default AdminNavbar
+export default AdminNavbar;
