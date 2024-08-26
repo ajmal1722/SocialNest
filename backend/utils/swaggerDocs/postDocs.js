@@ -213,3 +213,277 @@
  *                 error:
  *                   type: string
  */
+
+/**
+ * @swagger
+ * /post/update-post/{id}:
+ *   put:
+ *     summary: Update a post by ID
+ *     tags:
+ *       - Posts
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         description: The ID of the post to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               contentType:
+ *                 type: string
+ *                 description: Type of content (e.g., Image, Blog)
+ *                 example: Blog
+ *               caption:
+ *                 type: string
+ *                 description: Caption for the post
+ *                 example: "This is an updated caption"
+ *               blogContent:
+ *                 type: string
+ *                 description: Content of the blog post (only for Blog content type)
+ *                 example: "This is the updated content of the blog post"
+ *     responses:
+ *       200:
+ *         description: Post updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: Success
+ *                 post:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                       description: Post ID
+ *                     author_id:
+ *                       type: string
+ *                       description: Author's user ID
+ *                     caption:
+ *                       type: string
+ *                       description: Caption of the post
+ *                     blogContent:
+ *                       type: string
+ *                       description: Content of the blog (for blog posts)
+ *                     createdAt:
+ *                       type: string
+ *                       format: date-time
+ *                       description: Date when the post was created
+ *                     updatedAt:
+ *                       type: string
+ *                       format: date-time
+ *                       description: Date when the post was last updated
+ *       400:
+ *         description: Invalid content type or bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Invalid content type
+ *       404:
+ *         description: Post not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: Failed
+ *                 message:
+ *                   type: string
+ *                   example: Post not found
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: Failed
+ *                 error:
+ *                   type: string
+ *                   example: Internal server error
+ */
+
+/**
+ * @swagger
+ * /post/delete-post/{id}:
+ *   delete:
+ *     summary: Soft delete a post by ID
+ *     tags:
+ *       - Posts
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         description: The ID of the post to delete
+ *     responses:
+ *       200:
+ *         description: Post deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Post deleted successfully
+ *                 deletedPost:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                       description: Post ID
+ *                     author_id:
+ *                       type: string
+ *                       description: Author's user ID
+ *                     caption:
+ *                       type: string
+ *                       description: Caption of the post
+ *                     isDeleted:
+ *                       type: boolean
+ *                       description: Flag indicating if the post is deleted
+ *                     createdAt:
+ *                       type: string
+ *                       format: date-time
+ *                       description: Date when the post was created
+ *                     updatedAt:
+ *                       type: string
+ *                       format: date-time
+ *                       description: Date when the post was last updated
+ *       400:
+ *         description: Post ID not provided or invalid request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Post not found
+ *       404:
+ *         description: Post not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Post not found
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: Failed
+ *                 error:
+ *                   type: string
+ *                   example: Error message describing the issue
+ */
+
+/**
+ * @swagger
+ * /post/archive-post/{id}:
+ *   post:
+ *     summary: Archive or unarchive a post by ID
+ *     tags:
+ *       - Posts
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         description: The ID of the post to archive or unarchive
+ *     responses:
+ *       200:
+ *         description: Post archived or unarchived successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Post archived successfully
+ *                 archivedPost:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                       description: Post ID
+ *                     author_id:
+ *                       type: string
+ *                       description: Author's user ID
+ *                     caption:
+ *                       type: string
+ *                       description: Caption of the post
+ *                     isArchived:
+ *                       type: boolean
+ *                       description: Flag indicating if the post is archived
+ *                     createdAt:
+ *                       type: string
+ *                       format: date-time
+ *                       description: Date when the post was created
+ *                     updatedAt:
+ *                       type: string
+ *                       format: date-time
+ *                       description: Date when the post was last updated
+ *       400:
+ *         description: Post ID not provided or invalid request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Post not found
+ *       404:
+ *         description: Post not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Post not found
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: Failed
+ *                 error:
+ *                   type: string
+ *                   example: Error message describing the issue
+ */
