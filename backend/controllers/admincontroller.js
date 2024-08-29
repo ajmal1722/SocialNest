@@ -68,3 +68,7 @@ export const adminLogin = async (req, res) => {
         return res.status(500).json({ error: error.message })
     }
 }
+
+export const isAdminProtected = async (req, res) => {
+    res.status(200).json({ admin: req.user, isAuthenticated: true });
+}
