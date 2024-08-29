@@ -1,5 +1,6 @@
 import { useForm, FormProvider } from 'react-hook-form';
 import { GoMail } from "react-icons/go";
+import { adminLoginApi } from '../../utils/api/admin_api';
 import Input from '../../components/reusable/Input'
 import PasswordInput from '../../components/reusable/PasswordInput';
 import { useNavigate, Link } from 'react-router-dom';
@@ -35,6 +36,13 @@ const AdminLogin = () => {
         // } catch (error) {
         //     toast.error(error.response.data.error)
         // }
+
+        console.log(data)
+        try {
+            const response = await adminLoginApi(data);
+        } catch (error) {
+            toast.error(error.response.data.error)
+        }
     }
 
     return (

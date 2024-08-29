@@ -4,6 +4,7 @@ import {
     adminLogin,
 } from '../controllers/admincontroller.js';
 
-router.post('/login', adminLogin)
+// router.post('/signup', adminSignup);
+router.post('/login', adminLogin);
 
 export default router
