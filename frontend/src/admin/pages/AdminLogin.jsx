@@ -3,9 +3,8 @@ import { GoMail } from "react-icons/go";
 import { adminLoginApi } from '../../utils/api/admin_api';
 import Input from '../../components/reusable/Input'
 import PasswordInput from '../../components/reusable/PasswordInput';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { toast } from 'react-toastify';
 
 const AdminLogin = () => {
 
@@ -21,27 +20,14 @@ const AdminLogin = () => {
     const navigate = useNavigate()
 
     const userLogin = async (data) => {
-        // try {
-        //     const response = await instance.post('/login', data)
-        //     console.log('data:', response.data)
-
-        //     const { userId ,username, email, following, followers } = response.data
-
-        //     if (username && email) {
-        //         dispatch(set_credentials({ userId ,username, email, following, followers }))
-        //         reset()
-        //         navigate('/')
-        //     }
-            
-        // } catch (error) {
-        //     toast.error(error.response.data.error)
-        // }
-
-        console.log(data)
         try {
             const response = await adminLoginApi(data);
+            if (response) {
+                reset()
+                navigate('/admin')
+            }
         } catch (error) {
-            toast.error(error.response.data.error)
+            console.log('error while login:', error)
         }
     }
 

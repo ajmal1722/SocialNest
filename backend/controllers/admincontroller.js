@@ -28,7 +28,7 @@ export const adminLogin = async (req, res) => {
         // console.log(email);
 
         if (!admin) {
-            return res.status(400).json({ error: 'Invalid email' });
+            return res.status(400).json({ error: 'User does not exist' });
         }
 
         if (password) {
