@@ -5,6 +5,7 @@ import connectDB from './database/connection.js';
 import userAuthRouter from './routes/userAuthRouter.js';
 import postRouter from './routes/postRouter.js';
 import followRouter from './routes/followRouter.js';
+import adminRouter from './routes/adminRouter.js';
 import { specs, swaggerUi } from './utils/swagger.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -37,6 +38,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/user', userAuthRouter);
 app.use('/post', postRouter);
 app.use('/follow', followRouter);
+app.use('/admin', adminRouter);
 
 const PORT = process.env.PORT || 3000;
 

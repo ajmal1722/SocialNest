@@ -5,7 +5,7 @@ const AdminSidebar = ({ isOpen }) => {
     return (
         <aside
             className={`bg-gray-700 text-white w-64 space-y-6 p-6 absolute inset-y-0 left-0 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
-                } transition-transform duration-200 ease-in-out md:relative md:translate-x-0`}
+                } transition-transform duration-200 ease-in-out lg:relative lg:translate-x-0`}
         >
             <nav>
                 <ul>
