@@ -18,6 +18,7 @@ import SearchUserPage from "../pages/SearchUserPage";
 import AdminLogin from "../admin/pages/AdminLogin";
 import AdminLayout from "../admin/Layout/AdminLayout";
 import AdminDashboard from "../admin/pages/AdminDashboard";
+import AdminAuth from "../utils/auth/AdminAuth";
 
 const router = createBrowserRouter([
     {
@@ -93,8 +94,13 @@ const router = createBrowserRouter([
         element: <AdminLayout />,
         children: [
             {
-                path: 'dashboard',
-                element: <AdminDashboard />
+                element: <AdminAuth />,
+                children: [
+                    {
+                        index: true,
+                        element: <AdminDashboard />
+                    }
+                ]
             }
         ]
     },

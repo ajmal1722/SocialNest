@@ -11,5 +11,14 @@ export const adminLoginApi = async (data) => {
         message.error(error?.response?.data?.error)
         console.log("error fetching notification page:", error);
     }
-
 };
+
+export const checkAdminAuthenticatedApi = async () => {
+    try {
+        const response = await adminInstance.get('/is-admin-protected');
+        console.log(response.data);
+        return response.data
+    } catch (error) {
+        console.log("error fetching notification page:", error.response.data);
+    }
+}
