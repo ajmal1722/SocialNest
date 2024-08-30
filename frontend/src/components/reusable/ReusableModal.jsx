@@ -10,7 +10,7 @@ const ReusableModal = ({ isVisible, onClose, Content, title }) => {
             className="p-0 dark:bg-primary-dark"
             style={{ padding: 0 }}
         >
-            <div className="max-h-[70vh] overflow-y-auto dark:bg-primary-dark">
+            <div className="max-h-[70vh] overflow-y-auto ">
                 {Content && <Content />}
             </div>
         </Modal>
