@@ -1,15 +1,23 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ConfirmationModal from "../reusable/ConfirmationModal";
+import ReusableModal from "../reusable/ReusableModal";
+import ReportPostForm from "../posts/ReportPostForm";
 
 const ProfilePostOptions = ({ setShowOptions, postId, handleDelete, handleArchive, content, isOwner }) => {
     const [showModal, setShowModal] = useState(false);
+    const [showForm, setShowForm] = useState(false);
     const [action, setAction] = useState('');
 
     const handleAction = (actionType) => {
         setAction(actionType);
         setShowModal(true);
     };
+
+    const reportPost = (id) => {
+        console.log(id)
+        setShowForm(true);
+    }
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black  bg-opacity-50 text-center">
@@ -20,7 +28,7 @@ const ProfilePostOptions = ({ setShowOptions, postId, handleDelete, handleArchiv
                     </button>
                 ) : (
                     <>
-                        <button className='text-secondary-light font-semibold border-b dark:border-gray-500 py-2 w-full hover:scale-105'>
+                        <button onClick={() => reportPost(postId)} className='text-secondary-light font-semibold border-b dark:border-gray-500 py-2 w-full hover:scale-105'>
                             Report
                         </button>
                     </>
@@ -49,6 +57,12 @@ const ProfilePostOptions = ({ setShowOptions, postId, handleDelete, handleArchiv
                 handleDelete={handleDelete}
                 handleArchive={handleArchive}
                 action={action}
+            />
+
+            <ReusableModal
+                isVisible={showForm}
+                onClose={() => setShowForm(false)}
+                Content={ReportPostForm}
             />
         </div>
     )
