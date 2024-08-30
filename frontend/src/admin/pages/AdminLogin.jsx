@@ -3,10 +3,12 @@ import { GoMail } from "react-icons/go";
 import { adminLoginApi } from '../../utils/api/admin_api';
 import Input from '../../components/reusable/Input'
 import PasswordInput from '../../components/reusable/PasswordInput';
+import useCheckAuth from '../../utils/auth/AuthenticatedRedirect';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 const AdminLogin = () => {
+    useCheckAuth('/admin');
 
     const methods = useForm({
         defaultValues: {

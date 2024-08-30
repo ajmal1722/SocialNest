@@ -12,7 +12,7 @@ import useCheckAuth from '../utils/auth/AuthenticatedRedirect';
 import GoogleOAuth from '../components/authentication/GoogleOAuth';
 
 const UserLogin = () => {
-    useCheckAuth()
+    useCheckAuth('/')
 
     const methods = useForm({
         defaultValues: {
