@@ -4,36 +4,41 @@ import { toast } from "react-toastify";
 import { reportPostApi } from "../../utils/api/admin_api";
 import SubmitButton from "../reusable/SubmitButton";
 
-const ReportPostForm = ({ setShowForm, postId }) => {
+const ReportPostForm = ({ setShowForm, postId, setPosts }) => {
     const [reportReason, setReportReason] = useState("");
     const [loading, setLoading] = useState(false);
 
     const handleReport = async (e) => {
         e.preventDefault();
-        
+
         if (!reportReason.trim()) {
             message.error("Please provide a reason for your report.");
             return;
         }
 
-        setLoading(true)
+        setLoading(true);
 
         try {
             const response = await reportPostApi({ reasonForReport: reportReason, postId }); // Call the API
 
-            if (response?.status === 201) { 
+            if (response?.status === 201) {
                 message.success("Your report has been submitted successfully.");
-                setShowForm(false); 
+                setShowForm(false);
+                setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId)); // Remove the post if required
             } else {
                 toast.error("Failed to submit the report. Please try again.");
             }
         } catch (error) {
-            message.error("An error occurred while submitting the report."); // Handle API errors
+            if (error.response && error.response.data && error.response.data.message) {
+                message.error(error.response.data.message);
+            } else {
+                message.error("An error occurred while submitting the report.");
+            }
             console.error("Error reporting post:", error);
         } finally {
             setLoading(false); // Stop loading
         }
-    }
+    };
 
     return (
         <div className='my-4 mx-3 border py-3 px-2 rounded'>
@@ -43,13 +48,14 @@ const ReportPostForm = ({ setShowForm, postId }) => {
                     className="mb-4 p-2"
                     value={reportReason}  // Bind input value to state
                     onChange={(e) => setReportReason(e.target.value)}  // Update state on input change
+                    disabled={loading} // Disable input while loading
                 />
                 <div className="flex justify-end">
-                    <SubmitButton content={'Submit'} />
+                    <SubmitButton content={'Submit'} loading={loading} /> 
                 </div>
             </form>
         </div>
-    )
-}
+    );
+};
 
-export default ReportPostForm
+export default ReportPostForm;

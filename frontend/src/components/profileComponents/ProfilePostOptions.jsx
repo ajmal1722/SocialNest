@@ -4,7 +4,7 @@ import ConfirmationModal from "../reusable/ConfirmationModal";
 import ReusableModal from "../reusable/ReusableModal";
 import ReportPostForm from "../posts/ReportPostForm";
 
-const ProfilePostOptions = ({ setShowOptions, postId, handleDelete, handleArchive, content, isOwner }) => {
+const ProfilePostOptions = ({ setShowOptions, postId, handleDelete, handleArchive, content, isOwner, setPosts }) => {
     const [showModal, setShowModal] = useState(false);
     const [showForm, setShowForm] = useState(false);
     const [action, setAction] = useState('');
@@ -20,7 +20,11 @@ const ProfilePostOptions = ({ setShowOptions, postId, handleDelete, handleArchiv
     }
 
     const ReportPostFormWithProps = () => {
-        return <ReportPostForm setShowForm={setShowForm} postId={postId} />
+        return <ReportPostForm 
+            setShowForm={setShowForm} 
+            postId={postId} 
+            setPosts={setPosts}
+        />
     }
 
     return (
@@ -67,6 +71,7 @@ const ProfilePostOptions = ({ setShowOptions, postId, handleDelete, handleArchiv
                 isVisible={showForm}
                 onClose={() => setShowForm(false)}
                 Content={ReportPostFormWithProps}
+                setPosts={setPosts}
             />
         </div>
     )

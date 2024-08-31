@@ -51,7 +51,12 @@ const HomePage = () => {
         <div className='min-h-[70vh] md:col-span-8 col-span-10 px-4 lg:px-8 mt-4 mb-16 md:mb-1'>
             {posts.length > 0 ? (
                 posts.map((post) => (
-                    <SinglePost key={post._id} post={post} initialUser={post.author_details} />
+                    <SinglePost 
+                        key={post._id} 
+                        post={post} 
+                        setPosts={setPosts}
+                        initialUser={post.author_details} 
+                    />
                 ))
             ) : (
                 !loading && <h1 className='flex justify-center items-center h-full'>No posts available</h1>

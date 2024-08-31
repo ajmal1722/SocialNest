@@ -11,7 +11,7 @@ import SavePost from "../posts/SavePost";
 import ProfilePostOptions from "../profileComponents/ProfilePostOptions";
 import { deletePost, archivePostApi } from "../../utils/api/post_api";
 
-const SinglePost = ({ post, initialUser }) => {
+const SinglePost = ({ post, initialUser, setPosts }) => {
     const [showOptions, setShowOptions] = useState(false);
     const userInfo = useSelector(state => state.auth.userInfo);
 
@@ -91,6 +91,7 @@ const SinglePost = ({ post, initialUser }) => {
                 <ProfilePostOptions
                     setShowOptions={setShowOptions}
                     postId={post._id}
+                    setPosts={setPosts}
                     handleDelete={handleDelete}
                     handleArchive={handleArchive}
                     isOwner={isOwner}

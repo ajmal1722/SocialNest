@@ -93,7 +93,7 @@ export const reportPost = async (req, res) => {
 
         await report.save();
 
-        res.status(201).json({ message: 'Report submitted successfully' });
+        res.status(201).json({ message: 'Report submitted successfully', post });
     } catch (error) {
         console.error('Error during reporting post:', error);
         return res.status(500).json({ error: error.message })
