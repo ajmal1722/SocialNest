@@ -19,6 +19,10 @@ const ProfilePostOptions = ({ setShowOptions, postId, handleDelete, handleArchiv
         setShowForm(true);
     }
 
+    const ReportPostFormWithProps = () => {
+        return <ReportPostForm setShowForm={setShowForm} />
+    }
+
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black  bg-opacity-50 text-center">
             <div className="bg-primary-light dark:bg-secondary-dark max-w-sm w-full rounded-lg p-3 relative text-primary-dark dark:text-primary-light">
@@ -62,7 +66,7 @@ const ProfilePostOptions = ({ setShowOptions, postId, handleDelete, handleArchiv
             <ReusableModal
                 isVisible={showForm}
                 onClose={() => setShowForm(false)}
-                Content={ReportPostForm}
+                Content={ReportPostFormWithProps}
             />
         </div>
     )
