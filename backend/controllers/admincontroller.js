@@ -1,4 +1,6 @@
 import Admin from "../models/adminSchema.js";
+import Report from '../models/reportSchema.js';
+import { Post } from '../models/postSchema.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -65,10 +67,35 @@ export const adminLogin = async (req, res) => {
         return res.status(200).json({ message: 'Login successfull', admin });
     } catch (error) {
         console.error('Error during admin login:', error);
-        return res.status(500).json({ error: error.message })
+        return res.status(500).json({ error: error.message });
     }
 }
 
 export const isAdminProtected = async (req, res) => {
     res.status(200).json({ admin: req.user, isAuthenticated: true });
+}
+
+export const reportPost = async (req, res) => {
+    try {
+        const { reasonForReport, postId } = req.body;
+        const userId = req.user;
+        
+        console.log(reasonForReport, postId, userId)
+
+        const post = await Post.findById(postId);
+        if (!post) return res.status(404).json({ message: 'Post not found' }); 
+        
+        const report = new Report({
+            postId,
+            reportedBy: userId,
+            reasonForReport
+        })
+
+        await report.save();
+
+        res.status(201).json({ message: 'Report submitted successfully' });
+    } catch (error) {
+        console.error('Error during reporting post:', error);
+        return res.status(500).json({ error: error.message })
+    }
 }

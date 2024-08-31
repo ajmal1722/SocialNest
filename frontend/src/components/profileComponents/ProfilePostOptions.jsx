@@ -20,7 +20,7 @@ const ProfilePostOptions = ({ setShowOptions, postId, handleDelete, handleArchiv
     }
 
     const ReportPostFormWithProps = () => {
-        return <ReportPostForm setShowForm={setShowForm} />
+        return <ReportPostForm setShowForm={setShowForm} postId={postId} />
     }
 
     return (

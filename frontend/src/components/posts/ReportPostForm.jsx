@@ -1,13 +1,38 @@
 import { useState } from "react";
-import Input from "antd/es/input/Input";
+import { Input, message } from "antd";
+import { toast } from "react-toastify";
+import { reportPostApi } from "../../utils/api/admin_api";
 import SubmitButton from "../reusable/SubmitButton";
 
-const ReportPostForm = ({ setShowForm }) => {
+const ReportPostForm = ({ setShowForm, postId }) => {
     const [reportReason, setReportReason] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const handleReport = (e) => {
+    const handleReport = async (e) => {
         e.preventDefault();
-        setShowForm(false)
+        
+        if (!reportReason.trim()) {
+            message.error("Please provide a reason for your report.");
+            return;
+        }
+
+        setLoading(true)
+
+        try {
+            const response = await reportPostApi({ reasonForReport: reportReason, postId }); // Call the API
+
+            if (response?.status === 201) { 
+                message.success("Your report has been submitted successfully.");
+                setShowForm(false); 
+            } else {
+                toast.error("Failed to submit the report. Please try again.");
+            }
+        } catch (error) {
+            message.error("An error occurred while submitting the report."); // Handle API errors
+            console.error("Error reporting post:", error);
+        } finally {
+            setLoading(false); // Stop loading
+        }
     }
 
     return (
