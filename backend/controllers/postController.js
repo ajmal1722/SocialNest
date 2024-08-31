@@ -2,18 +2,25 @@ import { Post, ImagePost, BlogPost } from '../models/postSchema.js';
 import Users from '../models/userSchema.js';
 import SavedPost from '../models/savedPostSchema.js';
 import Collection from '../models/collectionsSchema.js';
+import Report from '../models/reportSchema.js';
 import mongoose from 'mongoose';
 import cloudinary from '../utils/cloudinary.js';
 
 export const getHomePagePosts = async (req, res) => {
     const { page, limit } = req.query;
+    const userId = req.user;
 
     try {        
+        // Find reported post IDs by the user
+        const reportedPosts = await Report.find({ reportedBy: userId }).distinct('postId');
+        console.log('reportedPosts', reportedPosts, userId);
+
         const posts = await Post.aggregate([
             {
                 $match: {
-                  isDeleted: false,
-                  isArchived: false
+                    isDeleted: false,
+                    isArchived: false,
+                    _id: { $nin: reportedPosts }, // Exclude reported posts
                 }
             },
             {
@@ -552,4 +559,33 @@ export const getSavedPosts = async (req, res) => {
         console.log('Error message:', error);
         res.status(500).json({ status: 'Failed', error: error.message });
     }
-};
+}
+
+export const reportPost = async (req, res) => {
+    try {
+        const { reasonForReport, postId } = req.body;
+        const userId = req.user;
+        
+        console.log(reasonForReport, postId, userId)
+
+        // Check if the user has already reported this post
+        const existingReport = await Report.findOne({ postId, userId });
+
+        if (existingReport) {
+            return res.status(400).json({ message: 'You have already reported this post.' });
+        } 
+        
+        const report = new Report({
+            postId,
+            reportedBy: userId,
+            reasonForReport
+        })
+
+        await report.save();
+
+        res.status(201).json({ message: 'Report submitted successfully' });
+    } catch (error) {
+        console.error('Error during reporting post:', error);
+        return res.status(500).json({ error: error.message })
+    }
+}

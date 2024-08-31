@@ -18,6 +18,7 @@ import {
     toggleSavePost,
     getCollections,
     getSavedPosts,
+    reportPost
 } from '../controllers/postController.js'
 
 // authorization will be applied all the routes below this line
@@ -40,6 +41,10 @@ router.post('/add-comment', addComment);
 router.post('/save-post', toggleSavePost);
 router.get('/is-saved/:id', checkIsSaved);
 router.get('/fetch-collections', getCollections);
-router.get('/fetch-saved-posts/:id', getSavedPosts)
+router.get('/fetch-saved-posts/:id', getSavedPosts);
+
+// Report Post
+
+router.post('/report-post', reportPost)
 
 export default router;

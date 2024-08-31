@@ -179,3 +179,13 @@ export const fetchSavedPostsApi = async (id) => {
         throw error;
     }
 }
+
+export const reportPostApi = async (data) => {
+    try {
+        const response = await postInstance.post('/report-post', data);
+        console.log(typeof(response.status));
+        return response;
+    } catch (error) {
+        console.log("error fetching notification page:", error.response.data);
+    }
+}

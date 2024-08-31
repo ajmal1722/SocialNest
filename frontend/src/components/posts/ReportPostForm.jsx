@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input, message } from "antd";
 import { toast } from "react-toastify";
-import { reportPostApi } from "../../utils/api/admin_api";
+import { reportPostApi } from "../../utils/api/post_api";
 import SubmitButton from "../reusable/SubmitButton";
 
 const ReportPostForm = ({ setShowForm, postId, setPosts }) => {
