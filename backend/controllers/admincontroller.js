@@ -77,7 +77,44 @@ export const isAdminProtected = async (req, res) => {
 
 export const fetchReportPost = async (req, res) => {
     try {
-        const reportedPosts = await Report.find();
+        const reportedPosts = await Report.aggregate([
+            {
+                $lookup: {
+                    from: 'posts',
+                    localField: 'postId',
+                    foreignField: '_id', 
+                    as: 'post_details'
+                }
+            },
+            {
+                $unwind: {
+                    path: '$post_details'
+                }
+            },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'reportedBy',
+                    foreignField: '_id',
+                    as: 'user_details'
+                }
+            },
+            {
+                $unwind: {
+                    path: '$user_details'
+                }
+            },
+            {
+                $project: {
+                    'user_details.password': 0,       // Exclude password
+                    'user_details.refreshToken': 0,   // Exclude refreshToken
+                    'user_details.__v': 0,
+                    'user_details.followers': 0,
+                    'user_details.following': 0,
+                    'user_details.savedPosts': 0,
+                }
+            }
+        ]);
         
         // Return the fetched reported posts in the response
         return res.status(200).json({ reportedPosts });
