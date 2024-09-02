@@ -19,6 +19,8 @@ import AdminLogin from "../admin/pages/AdminLogin";
 import AdminLayout from "../admin/Layout/AdminLayout";
 import AdminDashboard from "../admin/pages/AdminDashboard";
 import AdminAuth from "../utils/auth/AdminAuth";
+import AdminReportPage from "../admin/pages/AdminReportPage";
+import AdminProfilePage from "../admin/pages/AdminProfilePage";
 
 const router = createBrowserRouter([
     {
@@ -99,6 +101,14 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <AdminDashboard />
+                    },
+                    {
+                        path: '/admin/reports',
+                        element: <AdminReportPage />
+                    },
+                    {
+                        path: '/admin/profile',
+                        element: <AdminProfilePage />
                     }
                 ]
             }

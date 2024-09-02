@@ -10,7 +10,7 @@ const AdminSidebar = ({ isOpen }) => {
             <nav className='my-20'>
                 <ul>
                     <NavLink
-                        to="/admin"
+                        to="/admin" end
                         className={({ isActive }) =>
                             isActive
                                 ? "bg-gray-700 py-2 p-10 hover:bg-gray-500 rounded block"
