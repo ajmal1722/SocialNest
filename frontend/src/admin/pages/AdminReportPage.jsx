@@ -1,4 +1,6 @@
+import { useState, useEffect } from 'react';
 import { Space, Table, Tag } from 'antd';
+import { fetchReportApi } from '../../utils/api/admin_api';
 
 const columns = [
     {
@@ -9,8 +11,8 @@ const columns = [
     },
     {
         title: 'Reason',
-        dataIndex: 'reason',
-        key: 'reason',
+        dataIndex: 'reasonForReport',
+        key: 'reasonForReport',
     },
     {
         title: 'Reported By',
@@ -74,8 +76,20 @@ const data = [
 ];
 
 const AdminReportPage = () => {
+    const [reportPost, setReportPost] = useState(null);
+
+    useEffect(() => {
+        const fetchReport = async () => {
+            const response = await fetchReportApi ();
+            if (response) {
+                setReportPost(response.reportedPosts)
+            }
+        }
+
+        fetchReport()
+    }, [])
     return (
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={reportPost} />
     )
 }
 

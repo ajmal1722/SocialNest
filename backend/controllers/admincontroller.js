@@ -74,3 +74,15 @@ export const adminLogin = async (req, res) => {
 export const isAdminProtected = async (req, res) => {
     res.status(200).json({ admin: req.user, isAuthenticated: true });
 }
+
+export const fetchReportPost = async (req, res) => {
+    try {
+        const reportedPosts = await Report.find();
+        
+        // Return the fetched reported posts in the response
+        return res.status(200).json({ reportedPosts });
+    } catch (error) {
+        console.error('Error fetching reported posts:', error);
+        return res.status(500).json({ error: error.message });
+    }
+};

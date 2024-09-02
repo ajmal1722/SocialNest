@@ -22,3 +22,13 @@ export const checkAdminAuthenticatedApi = async () => {
         console.log("error fetching notification page:", error.response.data);
     }
 }
+
+export const fetchReportApi = async () => {
+    try {
+        const response = await adminInstance.get('/reports');
+        console.log(response.data);
+        return response.data
+    } catch (error) {
+        console.log("error fetching reported posts", error.response.data);
+    }
+}
