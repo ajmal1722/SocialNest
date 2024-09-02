@@ -1,24 +1,49 @@
 import { useState, useEffect } from 'react';
-import { Space, Table, Tag } from 'antd';
+import { Space, Table, Tag, Avatar, Image } from 'antd';
 import { fetchReportApi } from '../../utils/api/admin_api';
 
 const columns = [
     {
         title: 'Post',
-        dataIndex: 'post',
         key: 'post',
-        render: (text) => <a>{text}</a>,
+        render: (record) => (
+            <>
+                {record.post_details.content_type === 'Image' ?
+                    (<>
+                        <Image
+                            src={record.post_details.image_url}
+                            alt="Post"
+                            width={50}
+                        /> 
+                        <h1>{record.post_details.caption}</h1>
+                    </>) : (<>
+                        <h1 className='font-semibold'>{record.post_details.caption}</h1>
+                        <h1>
+                            {record.post_details.blogContent}
+                        </h1>
+                    </>)
+                }
+            </>
+        ),
     },
     {
         title: 'Reason',
         dataIndex: 'reasonForReport',
-        key: 'reasonForReport',
+        key: 'reason',
     },
     {
         title: 'Reported By',
-        dataIndex: 'age',
         key: 'reportedBy',
+        render: (record) => (
+            <Space>
+                {record.user_details.profilePicture && (
+                    <Avatar src={record.user_details.profilePicture} alt="Reporter" />
+                )}
+                <span>{record.user_details.username}</span>
+            </Space>
+        ),
     },
+    // Uncomment and customize these columns if needed
     // {
     //     title: 'Tags',
     //     key: 'tags',
@@ -51,46 +76,25 @@ const columns = [
     // },
 ];
 
-const data = [
-    {
-        key: '1',
-        post: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-    },
-    {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        tags: ['loser'],
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sydney No. 1 Lake Park',
-        tags: ['cool', 'teacher'],
-    },
-];
-
 const AdminReportPage = () => {
-    const [reportPost, setReportPost] = useState(null);
+    const [reportPost, setReportPost] = useState([]);
 
     useEffect(() => {
         const fetchReport = async () => {
-            const response = await fetchReportApi ();
+            const response = await fetchReportApi();
             if (response) {
-                setReportPost(response.reportedPosts)
+                // Add a unique key for each row 
+                const dataWithKeys = response.reportedPosts.map(post => ({ ...post, key: post._id }));
+                setReportPost(dataWithKeys);
             }
-        }
+        };
 
-        fetchReport()
-    }, [])
+        fetchReport();
+    }, []);
+
     return (
         <Table columns={columns} dataSource={reportPost} />
-    )
-}
+    );
+};
 
 export default AdminReportPage;
