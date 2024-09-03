@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import { Space, Table, Tag, Avatar, Image, Button } from 'antd';
 import { fetchAllUsersApi } from '../../utils/api/admin_api';
 import ReusableModal from '../../components/reusable/ReusableModal';
+import UserDetails from '../components/reusable/UserDetails';
 
 const AdminUserManagement = () => {
     const [users, setUsers] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -19,6 +21,11 @@ const AdminUserManagement = () => {
 
         fetchUsers();
     }, []);
+
+    const viewUser = async (user) => {
+        setSelectedUser(user);
+        setShowModal(true)
+    }
 
     const banUser = async (id) => {
         console.log(id)
@@ -47,7 +54,7 @@ const AdminUserManagement = () => {
                 <Space>
                     <Button 
                         className='bg-sky-500 text-white font-semibold'
-                        onClick={() => setShowModal(true)}
+                        onClick={() => viewUser(record)}
                     >
                         View User
                     </Button>
@@ -65,7 +72,7 @@ const AdminUserManagement = () => {
             <ReusableModal 
                 isVisible={showModal}
                 onClose={() => setShowModal(false)}
-                // Content={}
+                Content={() => <UserDetails data={selectedUser}/>}
             />
         </>
     )
