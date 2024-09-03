@@ -179,7 +179,7 @@ export const updatePost = async (req, res) => {
 export const deletePost = async (req, res) => {
     try {
         const postId = req.params.id;
-        console.log('postId:', postId);
+        console.log('postId:', deletePost);
 
         if (!postId) {
             return res.status(400).json({ error: 'Post not found' });
