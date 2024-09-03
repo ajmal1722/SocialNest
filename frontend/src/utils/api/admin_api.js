@@ -32,3 +32,13 @@ export const fetchReportApi = async () => {
         console.log("error fetching reported posts", error.response.data);
     }
 }
+
+export const fetchAllUsersApi = async () => {
+    try {
+        const response = await adminInstance.get('/fetch-users');
+        console.log(response.data);
+        return response.data
+    } catch (error) {
+        console.log("error fetching users", error.response.data);
+    }
+}

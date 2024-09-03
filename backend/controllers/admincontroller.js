@@ -1,5 +1,6 @@
 import Admin from "../models/adminSchema.js";
 import Report from '../models/reportSchema.js';
+import User from "../models/userSchema.js";
 import { Post } from '../models/postSchema.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -123,3 +124,14 @@ export const fetchReportPost = async (req, res) => {
         return res.status(500).json({ error: error.message });
     }
 };
+
+export const fetchAllUsers = async (req, res) => {
+    try {
+        const users = await User.find().select('-password -__v -refreshToken');
+
+        res.status(200).json({ users })
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        return res.status(500).json({ error: error.message });
+    }
+}

@@ -21,6 +21,7 @@ import AdminDashboard from "../admin/pages/AdminDashboard";
 import AdminAuth from "../utils/auth/AdminAuth";
 import AdminReportPage from "../admin/pages/AdminReportPage";
 import AdminProfilePage from "../admin/pages/AdminProfilePage";
+import AdminUserManagement from "../admin/pages/AdminUserManagement";
 
 const router = createBrowserRouter([
     {
@@ -101,6 +102,10 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <AdminDashboard />
+                    },
+                    {
+                        path: '/admin/users',
+                        element: <AdminUserManagement />
                     },
                     {
                         path: '/admin/reports',
