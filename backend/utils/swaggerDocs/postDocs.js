@@ -487,3 +487,198 @@
  *                   type: string
  *                   example: Error message describing the issue
  */
+/**
+ * @swagger
+ * /like/{id}:
+ *   post:
+ *     summary: Like or Unlike a post
+ *     tags:
+ *       - Posts
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         description: The ID of the post to like or unlike
+ *     responses:
+ *       200:
+ *         description: Post liked or unliked successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Post liked successfully
+ *                 post:
+ *                   type: object
+ *                   description: Updated post object
+ *       404:
+ *         description: Post not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Post not found
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: Failed
+ *                 error:
+ *                   type: string
+ *                   example: Error message describing the issue
+ */
+
+/**
+ * @swagger
+ * /add-comment:
+ *   post:
+ *     summary: Add a comment to a post
+ *     tags:
+ *       - Posts
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               postId:
+ *                 type: string
+ *                 description: The ID of the post to add a comment to
+ *               comment:
+ *                 type: string
+ *                 description: The content of the comment
+ *     responses:
+ *       200:
+ *         description: Comment added successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: Success
+ *                 comments:
+ *                   type: object
+ *                   description: Added comment details
+ *       404:
+ *         description: Post not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: Failed
+ *                 error:
+ *                   type: string
+ *                   example: Post not found
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: Failed
+ *                 error:
+ *                   type: string
+ *                   example: Error message describing the issue
+ */
+
+/**
+ * @swagger
+ * /fetch-comments/{id}:
+ *   get:
+ *     summary: Fetch comments for a specific post
+ *     tags:
+ *       - Posts
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         description: The ID of the post to fetch comments for
+ *     responses:
+ *       200:
+ *         description: Comments fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 comments:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                         description: Comment ID
+ *                       user_id:
+ *                         type: string
+ *                         description: User ID of the commenter
+ *                       content:
+ *                         type: string
+ *                         description: Content of the comment
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                         description: Comment creation date
+ *                       updatedAt:
+ *                         type: string
+ *                         format: date-time
+ *                         description: Comment last update date
+ *                       user_details:
+ *                         type: object
+ *                         description: Details of the user who commented
+ *                         properties:
+ *                           _id:
+ *                             type: string
+ *                           username:
+ *                             type: string
+ *                           profilePicture:
+ *                             type: string
+ *       404:
+ *         description: Post not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Post not found
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: Failed
+ *                 error:
+ *                   type: string
+ *                   example: Error message describing the issue
+ */
