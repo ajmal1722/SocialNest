@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Space, Table, Tag, Avatar, Image, Button } from 'antd';
+import { Space, Table, Tag, Avatar, Image, Button, message } from 'antd';
 import { fetchAllUsersApi, banUserApi } from '../../utils/api/admin_api';
 import ReusableModal from '../../components/reusable/ReusableModal';
 import UserDetails from '../components/reusable/UserDetails';
@@ -35,7 +35,16 @@ const AdminUserManagement = () => {
     }
 
     const banUser = async (id) => {
-        const response = await banUserApi(id)
+        const response = await banUserApi(id);
+        if (response) {
+            message.success(response.message);
+
+            setUsers((prevUsers) =>
+                prevUsers.map((user) =>
+                    user._id === id ? { ...user, isBanned: true } : user
+                )
+            );
+        }
     }
 
     const columns = [
@@ -59,15 +68,23 @@ const AdminUserManagement = () => {
             key: 'action',
             render: (record) => (
                 <Space>
-                    <Button 
+                    <Button
                         className='bg-sky-500 text-white font-semibold'
                         onClick={() => viewUser(record)}
                     >
                         View User
                     </Button>
-                    <Button onClick={() => openConfirmationModal(record)}>
-                        Ban User
-                    </Button>
+                    {record.isBanned ?
+                        (<Tag 
+                            color='volcano'
+                            className='px-5 py-1 cursor-not-allowed'
+                        >
+                            Banned
+                        </Tag>) : (
+                        <Button onClick={() => openConfirmationModal(record)}>
+                            Ban User
+                        </Button>
+                    )}
                 </Space>
             )
         }
@@ -76,12 +93,12 @@ const AdminUserManagement = () => {
     return (
         <>
             <Table columns={columns} dataSource={users} />
-            <ReusableModal 
+            <ReusableModal
                 isVisible={showModal}
                 onClose={() => setShowModal(false)}
-                Content={() => <UserDetails data={selectedUser}/>}
+                Content={() => <UserDetails data={selectedUser} />}
             />
-            <ConfirmationModal 
+            <ConfirmationModal
                 action={'ban user'}
                 showModal={showConfirmationModal}
                 setShowModal={setShowConfirmationModal}

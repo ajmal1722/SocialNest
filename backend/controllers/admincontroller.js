@@ -151,6 +151,9 @@ export const banUser = async (req, res) => {
         // Check if user is already banned
         if (user.isBanned) {
             return res.status(400).json({ message: 'User is already banned' });
+            // user.isBanned = false;
+            // await user.save()
+            // return res.status(200).json({ message: 'User has been unbanned successfully' });
         }
 
         // Ban the user
