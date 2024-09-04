@@ -30,9 +30,9 @@ const userSchema = new Schema({
         type: String,
         default: ""
     },
-    location: {
-        type: String,
-        default: ""
+    isBanned: {
+        type: Boolean,
+        default: false
     },
     followers: [{
         type: Schema.Types.ObjectId,
@@ -52,7 +52,7 @@ const userSchema = new Schema({
     }] ,
     refreshToken: {
         type: String
-    }
+    },
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema)

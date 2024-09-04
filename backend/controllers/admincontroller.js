@@ -135,3 +135,32 @@ export const fetchAllUsers = async (req, res) => {
         return res.status(500).json({ error: error.message });
     }
 }
+
+export const banUser = async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        // Find the user by ID
+        const user = await User.findById(userId);
+
+        // Check if user exists
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Check if user is already banned
+        if (user.isBanned) {
+            return res.status(400).json({ message: 'User is already banned' });
+        }
+
+        // Ban the user
+        user.isBanned = true;
+        await user.save();
+
+        // Send success response
+        return res.status(200).json({ message: 'User has been banned successfully' });
+    } catch (error) {
+        console.error('Error banning user:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+};

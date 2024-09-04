@@ -6,6 +6,7 @@ import {
     isAdminProtected,
     fetchReportPost,
     fetchAllUsers,
+    banUser
 } from '../controllers/admincontroller.js';
 
 // router.post('/signup', adminSignup);
@@ -16,5 +17,6 @@ router.use(verifyAdminAccessToken);
 router.get('/is-admin-protected', isAdminProtected);
 router.get('/reports', fetchReportPost);
 router.get('/fetch-users', fetchAllUsers);
+router.get('/ban-user/:id', banUser);
 
 export default router

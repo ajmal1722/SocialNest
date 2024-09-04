@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Space, Table, Tag, Avatar, Image, Button } from 'antd';
-import { fetchAllUsersApi } from '../../utils/api/admin_api';
+import { fetchAllUsersApi, banUserApi } from '../../utils/api/admin_api';
 import ReusableModal from '../../components/reusable/ReusableModal';
 import UserDetails from '../components/reusable/UserDetails';
 import ConfirmationModal from '../../components/reusable/ConfirmationModal'
@@ -35,7 +35,7 @@ const AdminUserManagement = () => {
     }
 
     const banUser = async (id) => {
-        console.log(id)
+        const response = await banUserApi(id)
     }
 
     const columns = [

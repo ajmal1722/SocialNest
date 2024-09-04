@@ -42,3 +42,13 @@ export const fetchAllUsersApi = async () => {
         console.log("error fetching users", error.response.data);
     }
 }
+
+export const banUserApi = async (id) => {
+    try {
+        const response = await adminInstance.get(`/ban-user/${id}`);
+        console.log(response.data);
+        return response.data
+    } catch (error) {
+        console.log("error fetching users", error.response.data);
+    }
+}
