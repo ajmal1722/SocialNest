@@ -106,3 +106,13 @@ export const searchUserApi = async (searchText) => {
         console.log('Error during searching user:', error);
     }
 }
+
+export const blockUserApi = async (id) => {
+    try {
+        const response = await userInstance.get(`/block/${id}`)
+        console.log('response for blocking a user: ', response.data);
+        return response.data;
+    } catch (error) {
+        console.log('Error during blocking a user:', error);
+    }
+}

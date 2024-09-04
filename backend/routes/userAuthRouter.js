@@ -39,4 +39,6 @@ router.put('/update-data', upload.single('image'), updateUserProfile)
 
 router.post('/search', searchUser);
 
+router.get('/block/:id', blockUser)
+
 export default router;

@@ -158,6 +158,7 @@ export const banUser = async (req, res) => {
 
         // Ban the user
         user.isBanned = true;
+        user.refreshToken = null;
         await user.save();
 
         // Send success response

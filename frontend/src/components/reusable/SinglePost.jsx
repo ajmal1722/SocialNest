@@ -10,6 +10,7 @@ import Comments from "../posts/Comments";
 import SavePost from "../posts/SavePost";
 import ProfilePostOptions from "../profileComponents/ProfilePostOptions";
 import { deletePost, archivePostApi } from "../../utils/api/post_api";
+import { blockUserApi } from "../../utils/api/user_api";
 
 const SinglePost = ({ post, initialUser, setPosts }) => {
     const [showOptions, setShowOptions] = useState(false);
@@ -29,8 +30,8 @@ const SinglePost = ({ post, initialUser, setPosts }) => {
         }
     };
 
-    const handleEdit = async (id) => {
-
+    const handleBlock = async (id) => {
+        const response = await blockUserApi(id)
     }
 
     const handleArchive = async () => {
@@ -44,7 +45,7 @@ const SinglePost = ({ post, initialUser, setPosts }) => {
     }
 
     const blockUserButton = (
-        <button className='text-secondary-light font-semibold border-b dark:border-gray-500 py-2 w-full hover:scale-105'>
+        <button onClick={() => handleBlock(post.author_id)} className='text-secondary-light font-semibold border-b dark:border-gray-500 py-2 w-full hover:scale-105'>
             Block User
         </button>
     );

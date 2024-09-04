@@ -323,8 +323,6 @@ const singleUserDetails = async (req, res) => {
                 },
             },
         ]);
-
-        console.log(posts);
         
 
         if (!userDetails) {
@@ -419,7 +417,12 @@ const searchUser = async (req, res) => {
 const blockUser = async (req, res) => {
     try {
         const userId = req.user;
-        const { blockUserId } = req.body;
+        const blockUserId = req.params.id;
+        console.log('id:', userId)
+
+        if (userId === blockUserId) {
+            return res.status(400).json({ error: 'You cannot block yourself' });
+        }
 
         await Users.findByIdAndUpdate(userId, {
             $addToSet: { blockedUsers: blockUserId }

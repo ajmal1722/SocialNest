@@ -5,9 +5,10 @@ const isUserBlocked = async (req, res, next) => {
         const { targetUserId } = req.body;
         const userId = req.user;
 
-        const user = await User.findById(userId);
-        if(user.blockedUsers.includes(targetUserId)) {
-            return res.status(403).json({ error: 'User is blocked' })
+        // Find the user and check if the target user is blocked
+        const user = await User.findById(userId, 'blockedUsers');
+        if (user && user.blockedUsers.includes(targetUserId)) {
+            return res.status(403).json({ error: 'You have blocked this user' });
         }
 
         next();
