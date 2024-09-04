@@ -72,14 +72,18 @@ export const changePasswordApi = async (data) => {
 
 export const singleUserDetailsApi = async (id) => {
     try {
-        const response = await userInstance.get(`/${id}`)
-        console.log(response);
-        return response.data;
+        const response = await userInstance.get(`/${id}`);
+        return response.data; // Return the user data if successful
     } catch (error) {
-        console.log('Error during password reset:', error);
-        toast.error(error.response.data.error)
+        if (error.response && error.response.status === 403) {
+            // If the error is 403, the user is blocked
+            throw new Error('User is blocked');
+        } else {
+            console.log('Error fetching user details: ', error.response?.data || error.message);
+            throw error; // Rethrow the error for other cases
+        }
     }
-}
+};
 
 export const updateUserProfileApi = async (formData) => {
     const config = {

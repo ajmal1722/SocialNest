@@ -22,6 +22,7 @@ import AdminAuth from "../utils/auth/AdminAuth";
 import AdminReportPage from "../admin/pages/AdminReportPage";
 import AdminProfilePage from "../admin/pages/AdminProfilePage";
 import AdminUserManagement from "../admin/pages/AdminUserManagement";
+import UserNotFound from "../pages/UserNotFound";
 
 const router = createBrowserRouter([
     {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
                     {
                         path: '/profile',
                         element: <ProfilePage />
+                    },
+                    {
+                        path: '/user-not-found',
+                        element: <UserNotFound />
                     },
                     {
                         path: '/edit-profile',
