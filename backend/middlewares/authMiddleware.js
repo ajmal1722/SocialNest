@@ -20,8 +20,13 @@ const verifyAccessToken = async (req, res, next) => {
 
     try {
         if (accessToken) {
-            jwt.verify(accessToken, process.env.JWT_SECRET, (err, decoded) => {
+            jwt.verify(accessToken, process.env.JWT_SECRET, async (err, decoded) => {
                 if (err) throw new Error('Invalid access token');
+
+                const user = await User.findById(decoded.userId);
+                if (!user) {
+                    return res.status(401).json({ error: 'User not found' });
+                }
 
                 req.user = decoded.userId;
                 next();

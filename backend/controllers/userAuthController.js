@@ -74,7 +74,7 @@ const userLogin = async (req, res) => {
         if (token) {
             // decoding token
             const decodedToken = await jwtDecode(token)
-            email = decodedToken.email
+            email = decodedToken.email;
             console.log('decoded email:', email);
         }
 
@@ -82,6 +82,11 @@ const userLogin = async (req, res) => {
         const user = await Users.findOne({ email });
         if (!user) {
             return res.status(400).json({ error: 'user does not exist' });
+        }
+
+        // Check if the user is banned
+        if (user.isBanned) {
+            return res.status(403).json({ error: 'Your account is Banned' });
         }
 
         // Compare the provided password with the stored hashed password
