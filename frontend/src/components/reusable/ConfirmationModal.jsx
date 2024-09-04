@@ -1,16 +1,18 @@
-import { Modal } from "antd";
+import { message, Modal } from "antd";
 import { FaCircleExclamation } from "react-icons/fa6";
 
-const DeleteModal = ({ showModal, setShowModal, setShowOptions, postId, handleDelete, handleArchive, action }) => {
+const DeleteModal = ({ showModal, setShowModal, setShowOptions, postId, handleDelete, handleArchive, action, message, id, handleBan }) => {
     
     const handleOk = () => {
         if (action === 'delete') {
             handleDelete(postId);
         } else if (action === 'archive') {
             handleArchive(postId);
+        } else if (action === 'ban user') {
+            handleBan(id)
         }
         setShowModal(false);
-        setShowOptions(false);
+        setShowOptions && setShowOptions(false);
     };
 
     const handleCancel = () => {
@@ -28,7 +30,7 @@ const DeleteModal = ({ showModal, setShowModal, setShowOptions, postId, handleDe
             okType="danger"
             icon={<FaCircleExclamation />}
         >
-            <p>Are you sure you want to {action} this post?</p>
+            { message ? message : <p>Are you sure you want to {action} this post?</p>}
         </Modal>
     );
 };

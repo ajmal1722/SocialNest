@@ -3,10 +3,12 @@ import { Space, Table, Tag, Avatar, Image, Button } from 'antd';
 import { fetchAllUsersApi } from '../../utils/api/admin_api';
 import ReusableModal from '../../components/reusable/ReusableModal';
 import UserDetails from '../components/reusable/UserDetails';
+import ConfirmationModal from '../../components/reusable/ConfirmationModal'
 
 const AdminUserManagement = () => {
     const [users, setUsers] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
 
     useEffect(() => {
@@ -25,6 +27,11 @@ const AdminUserManagement = () => {
     const viewUser = async (user) => {
         setSelectedUser(user);
         setShowModal(true)
+    }
+
+    const openConfirmationModal = async (user) => {
+        setSelectedUser(user)
+        setShowConfirmationModal(true)
     }
 
     const banUser = async (id) => {
@@ -58,7 +65,7 @@ const AdminUserManagement = () => {
                     >
                         View User
                     </Button>
-                    <Button onClick={() => banUser(record._id)}>
+                    <Button onClick={() => openConfirmationModal(record)}>
                         Ban User
                     </Button>
                 </Space>
@@ -73,6 +80,14 @@ const AdminUserManagement = () => {
                 isVisible={showModal}
                 onClose={() => setShowModal(false)}
                 Content={() => <UserDetails data={selectedUser}/>}
+            />
+            <ConfirmationModal 
+                action={'ban user'}
+                showModal={showConfirmationModal}
+                setShowModal={setShowConfirmationModal}
+                id={selectedUser?._id}
+                message='Are you sure you want to ban this user?'
+                handleBan={banUser}
             />
         </>
     )
