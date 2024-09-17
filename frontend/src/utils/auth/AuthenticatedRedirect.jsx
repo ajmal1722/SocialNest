@@ -9,7 +9,7 @@ const useCheckAuth = (route) => {
         const checkAuthStatus = async () => {
             try {
                 const response = await instance.get('/is-protected');
-                // console.log('res:', response.data);
+                console.log('res:', response.data);
                 if (response.data.isAuthenticated) {
                     return navigate(route);
                 }

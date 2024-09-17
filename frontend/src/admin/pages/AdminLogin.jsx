@@ -1,14 +1,26 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
 import { GoMail } from "react-icons/go";
-import { adminLoginApi } from '../../utils/api/admin_api';
+import { adminLoginApi, checkAdminAuthenticatedApi } from '../../utils/api/admin_api';
 import Input from '../../components/reusable/Input'
 import PasswordInput from '../../components/reusable/PasswordInput';
 import useCheckAuth from '../../utils/auth/AuthenticatedRedirect';
-import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 const AdminLogin = () => {
-    useCheckAuth('/admin');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const isAuthenticated = async () => {
+            const response = await checkAdminAuthenticatedApi();
+            if (response.isAuthenticated) {
+                navigate('/admin');
+            }     
+        }
+
+        isAuthenticated()
+    }, [])
 
     const methods = useForm({
         defaultValues: {
@@ -18,8 +30,6 @@ const AdminLogin = () => {
     });
 
     const { handleSubmit, reset } = methods; 
-
-    const navigate = useNavigate()
 
     const userLogin = async (data) => {
         try {

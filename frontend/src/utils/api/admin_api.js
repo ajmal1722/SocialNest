@@ -19,7 +19,7 @@ export const checkAdminAuthenticatedApi = async () => {
         console.log(response.data);
         return response.data
     } catch (error) {
-        console.log("error fetching notification page:", error.response.data);
+        console.log("error:", error.response.data);
     }
 }
 
