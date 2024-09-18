@@ -4,6 +4,7 @@ import HomePage from "../pages/HomePage";
 import UserLogin from "../pages/UserLogin";
 import UserSignUp from "../pages/UserSignUp";
 import ProfilePage from "../pages/ProfilePage";
+import MessagePage from "../pages/MessagePage";
 import EditProfilePage from "../pages/EditProfilePage";
 import SingleUserProfileLoader from "../pages/SingleUserProfileLoader";
 import UserAuth from "../utils/auth/UserAuth";
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
                     {
                         path: '/search-user',
                         element: <SearchUserPage />,
+                    },
+                    {
+                        path: '/messages',
+                        element: <MessagePage />,
                     },
                     {
                         path: '/notifications',
