@@ -3,7 +3,7 @@ import React from 'react'
 const ChatBox = () => {
     return (
         <div className='w-full md:h-[85vh] h-[75vh] flex flex-col'>
-            <div className='dark:bg-secondary-dark m-5 h-[600px] flex flex-col rounded-md'>
+            <div className='bg-gray-300 dark:bg-secondary-dark m-5 h-[600px] flex flex-col rounded-md'>
                 {/* Top Section: Profile Image and Username */}
                 <div className='flex items-center p-4 border-b'>
                     <img src="https://via.placeholder.com/40" alt="Profile" className='rounded-full h-10 w-10' />
@@ -15,7 +15,7 @@ const ChatBox = () => {
                     {/* Chat message from another user */}
                     <div className='flex mb-4'>
                         <img src="https://via.placeholder.com/30" alt="Sender Profile" className='rounded-full h-8 w-8' />
-                        <div className='ml-2 p-2 bg-gray-200 rounded-md max-w-[70%] break-words'>
+                        <div className='text-black ml-2 p-2 bg-gray-200 rounded-md max-w-[70%] break-words'>
                             <p>
                                 Hey there! How's it going? This is a really long message that should break into multiple lines if it exceeds the container's width.
                             </p>
