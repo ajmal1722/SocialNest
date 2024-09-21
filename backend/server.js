@@ -1,6 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 import connectDB from './database/connection.js';
 import userAuthRouter from './routes/userAuthRouter.js';
 import postRouter from './routes/postRouter.js';
@@ -20,6 +22,29 @@ const corsOptions = {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
 };
+
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+    cors: {
+        origin: 'http://localhost:5173',
+        methods: ['GET', 'POST'],
+        credentials: true,
+    },
+});
+
+io.on('connection', (socket) => {
+    console.log(`Socket ${socket.id} connected`);
+
+    // Listen for messages from the client
+    socket.on('chatMessage', (message) => {
+        // Emit the message to all connected clients
+        io.emit('chatMessage', message);
+    });
+
+    socket.on('disconnect', () => {
+        console.log(`Socket ${socket.id} disconnected`);
+    });
+});
 
 // Middleware
 app.use(express.json()); // Parse JSON bodies
@@ -46,7 +71,7 @@ app.get('/', (req, res) => {
     res.send('Hello Folk! Welcome to socialNest, Server is Running...');
 });
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
     console.log(`Server is running on port: http://localhost:${PORT}`);
 });
 

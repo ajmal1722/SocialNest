@@ -1,17 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { io } from 'socket.io-client'
 import Input from "antd/es/input/Input";
 import EmojiSelector from "../reusable/EmojiSelector";
 
+const socket = io('http://localhost:8000');
+
 const ChatBox = () => {
     const [message, setMessage] = useState('');
+    const [chatMessages, setChatMessages] = useState([]);
+
+    useEffect(() => {
+        // Listen for incoming messages
+        socket.on('chatMessage', msg => {
+            setChatMessages(prevMessages => [...prevMessages, msg])
+        })
+
+        // Clean up the connection when the component unmounts
+        return () => {
+            socket.off('chatMessage')
+        }
+    }, [])
 
     const handleSubmit = (e) => {
-        e.preventDefault();  // Prevent the default form submit behavior
+        e.preventDefault();
         if (message.trim().length > 0) {
-            alert('Message submitted: ' + message);  // Handle message submission logic here
-            setMessage('');  // Clear the message input after sending
+            // Emit the message to the server
+            socket.emit('chatMessage', message);
+            setMessage(''); // Clear the input
         }
-    }
+    };
 
     const isButtonDisabled = message.trim().length === 0;
 
