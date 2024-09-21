@@ -2,15 +2,15 @@ import express from 'express';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import { createServer } from 'http';
-import { Server } from 'socket.io';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import connectDB from './database/connection.js';
 import userAuthRouter from './routes/userAuthRouter.js';
 import postRouter from './routes/postRouter.js';
 import followRouter from './routes/followRouter.js';
 import adminRouter from './routes/adminRouter.js';
 import { specs, swaggerUi } from './utils/swagger.js';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
+import { initializeSocket } from './sockets/index.js';
 
 dotenv.config();
 
@@ -23,28 +23,6 @@ const corsOptions = {
     credentials: true,
 };
 
-const httpServer = createServer(app);
-const io = new Server(httpServer, {
-    cors: {
-        origin: 'http://localhost:5173',
-        methods: ['GET', 'POST'],
-        credentials: true,
-    },
-});
-
-io.on('connection', (socket) => {
-    console.log(`Socket ${socket.id} connected`);
-
-    // Listen for messages from the client
-    socket.on('chatMessage', (message) => {
-        // Emit the message to all connected clients
-        io.emit('chatMessage', message);
-    });
-
-    socket.on('disconnect', () => {
-        console.log(`Socket ${socket.id} disconnected`);
-    });
-});
 
 // Middleware
 app.use(express.json()); // Parse JSON bodies
@@ -66,6 +44,11 @@ app.use('/follow', followRouter);
 app.use('/admin', adminRouter);
 
 const PORT = process.env.PORT || 3000;
+
+const httpServer = createServer(app);
+
+// Initialize Socket.io
+initializeSocket(httpServer);
 
 app.get('/', (req, res) => {
     res.send('Hello Folk! Welcome to socialNest, Server is Running...');
