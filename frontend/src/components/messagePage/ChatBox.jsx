@@ -37,8 +37,8 @@ const ChatBox = () => {
     };
 
     return (
-        <div className='w-full md:h-[85vh] h-[75vh] flex flex-col'>
-            <div className='bg-gray-300 dark:bg-secondary-dark m-5 h-[600px] flex flex-col rounded-md'>
+        <div className='flex flex-col h-full'>
+            <div className='bg-gray-300 dark:bg-secondary-dark mb-8 h-full flex flex-col rounded-md'>
                 {/* Top Section: Profile Image and Username */}
                 <div className='flex items-center p-4 border-b'>
                     <img src="https://via.placeholder.com/40" alt="Profile" className='rounded-full h-10 w-10' />
