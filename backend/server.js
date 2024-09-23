@@ -42,7 +42,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/user', userAuthRouter); // Routes for user authentication
 app.use('/post', postRouter); // Routes for posts (create, delete, etc.)
 app.use('/follow', followRouter); // Routes for following/unfollowing users
-app.use('/message', messageRouter); // Routes for message-specific functionalities
+app.use('/messages', messageRouter); // Routes for message-specific functionalities
 app.use('/admin', adminRouter); // Routes for admin-specific functionalities
 
 // Define server port, fallback to 3000 if not set in environment
