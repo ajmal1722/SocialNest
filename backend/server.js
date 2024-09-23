@@ -8,6 +8,7 @@ import connectDB from './database/connection.js'; // Function to connect to Mong
 import userAuthRouter from './routes/userAuthRouter.js'; // Router for user authentication-related endpoints
 import postRouter from './routes/postRouter.js'; // Router for post-related endpoints
 import followRouter from './routes/followRouter.js'; // Router for follow-related endpoints
+import messageRouter from './routes/messageRouter.js'; // Router for message-related endpoints
 import adminRouter from './routes/adminRouter.js'; // Router for admin-related endpoints
 import { specs, swaggerUi } from './utils/swagger.js'; // Swagger for API documentation
 import { initializeSocket } from './sockets/index.js'; // Socket.io initialization
@@ -41,6 +42,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/user', userAuthRouter); // Routes for user authentication
 app.use('/post', postRouter); // Routes for posts (create, delete, etc.)
 app.use('/follow', followRouter); // Routes for following/unfollowing users
+app.use('/message', messageRouter); // Routes for message-specific functionalities
 app.use('/admin', adminRouter); // Routes for admin-specific functionalities
 
 // Define server port, fallback to 3000 if not set in environment
