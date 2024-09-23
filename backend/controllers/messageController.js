@@ -1,6 +1,18 @@
 import Message from "../models/messageSchema.js";
 import Conversation from "../models/conversationSchema.js";
+import User from '../models/userSchema.js'
 import { getSocketIo } from "../sockets/index.js";
+
+export const fetchUsers = async (req, res) => {
+    try {
+        const users = await User.find().select('_id username profilePicture')
+
+        res.status(200).json({ users })
+    } catch (error) {
+        console.log('Error message:', error);
+        res.status(500).json({ status: 'Failed', error: error.message });
+    }
+}
 
 export const getMessage = async (req, res) => {
     try {

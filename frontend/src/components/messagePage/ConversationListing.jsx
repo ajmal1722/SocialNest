@@ -1,11 +1,13 @@
 import Conversation from "./Conversation"
 
-const ConversationListing = () => {
+const ConversationListing = ({ users }) => {
+    console.log('userssssssss:', users);
+    
     return (
         <div className="h-full w-full ">
-            <Conversation />
-            <Conversation />
-            <Conversation />
+            {users?.map(user => (
+                <Conversation key={user._id} user={user} />
+            ))}
         </div>
     )
 }
