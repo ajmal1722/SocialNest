@@ -2,7 +2,7 @@ import ConversationListing from "./ConversationListing"
 
 const ConversationListBox = () => {
     return (
-        <div>
+        <div className='h-full w-full sm:w-[600px] p-3'>
             <ConversationListing />
         </div>
     )
