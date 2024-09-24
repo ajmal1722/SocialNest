@@ -19,7 +19,27 @@ export const getMessage = async (req, res) => {
         const userId = req.user;
         const userToChat = req.params.id;
 
-        res.status(200).json({ msg: 'coming soon..'})
+        // Find the conversation between the two users
+        const conversation = await Conversation.findOne({
+            participants: { $all: [userId, userToChat] }
+        });
+
+        // If no conversation is found, return an empty message list
+        if (!conversation) {
+            return res.status(200).json({
+                message: 'No conversation found between the users',
+                messages: []
+            });
+        }
+
+        // Find all messages for the conversation, sorted by creation date
+        const messages = await Message.find({ conversationId: conversation._id })
+            .sort({ createdAt: 1 }); // Sort messages by ascending order of creation date (oldest to newest)
+
+        res.status(200).json({ 
+            message: 'Messages retrieved successfully', 
+            messages 
+        });
     } catch (error) {
         console.log('Error message:', error);
         res.status(500).json({ status: 'Failed', error: error.message });

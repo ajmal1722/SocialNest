@@ -2,7 +2,7 @@ import React from 'react'
 
 const Conversation = ({ user }) => {
     return (
-        <div className='flex border w-full'>
+        <div className='flex border w-full cursor-pointer'>
             <div className='flex items-center'>
                 <img 
                     src={user.profilePicture} alt="" 
