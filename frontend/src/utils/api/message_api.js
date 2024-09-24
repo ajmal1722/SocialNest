@@ -16,6 +16,16 @@ export const getMessagesApi = async (id) => {
         console.log('messages', response.data.messages);
         return response.data
     } catch (error) {
-        console.log('error fetching users:', error);
+        console.log('error fetching messages:', error);
+    }
+}
+
+export const sendMessagesApi = async (id, message) => {
+    try {
+        const response = await messageInstance.post(`/send/${id}`, message);
+        console.log('message send response:', response.data.messages);
+        return response.data
+    } catch (error) {
+        console.log('error sending messages:', error);
     }
 }

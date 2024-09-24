@@ -51,6 +51,7 @@ export const sendMessage = async (req, res) => {
         const receiverId = req.params.id;
         const senderId = req.user;
         const { message } = req.body;
+        console.log(req.body)
 
         if (!message) {
             return res.status(400).json({ error: 'Message is required' })
