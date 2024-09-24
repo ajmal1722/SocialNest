@@ -5,7 +5,7 @@ import ConversationListBox from "../components/messagePage/ConversationListBox";
 
 const MessagePage = () => {
     const [users, setUsers] = useState();
-    const [message, setMessage] = useState();
+    const [chatMessages, setChatMessages] = useState([]);
     
     useEffect(() => {
         const fetchUsers = async () => {
@@ -19,7 +19,7 @@ const MessagePage = () => {
     const getMessages = async (id) => {
         const response = await getMessagesApi(id);
         if (response) {
-            setMessage(response.messages);
+            setChatMessages(response.messages);
         }
     }
 
@@ -27,7 +27,7 @@ const MessagePage = () => {
         <div className='min-h-[85vh] md:col-span-8 col-span-10 flex justify-center items-center'>
             <div className="sm:flex justify-center items-center h-[75vh] md:h-[83vh] md:mt-3 md:mx-7 mr-2">
                 <ConversationListBox users={users} getMessages={getMessages} />
-                <ChatBox message={message} />
+                <ChatBox chatMessages={chatMessages} setChatMessages={setChatMessages} />
             </div>
         </div>
     )
