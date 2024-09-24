@@ -9,3 +9,13 @@ export const convoUserApi = async () => {
          console.log('error fetching users:', error);
      }
 }
+
+export const getMessagesApi = async (id) => {
+    try {
+        const response = await messageInstance.get(`/${id}`);
+        console.log('messages', response.data.messages);
+        return response.data
+    } catch (error) {
+        console.log('error fetching users:', error);
+    }
+}
