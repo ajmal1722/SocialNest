@@ -84,9 +84,12 @@ export const sendMessage = async (req, res) => {
         conversation.lastMessageAt = Date.now();
         await conversation.save();
 
-        // Emit the message to the receiver in real-time (if Socket.io is being used)
+        // Emit the message to the receiver in real-time
         const io = getSocketIo();
-        io.to(receiverId).emit('chatMessage', newMessage);
+        io.to(receiverId).emit('chatMessage', {
+            sender: senderId,
+            message: newMessage.message,
+        });
 
         res.status(201).json({ newMessage })
     } catch (error) {
