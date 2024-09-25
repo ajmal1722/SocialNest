@@ -6,6 +6,7 @@ import ConversationListBox from "../components/messagePage/ConversationListBox";
 const MessagePage = () => {
     const [users, setUsers] = useState();
     const [chatMessages, setChatMessages] = useState([]);
+    const [selectedChat, setSelectedChat] = useState(null)
     const [currentUserChattingWith, setCurrentUserChattingWith] = useState(null);
     
     useEffect(() => {
@@ -17,9 +18,10 @@ const MessagePage = () => {
         fetchUsers()
     }, [])
 
-    const getMessages = async (userId) => {
-        setCurrentUserChattingWith(userId);
-        const response = await getMessagesApi(userId);
+    const getMessages = async (userData) => {
+        setCurrentUserChattingWith(userData._id);
+        setSelectedChat(userData)
+        const response = await getMessagesApi(userData._id);
         if (response) {
             setChatMessages(response.messages);
         }
@@ -38,7 +40,12 @@ const MessagePage = () => {
         <div className='min-h-[85vh] md:col-span-8 col-span-10 flex justify-center items-center'>
             <div className="sm:flex justify-center items-center h-[75vh] md:h-[83vh] md:mt-3 md:mx-7 mr-2">
                 <ConversationListBox users={users} getMessages={getMessages} />
-                <ChatBox chatMessages={chatMessages} setChatMessages={setChatMessages} onSendMessage={sendMessage} />
+                <ChatBox 
+                    chatMessages={chatMessages} 
+                    setChatMessages={setChatMessages} 
+                    onSendMessage={sendMessage} 
+                    selectedChat={selectedChat}
+                />
             </div>
         </div>
     )

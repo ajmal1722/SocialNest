@@ -2,7 +2,7 @@ import React from 'react'
 
 const Conversation = ({ user, getMessages }) => {
     return (
-        <div onClick={() => getMessages(user._id)} className='flex border w-full cursor-pointer'>
+        <div onClick={() => getMessages(user)} className='flex border w-full cursor-pointer'>
             <div className='flex items-center'>
                 <img 
                     src={user.profilePicture} alt="" 

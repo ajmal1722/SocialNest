@@ -1,6 +1,6 @@
 import SingleChat from "./SingleChat"
 
-const ChatListing = ({ chatMessages, setChatMessages }) => {
+const ChatListing = ({ chatMessages, setChatMessages, selectedChat }) => {
     console.log('chat message,', chatMessages);
     
     return (
@@ -16,7 +16,7 @@ const ChatListing = ({ chatMessages, setChatMessages }) => {
             </div> */}
 
             {chatMessages?.map((msg, index) => (
-                <SingleChat key={index} message={msg} />
+                <SingleChat key={index} message={msg} selectedChat={selectedChat} />
                 // console.log('msg,', msg)
             ))}
 
