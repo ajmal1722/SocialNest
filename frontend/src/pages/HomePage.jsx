@@ -1,5 +1,9 @@
 import { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { getPosts } from "../utils/api/post_api";
 import { getHomePagePostsApi } from "../utils/api/post_api";
+import { set_posts } from '../redux/slices/postSlice';
+import { set_credentials } from '../redux/slices/authSlice';
 import SinglePost from '../components/reusable/SinglePost';
 
 const HomePage = () => {
@@ -9,11 +13,15 @@ const HomePage = () => {
     const [hasMore, setHasMore] = useState(true);
     const initialRender = useRef(true); // To track the initial render
 
+    const dispatch = useDispatch()
+
     useEffect(() => {
         const fetchPosts = async () => {
             setLoading(true); 
             try {
+                const result = await getPosts()
                 const response = await getHomePagePostsApi(page);
+                dispatch(set_credentials(result.user))
                 if (response && response.length > 0) {
                     setPosts((prevPosts) => [...prevPosts, ...response]); // Append new posts to existing posts
                 } else {
