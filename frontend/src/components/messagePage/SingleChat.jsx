@@ -10,7 +10,7 @@ const SingleChat = ({ message, selectedChat }) => {
                     { message.message }
                 </p>
             </div>
-            <img src={selectedChat.profilePicture} alt="User Profile" className='rounded-full h-8 w-8' />
+            <img src={userInfo._id === message.sender ? userInfo.profilePicture : selectedChat.profilePicture} alt="User Profile" className='rounded-full h-8 w-8' />
         </div>
     )
 }
