@@ -30,11 +30,7 @@ export const googleAuthLoginSuccess = async (credentialResponse, navigate) => {
             { withCredentials: true }
         )
 
-        if (response) {
-            navigate('/')
-        } else {
-            console.log('response not received');
-        }
+        return response.data;
 
     } catch (error) {
         console.log('google auth error:', error);
