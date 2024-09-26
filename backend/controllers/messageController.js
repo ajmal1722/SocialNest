@@ -130,6 +130,13 @@ export const markMessagesAsRead = async (req, res) => {
             { $set: { read: true }}
         )
 
+        // Emit event to notify the sender that the messages were read in real-time
+        const io = getSocketIo();
+        io.to(conversationId).emit('messagesRead', {
+            conversationId,
+            userId
+        })
+
         res.status(200).json({
             message: 'Messages marked as read successfully',
         });
