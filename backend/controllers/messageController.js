@@ -97,3 +97,44 @@ export const sendMessage = async (req, res) => {
         res.status(500).json({ status: 'Failed', error: error.message });
     }
 }
+
+export const getUnreadMessageCount = async (req, res) => {
+    try {
+        const userId = req.user; 
+        console.log(userId)
+
+        // Find all unread messages where the receiver is the current user
+        const unreadMessageCount = await Message.countDocuments({
+            receiver: userId,
+            read: false
+        })
+
+        res.status(200).json({
+            message: 'Unread message count retrieved successfully',
+            unreadMessageCount
+        });
+    } catch (error) {
+        console.log('Error fetching unread message count:', error);
+        res.status(500).json({ status: 'Failed', error: error.message });
+    }
+};
+
+export const markMessagesAsRead = async (req, res) => {
+    try {
+        const userId = req.user;
+        const conversationId = req.params.id;
+
+        // Update all unread messages in the conversation where the receiver is the current user
+        await Message.updateMany(
+            { conversationId, receiver: userId, read: false },
+            { $set: { read: true }}
+        )
+
+        res.status(200).json({
+            message: 'Messages marked as read successfully',
+        });
+    } catch (error) {
+        console.log('Error marking messages as read:', error);
+        res.status(500).json({ status: 'Failed', error: error.message });
+    }
+};
