@@ -29,3 +29,13 @@ export const sendMessagesApi = async (id, message) => {
         console.log('error sending messages:', error);
     }
 }
+
+export const markMessagesAsReadApi = async (id) => {
+    try {
+        const response = await messageInstance.post(`/mark`, message);
+        console.log('message mark response:', response.data.messages);
+        return response.data
+    } catch (error) {
+        console.log('error marking read messages:', error);
+    }
+}

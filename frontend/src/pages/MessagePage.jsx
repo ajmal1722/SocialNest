@@ -20,7 +20,8 @@ const MessagePage = () => {
 
     const getMessages = async (userData) => {
         setCurrentUserChattingWith(userData._id);
-        setSelectedChat(userData)
+        setSelectedChat(userData);
+        
         const response = await getMessagesApi(userData._id);
         if (response) {
             setChatMessages(response.messages);
