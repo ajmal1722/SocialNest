@@ -138,3 +138,35 @@ export const markMessagesAsRead = async (req, res) => {
         res.status(500).json({ status: 'Failed', error: error.message });
     }
 };
+
+// Get unread message count for each conversation
+export const getUnreadMessageCountPerConversation = async (req, res) => {
+    try {
+        const userId = req.user;
+
+        // Find all conversations where the user is a participant
+        const conversations = await Conversation.find({ participants: userId });
+
+        // Map through the conversations and get unread message count for each
+        const unreadCounts = await Promise.all(conversations.map(async (conversation) => {
+            const unreadCount = await Message.countDocuments({
+                conversationId: conversation._id,
+                receiver: userId,
+                read: false
+            });
+
+            return {
+                conversationId: conversation._id,
+                unreadCount
+            };
+        })); 
+        
+        res.status(200).json({
+            message: 'Unread message counts retrieved successfully',
+            unreadCounts
+        });
+    } catch (error) {
+        console.log('Error fetching unread message counts:', error);
+        res.status(500).json({ status: 'Failed', error: error.message });
+    }
+};
