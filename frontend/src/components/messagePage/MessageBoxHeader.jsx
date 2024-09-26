@@ -1,5 +1,4 @@
 
-
 const MessageBoxHeader = ({ selectedChat }) => {
 
     return (
