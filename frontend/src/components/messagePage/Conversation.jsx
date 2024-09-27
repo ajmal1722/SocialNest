@@ -1,6 +1,7 @@
 import React from 'react'
 
-const Conversation = ({ user, getMessages }) => {
+const Conversation = ({ user, getMessages, unreadCount }) => {
+    // console.log('unread count:', unreadCount[user._id?.toString()]);
     return (
         <div onClick={() => getMessages(user)} className='flex border w-full cursor-pointer'>
             <div className='flex items-center'>
@@ -17,9 +18,11 @@ const Conversation = ({ user, getMessages }) => {
                     <p>
                         This is last message
                     </p>
-                    <span className='rounded-full md:mr-1 bg-sky-600 px-2 mr-4'>
-                        3
-                    </span>
+                    { unreadCount > 0 && (
+                        <span className='rounded-full md:mr-1 bg-sky-600 px-2 mr-4'>
+                            { unreadCount }
+                        </span>
+                    )}
                 </div>
             </div>
         </div>

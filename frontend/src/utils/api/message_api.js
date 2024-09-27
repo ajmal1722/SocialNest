@@ -53,7 +53,7 @@ export const markMessagesAsReadApi = async (id) => {
 export const getUnreadMessageCountPerConversationApi = async () => {
     try {
         const response = await messageInstance.get(`/get-unread-count-per-conversation`);
-        console.log('unread message count per conversation:', response.data);
+        console.log('unread message count per conversation:', response.data.unreadCounts);
         return response.data
     } catch (error) {
         console.log('error unread message count per conversation:', error);
