@@ -1,30 +1,61 @@
 import { useState, useEffect } from "react";
-import ChatBox from "../components/messagePage/ChatBox"
-import { convoUserApi, getMessagesApi, sendMessagesApi } from "../utils/api/message_api";
+import { useSelector } from "react-redux";
+import { io } from "socket.io-client";
+import ChatBox from "../components/messagePage/ChatBox";
+import { convoUserApi, getMessagesApi, sendMessagesApi, markMessagesAsReadApi } from "../utils/api/message_api";
 import ConversationListBox from "../components/messagePage/ConversationListBox";
 
+const socket = io('http://localhost:8000');
+
 const MessagePage = () => {
-    const [users, setUsers] = useState();
+    const userInfo = useSelector(state => state.auth.userInfo);
+
+    const [users, setUsers] = useState(); // Refers to conversation here
     const [chatMessages, setChatMessages] = useState([]);
     const [selectedChat, setSelectedChat] = useState(null);
     const [currentUserChattingWith, setCurrentUserChattingWith] = useState(null);
     
     useEffect(() => {
+        // Initialize socket within useEffect
+        const socket = io('http://localhost:8000');
+
+        // Fetch conversations (users)
         const fetchUsers = async () => {
             const response = await convoUserApi();
             setUsers(response.conversations);
         }
 
-        fetchUsers()
-    }, [])
+        fetchUsers();
 
-    const getMessages = async (userData) => {
-        setCurrentUserChattingWith(userData.participants._id);
-        setSelectedChat(userData);
+        // Handle the 'messagesRead' event when emitted from the server
+        socket.on('messagesRead', ({ conversationId, userId }) => {
+            if (selectedChat && selectedChat._id === conversationId) {
+                console.log(`Messages marked as read for conversation ${conversationId} by user ${userId}`);
+                // You can handle updating the UI based on the 'messagesRead' event here
+            }
+        });
 
-        const response = await getMessagesApi(userData.participants._id);
+        // Clean up the socket connection when component unmounts
+        return () => {
+            socket.disconnect();
+        };
+    }, [selectedChat])
+
+    const getMessages = async (conversation) => {
+        setCurrentUserChattingWith(conversation.participants._id);
+        setSelectedChat(conversation);
+
+        const response = await getMessagesApi(conversation.participants._id);
         if (response) {
             setChatMessages(response.messages);
+            await markMessagesAsReadApi(conversation._id); // Marks messages as read for this conversation
+
+            // Emit the 'messagesRead' event to the server to notify the sender
+            const socket = io('http://localhost:8000');
+            socket.emit('messagesRead', {
+                conversationId: conversation._id,
+                userId: userInfo._id
+            });
         }
     }
 

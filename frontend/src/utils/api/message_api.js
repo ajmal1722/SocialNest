@@ -42,7 +42,7 @@ export const getUnreadMessagesCountApi = async () => {
 
 export const markMessagesAsReadApi = async (id) => {
     try {
-        const response = await messageInstance.post(`/mark`, message);
+        const response = await messageInstance.get(`/mark-as-read/${id}`);
         console.log('message mark response:', response.data.messages);
         return response.data
     } catch (error) {
