@@ -12,17 +12,17 @@ const MessagePage = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             const response = await convoUserApi();
-            setUsers(response.users);
+            setUsers(response.conversations);
         }
 
         fetchUsers()
     }, [])
 
     const getMessages = async (userData) => {
-        setCurrentUserChattingWith(userData._id);
+        setCurrentUserChattingWith(userData.participants._id);
         setSelectedChat(userData);
 
-        const response = await getMessagesApi(userData._id);
+        const response = await getMessagesApi(userData.participants._id);
         if (response) {
             setChatMessages(response.messages);
         }

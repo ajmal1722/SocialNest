@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 import verifyUser from '../middlewares/authMiddleware.js';
 import {
-    fetchUsers,
+    fetchConversations,
     getMessage,
     sendMessage,
     getUnreadMessageCount,
@@ -10,7 +10,7 @@ import {
     getUnreadMessageCountPerConversation,
 } from '../controllers/messageController.js';
 
-router.get('/users', verifyUser, fetchUsers);
+router.get('/users', verifyUser, fetchConversations);
 router.get('/get-unread-count', verifyUser, getUnreadMessageCount);
 router.get('/get-unread-count-per-conversation', verifyUser, getUnreadMessageCountPerConversation);
 

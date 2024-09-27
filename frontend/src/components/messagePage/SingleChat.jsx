@@ -9,15 +9,15 @@ const SingleChat = ({ message, selectedChat }) => {
 
     return (
         <div className={`flex ${userInfo._id === message.sender ? 'justify-end' : 'justify-start'} mb-4`}>
+        <img
+            src={userInfo._id === message.sender ? userInfo.profilePicture : selectedChat.participants.profilePicture}
+            alt="User Profile"
+            className='rounded-full h-8 w-8 mr-1'
+        />
             <div className='mr-2 p-2 bg-blue-500 text-white rounded-md max-w-[70%] break-words min-w-[100px]'>
                 <p>{message.message}</p>
                 <p className='text-xs text-gray-300 text-right mt-1'>{messageTime}</p>
             </div>
-            <img
-                src={userInfo._id === message.sender ? userInfo.profilePicture : selectedChat.profilePicture}
-                alt="User Profile"
-                className='rounded-full h-8 w-8'
-            />
         </div>
     );
 };

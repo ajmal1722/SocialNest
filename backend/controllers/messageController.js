@@ -3,16 +3,33 @@ import Conversation from "../models/conversationSchema.js";
 import User from '../models/userSchema.js'
 import { getSocketIo } from "../sockets/index.js";
 
-export const fetchUsers = async (req, res) => {
+export const fetchConversations = async (req, res) => {
     try {
-        const users = await User.find().select('_id username profilePicture')
+        const userId = req.user; // Assuming req.user contains the user's ObjectId
 
-        res.status(200).json({ users })
+        // Find conversations where the userId is a participant
+        const conversations = await Conversation.find({ participants: userId })
+            .populate('participants', 'username profilePicture') // Populate participant details
+            .exec();
+
+        // Filter out the current user's data from participants
+        const filteredConversations = conversations.map(conversation => {
+            const otherParticipant = conversation.participants.find(
+                participant => participant._id.toString() !== userId.toString()
+            );
+
+            return {
+                ...conversation._doc,
+                participants: otherParticipant || null, // Assign the single participant object
+            };
+        });
+
+        res.status(200).json({ conversations: filteredConversations });
     } catch (error) {
-        console.log('Error message:', error);
+        console.log('Error fetching conversations:', error);
         res.status(500).json({ status: 'Failed', error: error.message });
     }
-}
+};
 
 export const getMessage = async (req, res) => {
     try {
