@@ -6,7 +6,7 @@ import ConversationListBox from "../components/messagePage/ConversationListBox";
 const MessagePage = () => {
     const [users, setUsers] = useState();
     const [chatMessages, setChatMessages] = useState([]);
-    const [selectedChat, setSelectedChat] = useState(null)
+    const [selectedChat, setSelectedChat] = useState(null);
     const [currentUserChattingWith, setCurrentUserChattingWith] = useState(null);
     
     useEffect(() => {
@@ -21,7 +21,7 @@ const MessagePage = () => {
     const getMessages = async (userData) => {
         setCurrentUserChattingWith(userData._id);
         setSelectedChat(userData);
-        
+
         const response = await getMessagesApi(userData._id);
         if (response) {
             setChatMessages(response.messages);

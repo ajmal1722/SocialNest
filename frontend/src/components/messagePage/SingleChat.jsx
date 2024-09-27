@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { format } from 'date-fns'; // You can use this or any other date formatting library
+import { format } from 'date-fns'; // date formatting library
 
 const SingleChat = ({ message, selectedChat }) => {
     const userInfo = useSelector(state => state.auth?.userInfo);
