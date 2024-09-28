@@ -23,14 +23,15 @@ const ChatBox = ({ chatMessages, setChatMessages, onSendMessage, selectedChat })
         return () => {
             socket.off('chatMessage')
         }
-    }, [])
+    }, [socket])
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (messageInput.trim().length > 0) {
             // Construct a message object
             const newMessage = {
-                sender: userId,
+                senderId: userId,
+                receiverId: selectedChat.participants._id,
                 message: messageInput,
             };
 
