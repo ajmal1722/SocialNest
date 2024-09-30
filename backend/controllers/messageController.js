@@ -1,7 +1,7 @@
 import Message from "../models/messageSchema.js";
 import Conversation from "../models/conversationSchema.js";
-import User from '../models/userSchema.js'
 import { getSocketIo } from "../sockets/index.js";
+import userSocketMap from '../sockets/userSocketMap.js'
 
 export const fetchConversations = async (req, res) => {
     try {
@@ -68,7 +68,6 @@ export const sendMessage = async (req, res) => {
         const receiverId = req.params.id;
         const senderId = req.user;
         const { message } = req.body;
-        console.log(req.body)
 
         if (!message) {
             return res.status(400).json({ error: 'Message is required' })
@@ -103,10 +102,20 @@ export const sendMessage = async (req, res) => {
 
         // Emit the message to the receiver in real-time
         const io = getSocketIo();
-        io.to(receiverId).emit('chatMessage', {
-            sender: senderId,
-            message: newMessage.message,
-        });
+
+        // Retrieve the receiver's socket ID from the `userSocketMap`
+        const receiverSocketId = userSocketMap.get(receiverId);
+
+        if (receiverSocketId) {
+            // Send the message to the specific receiver using their socket ID
+            io.to(receiverSocketId).emit('chatMessage', {
+                sender: senderId,
+                message: newMessage.message,
+            });
+            console.log(`Message sent to receiver socket ID: ${receiverSocketId}`);
+        } else {
+            console.log('Receiver is not connected', userSocketMap);
+        }
 
         res.status(201).json({ newMessage })
     } catch (error) {
