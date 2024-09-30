@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { io } from "socket.io-client";
+import { useSocket } from "../utils/socket/socketContext";
 import ChatBox from "../components/messagePage/ChatBox";
 import { convoUserApi, getMessagesApi, sendMessagesApi, markMessagesAsReadApi } from "../utils/api/message_api";
 import ConversationListBox from "../components/messagePage/ConversationListBox";
 
-const socket = io('http://localhost:8000');
-
 const MessagePage = () => {
     const userInfo = useSelector(state => state.auth.userInfo);
+    const socket = useSocket(); // Use the shared socket instance
 
     const [users, setUsers] = useState(); // Refers to conversation here
     const [chatMessages, setChatMessages] = useState([]);
@@ -16,9 +15,6 @@ const MessagePage = () => {
     const [currentUserChattingWith, setCurrentUserChattingWith] = useState(null);
     
     useEffect(() => {
-        // Initialize socket within useEffect
-        const socket = io('http://localhost:8000');
-
         // Fetch conversations (users)
         const fetchUsers = async () => {
             const response = await convoUserApi();
@@ -39,7 +35,7 @@ const MessagePage = () => {
         return () => {
             socket.disconnect();
         };
-    }, [selectedChat])
+    }, [selectedChat, socket])
 
     const getMessages = async (conversation) => {
         setCurrentUserChattingWith(conversation.participants._id);
@@ -51,7 +47,6 @@ const MessagePage = () => {
             await markMessagesAsReadApi(conversation._id); // Marks messages as read for this conversation
 
             // Emit the 'messagesRead' event to the server to notify the sender
-            const socket = io('http://localhost:8000');
             socket.emit('messagesRead', {
                 conversationId: conversation._id,
                 userId: userInfo._id

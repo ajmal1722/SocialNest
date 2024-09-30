@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { io } from 'socket.io-client';
+import { useSocket } from "../../utils/socket/socketContext";
 import MessageBoxHeader from "./MessageBoxHeader";
 import ChatListing from "./ChatListing";
 import MessageBoxFooter from "./MessageBoxFooter";
 import NoMessage from "./NoMessage";
 
-const socket = io('http://localhost:8000');
-
 const ChatBox = ({ chatMessages, setChatMessages, onSendMessage, selectedChat }) => {
     const [messageInput, setMessageInput] = useState('');
-    const userId = useSelector(state => state.auth.userInfo._id)
+    const userId = useSelector(state => state.auth.userInfo._id);
+    const socket = useSocket(); // Use the shared socket instance
 
     useEffect(() => {
         // Listen for incoming messages

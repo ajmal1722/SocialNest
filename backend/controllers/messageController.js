@@ -116,6 +116,7 @@ export const sendMessage = async (req, res) => {
         } else {
             console.log('Receiver is not connected', receiverSocketId);
         }
+        console.log(userSocketMap)
 
         res.status(201).json({ newMessage })
     } catch (error) {

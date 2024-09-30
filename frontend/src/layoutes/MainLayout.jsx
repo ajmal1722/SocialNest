@@ -1,24 +1,27 @@
 import { useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import { io } from 'socket.io-client'
+import { useSocket } from "../utils/socket/socketContext";
 import Navbar from '../components/shared/Navbar';
 import LeftSideBar from "../components/shared/SideBar";
 import MenuFooter from "../components/shared/MenuFooter";
 
-  const socket = io('http://localhost:8000')
 const MainLayout = () => {
   const { userInfo } = useSelector(state => state.auth);
+  const socket = useSocket()
 
   useEffect(() => {
-    socket.emit('userConnected', userInfo?._id);
+    if (socket && userInfo?._id) {
+      socket.emit('userConnected', userInfo._id);
 
-    // Clean up the connection when the component unmounts
-    return () => {
-      socket.off('chatMessage');
-      socket.emit('userDisconnected', userInfo?._id);
-    };
-  }, [])
+      // Clean up when the component unmounts
+      return () => {
+        socket.emit('userDisconnected', userInfo._id);
+        socket.off('chatMessage');
+      };
+    }
+  }, [userInfo?._id, socket]);
+  
   return (
     <>
       <Navbar />
