@@ -5,6 +5,7 @@ const chatSocket = (io, socket) => {
     socket.on('userConnected', (userId) => {
         userSocketMap.set(userId, socket.id);  // Map the user ID to the socket ID
         console.log(`User ${userId} connected with socket ID: ${socket.id}`);
+        console.log('Updated userSocketMap:', userSocketMap);
     });
 
     // Listen for chat message events
