@@ -15,21 +15,6 @@ const chatSocket = (io, socket) => {
     // Listen for chat message events
     socket.on('chatMessage', (message) => {
         console.log('New message received:', message);
-        const { receiverId, senderId, messageText } = message; // Ensure message structure is correct
-
-        // Find the socket of the receiver
-        const receiverSocketId = userSocketMap.get(receiverId);
-
-        // if (receiverSocketId) {
-        //     // Send the message to the specific user
-        //     io.to(receiverSocketId).emit('chatMessage', {
-        //         sender: senderId,
-        //         message: messageText,
-        //     });
-        //     console.log('Message sent to user:', receiverSocketId);
-        // } else {
-        //     console.log('Receiver is not connected:', userSocketMap);
-        // }
     });
 
     // Handle user disconnection

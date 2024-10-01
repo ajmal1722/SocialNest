@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Input from "antd/es/input/Input"
-import EmojiSelector from "../reusable/EmojiSelector"
+import { IoIosSend } from "react-icons/io";
+import EmojiSelector from "../reusable/EmojiSelector";
 
 const MessageBoxFooter = ({ handleSubmit, messageInput, setMessageInput }) => {
 
@@ -26,7 +27,7 @@ const MessageBoxFooter = ({ handleSubmit, messageInput, setMessageInput }) => {
                     disabled={isButtonDisabled}
                     className={`ml-2 px-4 py-1 rounded ${isButtonDisabled ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-500 text-white'}`}
                 >
-                    Post
+                    <IoIosSend className="text-xl" />
                 </button>
             </form>
         </div>
