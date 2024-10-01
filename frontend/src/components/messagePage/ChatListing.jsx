@@ -1,8 +1,13 @@
-import SingleChat from "./SingleChat"
+import { useRef, useEffect } from "react";
+import SingleChat from "./SingleChat";
 
 const ChatListing = ({ chatMessages, setChatMessages, selectedChat }) => {
-    console.log('chat message,', chatMessages);
+    const bottomRef = useRef(null); // Reference to the last message
     
+    useEffect(() => {
+        // Scroll to the bottom when the chatMessages change or when the component mounts
+        bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [chatMessages])
     return (
         <div className='flex-1 p-4 overflow-y-auto'>
             {/* Example chat messages */}
@@ -19,6 +24,8 @@ const ChatListing = ({ chatMessages, setChatMessages, selectedChat }) => {
                 <SingleChat key={index} message={msg} selectedChat={selectedChat} />
                 // console.log('msg,', msg)
             ))}
+            {/* This div will always scroll into view */}
+            <div ref={bottomRef}></div>
 
             {/* <div className='flex justify-end mb-4'>
                 <div className='mr-2 p-2 bg-blue-500 text-white rounded-md max-w-[70%] break-words'>
