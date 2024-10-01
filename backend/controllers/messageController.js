@@ -110,7 +110,9 @@ export const sendMessage = async (req, res) => {
             // Send the message to the specific receiver using their socket ID
             io.to(receiverSocketId).emit('chatMessage', {
                 sender: senderId,
+                receiver: newMessage.receiver,
                 message: newMessage.message,
+                createdAt: newMessage.createdAt
             });
             console.log(`Message sent to receiver socket ID: ${receiverSocketId}`);
         } else {

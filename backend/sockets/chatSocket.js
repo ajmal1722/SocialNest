@@ -20,16 +20,16 @@ const chatSocket = (io, socket) => {
         // Find the socket of the receiver
         const receiverSocketId = userSocketMap.get(receiverId);
 
-        if (receiverSocketId) {
-            // Send the message to the specific user
-            io.to(receiverSocketId).emit('chatMessage', {
-                sender: senderId,
-                message: messageText,
-            });
-            console.log('Message sent to user:', receiverSocketId);
-        } else {
-            console.log('Receiver is not connected:', userSocketMap);
-        }
+        // if (receiverSocketId) {
+        //     // Send the message to the specific user
+        //     io.to(receiverSocketId).emit('chatMessage', {
+        //         sender: senderId,
+        //         message: messageText,
+        //     });
+        //     console.log('Message sent to user:', receiverSocketId);
+        // } else {
+        //     console.log('Receiver is not connected:', userSocketMap);
+        // }
     });
 
     // Handle user disconnection
