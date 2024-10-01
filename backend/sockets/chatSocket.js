@@ -6,6 +6,10 @@ const chatSocket = (io, socket) => {
         userSocketMap.set(userId, socket.id);  // Map the user ID to the socket ID
         console.log(`User ${userId} connected with socket ID: ${socket.id}`);
         console.log('Updated userSocketMap:', userSocketMap);
+
+        // Emit all connected users to everyone
+        const onlineUsers = Array.from(userSocketMap.keys());  // Convert Map keys to an array
+        io.emit('onlineUsers', onlineUsers);  // Send only the userIds
     });
 
     // Listen for chat message events
@@ -37,6 +41,10 @@ const chatSocket = (io, socket) => {
             if (socketId === socket.id) {
                 userSocketMap.delete(userId);  // Remove the user from the Map
                 console.log(`User ${userId} disconnected and removed from userSocketMap`);
+
+                // Emit updated online users to everyone
+                const onlineUsers = Array.from(userSocketMap.keys());
+                io.emit('onlineUsers', onlineUsers);  // Update online users after disconnection
                 break;
             }
         }

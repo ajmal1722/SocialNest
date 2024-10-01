@@ -8,7 +8,7 @@ import MenuFooter from "../components/shared/MenuFooter";
 
 const MainLayout = () => {
   const { userInfo } = useSelector(state => state.auth);
-  const socket = useSocket()
+  const { socket } = useSocket()
 
   useEffect(() => {
     if (socket && userInfo?._id) {

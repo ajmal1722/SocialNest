@@ -7,7 +7,7 @@ import ConversationListBox from "../components/messagePage/ConversationListBox";
 
 const MessagePage = () => {
     const userInfo = useSelector(state => state.auth.userInfo);
-    const socket = useSocket(); // Use the shared socket instance
+    const { socket } = useSocket();  // Use the shared socket instance
 
     const [users, setUsers] = useState(); // Refers to conversation here
     const [chatMessages, setChatMessages] = useState([]);
@@ -15,7 +15,6 @@ const MessagePage = () => {
     const [currentUserChattingWith, setCurrentUserChattingWith] = useState(null);
     
     useEffect(() => {
-        // Fetch conversations (users)
         const fetchUsers = async () => {
             const response = await convoUserApi();
             setUsers(response.conversations);
@@ -27,15 +26,14 @@ const MessagePage = () => {
         socket.on('messagesRead', ({ conversationId, userId }) => {
             if (selectedChat && selectedChat._id === conversationId) {
                 console.log(`Messages marked as read for conversation ${conversationId} by user ${userId}`);
-                // You can handle updating the UI based on the 'messagesRead' event here
+                // Optional: update UI for messages being read
             }
         });
 
-        // Clean up the socket connection when component unmounts
         return () => {
-            socket.disconnect();
+            socket.off('messagesRead');  // Properly clean up the listener
         };
-    }, [selectedChat, socket])
+    }, [selectedChat, socket]);
 
     const getMessages = async (conversation) => {
         setCurrentUserChattingWith(conversation.participants._id);
@@ -44,24 +42,24 @@ const MessagePage = () => {
         const response = await getMessagesApi(conversation.participants._id);
         if (response) {
             setChatMessages(response.messages);
-            await markMessagesAsReadApi(conversation._id); // Marks messages as read for this conversation
+            await markMessagesAsReadApi(conversation._id); // Mark messages as read
 
-            // Emit the 'messagesRead' event to the server to notify the sender
+            // Emit the 'messagesRead' event to the server
             socket.emit('messagesRead', {
                 conversationId: conversation._id,
                 userId: userInfo._id
             });
         }
-    }
+    };
 
     const sendMessage = async (message) => {
         if (!currentUserChattingWith) return;
 
         const response = await sendMessagesApi(currentUserChattingWith, { message });
         if (response) {
-            setChatMessages([...chatMessages, response.newMessage])
+            setChatMessages([...chatMessages, response.newMessage]);
         }
-    }
+    };
 
     return (
         <div className='min-h-[85vh] md:col-span-8 col-span-10 flex justify-center items-center'>
@@ -75,7 +73,7 @@ const MessagePage = () => {
                 />
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default MessagePage
+export default MessagePage;

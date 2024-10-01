@@ -9,7 +9,7 @@ import NoMessage from "./NoMessage";
 const ChatBox = ({ chatMessages, setChatMessages, onSendMessage, selectedChat }) => {
     const [messageInput, setMessageInput] = useState('');
     const userId = useSelector(state => state.auth.userInfo._id);
-    const socket = useSocket(); // Use the shared socket instance
+    const { socket } = useSocket(); // Use the shared socket instance
 
     useEffect(() => {
         // Listen for incoming messages

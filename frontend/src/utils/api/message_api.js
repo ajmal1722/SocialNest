@@ -33,7 +33,7 @@ export const sendMessagesApi = async (id, message) => {
 export const getUnreadMessagesCountApi = async () => {
     try {
         const response = await messageInstance.get(`/get-unread-count`);
-        console.log('unread message count:', response.data);
+        // console.log('unread message count:', response.data);
         return response.data
     } catch (error) {
         console.log('error marking read messages:', error);
@@ -43,7 +43,7 @@ export const getUnreadMessagesCountApi = async () => {
 export const markMessagesAsReadApi = async (id) => {
     try {
         const response = await messageInstance.get(`/mark-as-read/${id}`);
-        console.log('message mark response:', response.data.messages);
+        // console.log('message mark response:', response.data.messages);
         return response.data
     } catch (error) {
         console.log('error counting unread messages:', error);
@@ -53,7 +53,7 @@ export const markMessagesAsReadApi = async (id) => {
 export const getUnreadMessageCountPerConversationApi = async () => {
     try {
         const response = await messageInstance.get(`/get-unread-count-per-conversation`);
-        console.log('unread message count per conversation:', response.data.unreadCounts);
+        // console.log('unread message count per conversation:', response.data.unreadCounts);
         return response.data
     } catch (error) {
         console.log('error unread message count per conversation:', error);
