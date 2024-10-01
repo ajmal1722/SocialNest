@@ -1,16 +1,23 @@
-import { format } from 'date-fns'
+import { format } from 'date-fns';
+import { useSocket } from '../../utils/socket/socketContext';
 
 const Conversation = ({ user, getMessages, unreadCount }) => {
     // Format the message time (assuming the message has a 'createdAt' field)
     const messageTime = user.lastMessageAt ? format(new Date(user.lastMessageAt), 'hh:mm a') : '';
 
+    const { onlineUsers } = useSocket();
+    const isOnline = onlineUsers.includes(user.participants._id)
+
     return (
         <div onClick={() => getMessages(user)} className='flex border w-full cursor-pointer'>
-            <div className='flex items-center'>
+            <div className='flex items-center relative'>
                 <img
                     src={user.participants.profilePicture} alt=""
                     className='h-12 rounded-full m-2'
                 />
+                {isOnline && (
+                    <span className='absolute top-4 right-2 bg-green-500 h-3 w-3 rounded-full border-2 border-white'></span>
+                )}
             </div>
             <div className='my-3 w-9/12'>
                 <div className='flex justify-between'>
