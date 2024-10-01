@@ -56,6 +56,7 @@ const MessagePage = () => {
         if (!currentUserChattingWith) return;
 
         const response = await sendMessagesApi(currentUserChattingWith, { message });
+        console.log('check', response)
         if (response) {
             setChatMessages([...chatMessages, response.newMessage]);
         }
