@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Conversation from "./Conversation";
 import { getUnreadMessageCountPerConversationApi } from "../../utils/api/message_api";
 
-const ConversationListing = ({ users, getMessages }) => {
+const ConversationListing = ({ users, getMessages, setSelectedChat }) => {
     const [unreadCounts, setUnreadCounts] = useState({});
 
     useEffect(() => {
@@ -25,6 +25,7 @@ const ConversationListing = ({ users, getMessages }) => {
                     key={user._id} 
                     user={user} 
                     getMessages={getMessages}
+                    setSelectedChat={setSelectedChat}
                     unreadCount={unreadCounts[user._id] || 0}
                 />
             )) : (<div className="text-center my-5">

@@ -1,3 +1,4 @@
+import axios from "axios";
 import messageInstance from "../../axios_instaces/messageInstance";
 
 export const convoUserApi = async () => {
@@ -10,9 +11,9 @@ export const convoUserApi = async () => {
     }
 }
 
-export const searchUserApi = async () => {
+export const searchUserToChatApi = async () => {
     try {
-        const response = await messageInstance.get('/search');
+        const response = await axios.post('/user/search');
         console.log('search users', response.data);
         return response.data
     } catch (error) {

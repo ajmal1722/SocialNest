@@ -7,10 +7,11 @@ const SingleChat = ({ message, selectedChat }) => {
     // Format the message time (assuming the message has a 'createdAt' field)
     const messageTime = message.createdAt ? format(new Date(message.createdAt), 'hh:mm a') : '';
 
+    const profilePicture = selectedChat.profilePicture || selectedChat.participants?.profilePicture;
     return (
         <div className={`flex ${userInfo._id === message.sender ? 'justify-end' : 'justify-start'} mb-4`}>
         <img
-            src={userInfo._id === message.sender ? userInfo.profilePicture : selectedChat.participants.profilePicture}
+            src={userInfo._id === message.sender ? userInfo.profilePicture : profilePicture}
             alt="User Profile"
             className='rounded-full h-8 w-8 mr-1'
         />

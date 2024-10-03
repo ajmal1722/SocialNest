@@ -1,19 +1,24 @@
 import { useState } from "react";
 import ConversationListing from "./ConversationListing";
-import { searchUserApi } from "../../utils/api/message_api";
+import { searchUserApi } from "../../utils/api/user_api";
 
-const ConversationListBox = ({ users, getMessages }) => {
+const ConversationListBox = ({ users, getMessages, setSelectedChat }) => {
     const [searchValue, setSearchValue] = useState('');
+    const [searchedUsers, setSearchedUsers] = useState([])
 
-    const handleChange = (e) => {
-        setSearchValue(e.target.value.toLowerCase()); // Convert to lowercase for case-insensitive search
+    const handleChange = async (e) => {
+        setSearchValue(e.target.value.toLowerCase());
+        const response = await searchUserApi({ searchText: e.target.value.toLowerCase().trim() });
+        if (response) {
+            setSearchedUsers(response);
+        }
     };
 
     // Filter users based on the search value
-    const searchUser = async () => {
-        const response = await searchUserApi();
+    // const searchUser = async () => {
+    //     const response = await searchUserApi();
         
-    }
+    // }
 
     const filteredUsers = users?.filter(user => 
         user.participants.username.toLowerCase().includes(searchValue)
@@ -31,8 +36,9 @@ const ConversationListBox = ({ users, getMessages }) => {
                 />
             </div>
             <ConversationListing 
-                users={searchValue.trim().length > 0 ? filteredUsers : users} 
+                users={searchValue.trim().length > 0 ? searchedUsers : users}
                 getMessages={getMessages} 
+                setSelectedChat={setSelectedChat}
             />
         </div>
     );

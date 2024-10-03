@@ -30,7 +30,7 @@ const ChatBox = ({ chatMessages, setChatMessages, onSendMessage, selectedChat })
             // Construct a message object
             const newMessage = {
                 senderId: userId,
-                receiverId: selectedChat.participants._id,
+                receiverId: selectedChat.participants?._id || selectedChat._id,
                 message: messageInput,
             };
 

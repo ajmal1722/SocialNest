@@ -36,11 +36,13 @@ const MessagePage = () => {
     }, [selectedChat, socket]);
 
     const getMessages = async (conversation) => {
-        setCurrentUserChattingWith(conversation.participants._id);
+        setChatMessages([])
+        const userId = conversation.participants?._id || conversation._id;
+        setCurrentUserChattingWith(userId);
         setSelectedChat(conversation);
 
-        const response = await getMessagesApi(conversation.participants._id);
-        if (response) {
+        const response = await getMessagesApi(userId);
+        if (response.messages?.length > 0) {
             setChatMessages(response.messages);
             await markMessagesAsReadApi(conversation._id); // Mark messages as read
 
@@ -65,7 +67,7 @@ const MessagePage = () => {
     return (
         <div className='min-h-[85vh] md:col-span-8 col-span-10 flex justify-center items-center'>
             <div className="sm:flex justify-center items-center h-[75vh] md:h-[83vh] md:mt-3 md:mx-7 mr-2">
-                <ConversationListBox users={users} getMessages={getMessages} />
+                <ConversationListBox users={users} getMessages={getMessages} setSelectedChat={setSelectedChat} />
                 <ChatBox 
                     chatMessages={chatMessages} 
                     setChatMessages={setChatMessages} 

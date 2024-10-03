@@ -1,18 +1,32 @@
 import { format } from 'date-fns';
 import { useSocket } from '../../utils/socket/socketContext';
 
-const Conversation = ({ user, getMessages, unreadCount }) => {
+const Conversation = ({ user, getMessages, unreadCount, setSelectedChat }) => {
     // Format the message time (assuming the message has a 'createdAt' field)
     const messageTime = user.lastMessageAt ? format(new Date(user.lastMessageAt), 'hh:mm a') : '';
 
+    const userId = user._id || user.participants._id;
+    const profilePicture = user.profilePicture || user.participants.profilePicture;
+    const username = user.username || user.participants.username;
+
     const { onlineUsers } = useSocket();
-    const isOnline = onlineUsers.includes(user.participants._id)
+    const isOnline = onlineUsers.includes(userId)
+
+    const handleClick = (user) => {
+        if (user.participants?._id) {
+            getMessages(user)
+            console.log('Hiiii..');
+        } else {
+            setSelectedChat(user)
+            console.log('Hello..', user)
+        }
+    }
 
     return (
         <div onClick={() => getMessages(user)} className='flex border w-full cursor-pointer'>
             <div className='flex items-center relative'>
                 <img
-                    src={user.participants.profilePicture} alt=""
+                    src={profilePicture} alt=""
                     className='h-12 rounded-full m-2'
                 />
                 {isOnline && (
@@ -22,7 +36,7 @@ const Conversation = ({ user, getMessages, unreadCount }) => {
             <div className='my-3 w-9/12'>
                 <div className='flex justify-between'>
                     <h1 className='text-lg font-semibold'>
-                        {user.participants.username}
+                        {username}
                     </h1>
                     {unreadCount > 0 && (
                         <span className='rounded-full md:mr-1 bg-sky-600 px-2 mr-4'>
