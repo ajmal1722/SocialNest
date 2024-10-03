@@ -20,14 +20,16 @@ const ConversationListing = ({ users, getMessages }) => {
     
     return (
         <div className="h-full w-full ">
-            {users?.map(user => (
+            {users? users.map(user => (
                 <Conversation
                     key={user._id} 
                     user={user} 
                     getMessages={getMessages}
                     unreadCount={unreadCounts[user._id] || 0}
                 />
-            ))}
+            )) : (<div className="text-center my-5">
+                No Users found
+            </div>)}
         </div>
     )
 }

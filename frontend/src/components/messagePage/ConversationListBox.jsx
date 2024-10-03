@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ConversationListing from "./ConversationListing";
+import { searchUserApi } from "../../utils/api/message_api";
 
 const ConversationListBox = ({ users, getMessages }) => {
     const [searchValue, setSearchValue] = useState('');
@@ -9,7 +10,12 @@ const ConversationListBox = ({ users, getMessages }) => {
     };
 
     // Filter users based on the search value
-    const filteredUsers = users.filter(user => 
+    const searchUser = async () => {
+        const response = await searchUserApi();
+        
+    }
+
+    const filteredUsers = users?.filter(user => 
         user.participants.username.toLowerCase().includes(searchValue)
     );
 
@@ -24,7 +30,10 @@ const ConversationListBox = ({ users, getMessages }) => {
                     onChange={handleChange}
                 />
             </div>
-            <ConversationListing users={filteredUsers} getMessages={getMessages} />
+            <ConversationListing 
+                users={searchValue.trim().length > 0 ? filteredUsers : users} 
+                getMessages={getMessages} 
+            />
         </div>
     );
 };

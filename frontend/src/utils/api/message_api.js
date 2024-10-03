@@ -5,9 +5,19 @@ export const convoUserApi = async () => {
         const response = await messageInstance.get('/users');
         console.log('conversation users', response.data);
         return response.data
-     } catch (error) {
-         console.log('error fetching users:', error);
-     }
+    } catch (error) {
+        console.log('error fetching users:', error);
+    }
+}
+
+export const searchUserApi = async () => {
+    try {
+        const response = await messageInstance.get('/search');
+        console.log('search users', response.data);
+        return response.data
+    } catch (error) {
+        console.log('error fetching users:', error);
+    }
 }
 
 export const getMessagesApi = async (id) => {

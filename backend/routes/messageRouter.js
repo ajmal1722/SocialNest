@@ -3,6 +3,7 @@ const router = express.Router();
 import verifyUser from '../middlewares/authMiddleware.js';
 import {
     fetchConversations,
+    searchUsers,
     getMessage,
     sendMessage,
     getUnreadMessageCount,
@@ -11,6 +12,7 @@ import {
 } from '../controllers/messageController.js';
 
 router.get('/users', verifyUser, fetchConversations);
+router.get('/search', verifyUser, searchUsers)
 router.get('/get-unread-count', verifyUser, getUnreadMessageCount);
 router.get('/get-unread-count-per-conversation', verifyUser, getUnreadMessageCountPerConversation);
 

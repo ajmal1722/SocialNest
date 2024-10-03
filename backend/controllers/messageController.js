@@ -1,5 +1,6 @@
 import Message from "../models/messageSchema.js";
 import Conversation from "../models/conversationSchema.js";
+import User from '../models/userSchema.js'
 import { getSocketIo } from "../sockets/index.js";
 import userSocketMap from '../sockets/userSocketMap.js'
 
@@ -28,6 +29,17 @@ export const fetchConversations = async (req, res) => {
         res.status(200).json({ conversations: filteredConversations });
     } catch (error) {
         console.log('Error fetching conversations:', error);
+        res.status(500).json({ status: 'Failed', error: error.message });
+    }
+};
+
+export const searchUsers = async (req, res) => {
+    try {
+        const users = await User.find().select('username profilePicture')
+
+        res.status(200).json({ conversations: users });
+    } catch (error) {
+        console.log('Error fetching users:', error);
         res.status(500).json({ status: 'Failed', error: error.message });
     }
 };
