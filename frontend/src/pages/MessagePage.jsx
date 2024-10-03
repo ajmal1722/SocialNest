@@ -70,7 +70,7 @@ const MessagePage = () => {
                 <ConversationListBox users={users} getMessages={getMessages} setSelectedChat={setSelectedChat} />
                 <ChatBox 
                     chatMessages={chatMessages} 
-                    setChatMessages={setChatMessages} 
+                    setChatMessages={setChatMessages}
                     onSendMessage={sendMessage} 
                     selectedChat={selectedChat}
                 />

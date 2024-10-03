@@ -5,9 +5,9 @@ const Conversation = ({ user, getMessages, unreadCount, setSelectedChat }) => {
     // Format the message time (assuming the message has a 'createdAt' field)
     const messageTime = user.lastMessageAt ? format(new Date(user.lastMessageAt), 'hh:mm a') : '';
 
-    const userId = user._id || user.participants._id;
-    const profilePicture = user.profilePicture || user.participants.profilePicture;
-    const username = user.username || user.participants.username;
+    const userId = user.participants?._id || user._id;
+    const profilePicture = user.participants?.profilePicture || user.profilePicture;
+    const username = user.participants?.username|| user.username;
 
     const { onlineUsers } = useSocket();
     const isOnline = onlineUsers.includes(userId)

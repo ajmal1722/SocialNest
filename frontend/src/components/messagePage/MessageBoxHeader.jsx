@@ -1,9 +1,9 @@
 import { useSocket } from "../../utils/socket/socketContext";
 
 const MessageBoxHeader = ({ selectedChat }) => {
-    const userId = selectedChat._id || selectedChat.participants?._id;
-    const profilePicture = selectedChat.profilePicture || selectedChat.participants?.profilePicture;
-    const username = selectedChat.username || selectedChat.participants?.username;
+    const userId = selectedChat.participants?._id ||selectedChat._id;
+    const profilePicture = selectedChat.participants?.profilePicture || selectedChat.profilePicture;
+    const username = selectedChat.participants?.username|| selectedChat.username;
 
     console.log('selectedChat', selectedChat)
 
