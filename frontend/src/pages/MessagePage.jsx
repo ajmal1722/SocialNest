@@ -58,7 +58,7 @@ const MessagePage = () => {
         if (!currentUserChattingWith) return;
 
         const response = await sendMessagesApi(currentUserChattingWith, { message });
-        console.log('check', response)
+        // console.log('check', response)
         if (response) {
             setChatMessages([...chatMessages, response.newMessage]);
         }
@@ -73,6 +73,7 @@ const MessagePage = () => {
                     setChatMessages={setChatMessages}
                     onSendMessage={sendMessage} 
                     selectedChat={selectedChat}
+                    currentUserChattingWith={currentUserChattingWith}
                 />
             </div>
         </div>

@@ -78,67 +78,67 @@ export const getMessage = async (req, res) => {
 
 export const sendMessage = async (req, res) => {
     try {
-        const receiverId = req.params.id;
-        const senderId = req.user;
+        const receiverId = req.params.id; // ID of the user receiving the message
+        const senderId = req.user; // ID of the user sending the message (from JWT or session)
         const { message } = req.body;
 
         if (!message) {
-            return res.status(400).json({ error: 'Message is required' })
+            return res.status(400).json({ error: 'Message is required' });
         }
-        
-        // Check if a conversation exists between the two participants
-        let conversation = await Conversation.findOne({
-            participants: { $all: [senderId, receiverId]}
-        })
 
-        // If no conversation, create a new one
+        // Check if a conversation exists between the sender and receiver
+        let conversation = await Conversation.findOne({
+            participants: { $all: [senderId, receiverId] }
+        });
+
+        // If no conversation exists, create a new one
         if (!conversation) {
             conversation = await Conversation.create({
                 participants: [senderId, receiverId]
-            })
+            });
         }
 
-        // Create and save the new message
+        // Create a new message in the conversation
         const newMessage = new Message({
             conversationId: conversation._id,
             sender: senderId,
             receiver: receiverId,
             message,
-        })
+        });
 
         await newMessage.save();
 
-        // Update the conversation with the last message and timestamp
+        // Update the conversation's last message and timestamp
         conversation.lastMessage = message;
         conversation.lastMessageAt = Date.now();
         await conversation.save();
 
         // Emit the message to the receiver in real-time
-        const io = getSocketIo();
+        const io = getSocketIo(); // Get the Socket.io instance
 
-        // Retrieve the receiver's socket ID from the `userSocketMap`
+        // Retrieve the receiver's socket ID from the userSocketMap
         const receiverSocketId = userSocketMap.get(receiverId);
 
         if (receiverSocketId) {
-            // Send the message to the specific receiver using their socket ID
+            // Emit the message only to the specific receiver using their socket ID
             io.to(receiverSocketId).emit('chatMessage', {
                 sender: senderId,
                 receiver: newMessage.receiver,
                 message: newMessage.message,
                 createdAt: newMessage.createdAt
             });
-            console.log(`Message sent to receiver socket ID: ${receiverSocketId}`);
+            console.log(`Message sent to receiver with socket ID: ${receiverSocketId}`);
         } else {
-            console.log('Receiver is not connected', receiverSocketId);
+            console.log('Receiver is not connected.');
         }
-        console.log(userSocketMap)
 
-        res.status(201).json({ newMessage })
+        // Send response back to the sender
+        res.status(201).json({ newMessage });
     } catch (error) {
-        console.log('Error message:', error);
+        console.error('Error sending message:', error);
         res.status(500).json({ status: 'Failed', error: error.message });
     }
-}
+};
 
 export const getUnreadMessageCount = async (req, res) => {
     try {

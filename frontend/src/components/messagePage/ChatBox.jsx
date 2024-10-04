@@ -6,7 +6,7 @@ import ChatListing from "./ChatListing";
 import MessageBoxFooter from "./MessageBoxFooter";
 import NoMessage from "./NoMessage";
 
-const ChatBox = ({ chatMessages, setChatMessages, onSendMessage, selectedChat }) => {
+const ChatBox = ({ chatMessages, setChatMessages, onSendMessage, selectedChat, currentUserChattingWith }) => {
     const [messageInput, setMessageInput] = useState('');
     const userId = useSelector(state => state.auth.userInfo._id);
     const { socket } = useSocket(); // Use the shared socket instance
@@ -14,15 +14,18 @@ const ChatBox = ({ chatMessages, setChatMessages, onSendMessage, selectedChat })
     useEffect(() => {
         // Listen for incoming messages
         socket.on('chatMessage', msg => {
-            console.log('Received message::', msg);
-            setChatMessages(prevMessages => [...prevMessages, msg])
+            // console.log('Received message::', msg, currentUserChattingWith);
+            if (msg.sender === currentUserChattingWith){
+                setChatMessages(prevMessages => [...prevMessages, msg])
+            }
+            // setChatMessages(prevMessages => [...prevMessages, msg])
         })
 
         // Clean up the connection when the component unmounts
         return () => {
             socket.off('chatMessage')
         }
-    }, [socket])
+    }, [socket, currentUserChattingWith])
 
     const handleSubmit = (e) => {
         e.preventDefault();

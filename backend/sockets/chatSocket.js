@@ -13,9 +13,9 @@ const chatSocket = (io, socket) => {
     });
 
     // Listen for chat message events
-    socket.on('chatMessage', (message) => {
-        console.log('New message received:', message);
-    });
+    // socket.on('chatMessage', (message) => {
+    //     console.log('New message received:', message);
+    // });
 
     // Handle user disconnection
     socket.on('disconnect', () => {
