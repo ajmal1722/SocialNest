@@ -7,7 +7,7 @@ const Conversation = ({ user, getMessages, unreadCount, setSelectedChat }) => {
 
     const userId = user.participants?._id || user._id;
     const profilePicture = user.participants?.profilePicture || user.profilePicture;
-    const username = user.participants?.username|| user.username;
+    const username = user.participants?.username || user.username;
 
     const { onlineUsers } = useSocket();
     const isOnline = onlineUsers.includes(userId)
@@ -44,9 +44,9 @@ const Conversation = ({ user, getMessages, unreadCount, setSelectedChat }) => {
                         </span>
                     )}
                 </div>
-                <div className='flex justify-between'>
+                <div className='flex justify-between text-ellipsis'>
                     <p>
-                        {user.lastMessage}
+                        {user.lastMessage.split(" ").length > 5 ? `${user.lastMessage.split(" ").slice(0, 5).join(" ")}...` : user.lastMessage}
                     </p>
                     <p className='text-xs text-gray-300 text-right mt-2'>{messageTime}</p>
                 </div>
