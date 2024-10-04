@@ -46,10 +46,11 @@ const Conversation = ({ user, getMessages, unreadCount, setSelectedChat }) => {
                 </div>
                 <div className='flex justify-between text-ellipsis'>
                     <p>
-                        {user.lastMessage.split(" ").length > 5 ? `${user.lastMessage.split(" ").slice(0, 5).join(" ")}...` : user.lastMessage}
+                        {user.lastMessage?.length > 20 ? `${user.lastMessage?.substring(0, 23)}...` : user.lastMessage}
                     </p>
                     <p className='text-xs text-gray-300 text-right mt-2'>{messageTime}</p>
                 </div>
+
             </div>
         </div>
     )
