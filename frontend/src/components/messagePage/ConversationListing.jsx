@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import Conversation from "./Conversation";
 import { getUnreadMessageCountPerConversationApi } from "../../utils/api/message_api";
 
-const ConversationListing = ({ users, getMessages, setSelectedChat }) => {
-    const [unreadCounts, setUnreadCounts] = useState({});
+const ConversationListing = ({ users, getMessages, setSelectedChat, unreadCounts, setUnreadCounts }) => {
 
     useEffect(() => {
         const fetchUnreadCounts = async () => {

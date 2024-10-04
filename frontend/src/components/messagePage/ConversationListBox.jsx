@@ -2,7 +2,7 @@ import { useState } from "react";
 import ConversationListing from "./ConversationListing";
 import { searchUserApi } from "../../utils/api/user_api";
 
-const ConversationListBox = ({ users, getMessages, setSelectedChat }) => {
+const ConversationListBox = ({ users, getMessages, setSelectedChat, unreadCounts, setUnreadCounts }) => {
     const [searchValue, setSearchValue] = useState('');
     const [searchedUsers, setSearchedUsers] = useState([])
 
@@ -39,6 +39,8 @@ const ConversationListBox = ({ users, getMessages, setSelectedChat }) => {
                 users={searchValue.trim().length > 0 ? searchedUsers : users}
                 getMessages={getMessages} 
                 setSelectedChat={setSelectedChat}
+                unreadCounts={unreadCounts}
+                setUnreadCounts={setUnreadCounts}
             />
         </div>
     );

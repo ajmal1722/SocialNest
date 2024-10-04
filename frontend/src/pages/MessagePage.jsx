@@ -13,6 +13,7 @@ const MessagePage = () => {
     const [chatMessages, setChatMessages] = useState([]);
     const [selectedChat, setSelectedChat] = useState(null);
     const [currentUserChattingWith, setCurrentUserChattingWith] = useState(null);
+    const [unreadCounts, setUnreadCounts] = useState({});
     
     useEffect(() => {
         const fetchUsers = async () => {
@@ -44,6 +45,7 @@ const MessagePage = () => {
         const response = await getMessagesApi(userId);
         if (response.messages?.length > 0) {
             setChatMessages(response.messages);
+            setUnreadCounts({})
             await markMessagesAsReadApi(conversation._id); // Mark messages as read
 
             // Emit the 'messagesRead' event to the server
@@ -67,7 +69,13 @@ const MessagePage = () => {
     return (
         <div className='min-h-[85vh] md:col-span-8 col-span-10 flex justify-center items-center'>
             <div className="sm:flex justify-center items-center h-[75vh] md:h-[83vh] md:mt-3 md:mx-7 mr-2">
-                <ConversationListBox users={users} getMessages={getMessages} setSelectedChat={setSelectedChat} />
+                <ConversationListBox 
+                    users={users} 
+                    getMessages={getMessages} 
+                    setSelectedChat={setSelectedChat}
+                    unreadCounts={unreadCounts}
+                    setUnreadCounts={setUnreadCounts}
+                />
                 <ChatBox 
                     chatMessages={chatMessages} 
                     setChatMessages={setChatMessages}
