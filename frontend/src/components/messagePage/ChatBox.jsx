@@ -6,7 +6,15 @@ import ChatListing from "./ChatListing";
 import MessageBoxFooter from "./MessageBoxFooter";
 import NoMessage from "./NoMessage";
 
-const ChatBox = ({ chatMessages, setChatMessages, onSendMessage, selectedChat, currentUserChattingWith }) => {
+const ChatBox = ({ 
+    chatMessages, 
+    setChatMessages, 
+    onSendMessage, 
+    selectedChat, 
+    currentUserChattingWith, 
+    unreadCounts,
+    setUnreadCounts 
+}) => {
     const [messageInput, setMessageInput] = useState('');
     const userId = useSelector(state => state.auth.userInfo._id);
     const { socket } = useSocket(); // Use the shared socket instance
@@ -14,18 +22,24 @@ const ChatBox = ({ chatMessages, setChatMessages, onSendMessage, selectedChat, c
     useEffect(() => {
         // Listen for incoming messages
         socket.on('chatMessage', msg => {
-            // console.log('Received message::', msg, currentUserChattingWith);
-            if (msg.sender === currentUserChattingWith){
-                setChatMessages(prevMessages => [...prevMessages, msg])
+            if (msg.sender === currentUserChattingWith) {
+                // If the message is from the user currently chatting with, append it to the chat
+                setChatMessages(prevMessages => [...prevMessages, msg]);
+            } else {
+                // If the message is from another user, update the unread count for that sender
+                setUnreadCounts(prevUnreadCounts => ({
+                    ...prevUnreadCounts,
+                    [msg.conversationId]: (prevUnreadCounts[msg.conversationId] || 0) + 1
+                }));
+                console.log('unreadCounts', unreadCounts)
             }
-            // setChatMessages(prevMessages => [...prevMessages, msg])
-        })
+        });
 
         // Clean up the connection when the component unmounts
         return () => {
-            socket.off('chatMessage')
-        }
-    }, [socket, currentUserChattingWith])
+            socket.off('chatMessage');
+        };
+    }, [socket, currentUserChattingWith, setChatMessages, setUnreadCounts]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -39,14 +53,14 @@ const ChatBox = ({ chatMessages, setChatMessages, onSendMessage, selectedChat, c
 
             // Emit the message to the server
             socket.emit('chatMessage', newMessage);
-            onSendMessage(messageInput)
+            onSendMessage(messageInput);
             setMessageInput(''); // Clear the input
         }
     };
 
     return (
         <div className='flex flex-col h-full w-full mb-8 bg-gray-300 dark:bg-secondary-dark rounded-md'>
-            {selectedChat ?
+            {selectedChat ? (
                 <div className='h-full flex flex-col'>
                     <MessageBoxHeader selectedChat={selectedChat} />
                     <ChatListing
@@ -59,10 +73,12 @@ const ChatBox = ({ chatMessages, setChatMessages, onSendMessage, selectedChat, c
                         setMessageInput={setMessageInput}
                         handleSubmit={handleSubmit}
                     />
-                </div> : <NoMessage />
-            }
+                </div>
+            ) : (
+                <NoMessage />
+            )}
         </div>
-    )
-}
+    );
+};
 
 export default ChatBox;

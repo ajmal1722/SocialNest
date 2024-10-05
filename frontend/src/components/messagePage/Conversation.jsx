@@ -10,17 +10,7 @@ const Conversation = ({ user, getMessages, unreadCount, setSelectedChat }) => {
     const username = user.participants?.username || user.username;
 
     const { onlineUsers } = useSocket();
-    const isOnline = onlineUsers.includes(userId)
-
-    const handleClick = (user) => {
-        if (user.participants?._id) {
-            getMessages(user)
-            console.log('Hiiii..');
-        } else {
-            setSelectedChat(user)
-            console.log('Hello..', user)
-        }
-    }
+    const isOnline = onlineUsers.includes(userId);
 
     return (
         <div onClick={() => getMessages(user)} className='flex border w-full cursor-pointer'>

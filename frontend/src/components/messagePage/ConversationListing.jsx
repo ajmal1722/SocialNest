@@ -11,6 +11,7 @@ const ConversationListing = ({ users, getMessages, setSelectedChat, unreadCounts
                 acc[conversation.conversationId] = conversation.unreadCount;
                 return acc;
             }, {});
+            console.log('counts:', counts)
             setUnreadCounts(counts);
         };
 

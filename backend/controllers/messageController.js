@@ -122,6 +122,7 @@ export const sendMessage = async (req, res) => {
         if (receiverSocketId) {
             // Emit the message only to the specific receiver using their socket ID
             io.to(receiverSocketId).emit('chatMessage', {
+                conversationId: newMessage.conversationId,
                 sender: senderId,
                 receiver: newMessage.receiver,
                 message: newMessage.message,

@@ -41,11 +41,20 @@ const MessagePage = () => {
         const userId = conversation.participants?._id || conversation._id;
         setCurrentUserChattingWith(userId);
         setSelectedChat(conversation);
+        console.log('unread message', conversation)
 
         const response = await getMessagesApi(userId);
         if (response.messages?.length > 0) {
             setChatMessages(response.messages);
-            setUnreadCounts({})
+            
+            // Reset unread counts for this conversation
+            // if (!conversation.participants?._id) {
+                setUnreadCounts(prev => ({
+                    ...prev,
+                    [conversation._id]: 0
+                }));
+            // }
+            
             await markMessagesAsReadApi(conversation._id); // Mark messages as read
 
             // Emit the 'messagesRead' event to the server
@@ -82,6 +91,8 @@ const MessagePage = () => {
                     onSendMessage={sendMessage} 
                     selectedChat={selectedChat}
                     currentUserChattingWith={currentUserChattingWith}
+                    unreadCounts={unreadCounts}
+                    setUnreadCounts={setUnreadCounts}
                 />
             </div>
         </div>
