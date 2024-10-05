@@ -220,3 +220,50 @@ export const getUnreadMessageCountPerConversation = async (req, res) => {
         res.status(500).json({ status: 'Failed', error: error.message });
     }
 };
+
+export const unsendMessage = async (req, res) => {
+    try {
+        const messageId = req.params.id;
+        const userId = req.user; // Assuming user ID comes from authentication (JWT/session)
+
+        // Find the message by ID
+        const message = await Message.findById(messageId);
+
+        // If message not found, return 404
+        if (!message) {
+            return res.status(404).json({ status: 'Failed', error: 'Message not found' });
+        }
+
+        // Check if the user is the sender of the message
+        if (message.sender.toString() !== userId.toString()) {
+            return res.status(403).json({ status: 'Failed', error: 'You are not authorized to delete this message' });
+        }
+
+        // Delete the message
+        await message.deleteOne();
+
+        // Find the conversation and update the last message if necessary
+        const conversation = await Conversation.findById(message.conversationId);
+
+        if (conversation && conversation.lastMessage === message.message) {
+            // Find the new last message in the conversation
+            const lastMessage = await Message.findOne({ conversationId: conversation._id })
+                .sort({ createdAt: -1 });
+
+            if (lastMessage) {
+                conversation.lastMessage = lastMessage.message;
+                conversation.lastMessageAt = lastMessage.createdAt;
+            } else {
+                conversation.lastMessage = null;
+                conversation.lastMessageAt = null;
+            }
+
+            await conversation.save();
+        }
+
+        res.status(200).json({ status: 'Success', message: 'Message deleted successfully' });
+    } catch (error) {
+        console.error('Error while unsending message:', error);
+        res.status(500).json({ status: 'Failed', error: error.message });
+    }
+};

@@ -9,6 +9,7 @@ import {
     getUnreadMessageCount,
     markMessagesAsRead,
     getUnreadMessageCountPerConversation,
+    unsendMessage,
 } from '../controllers/messageController.js';
 
 router.get('/users', verifyUser, fetchConversations);
@@ -19,5 +20,6 @@ router.get('/get-unread-count-per-conversation', verifyUser, getUnreadMessageCou
 router.get('/:id', verifyUser, getMessage);
 router.get('/mark-as-read/:id', verifyUser, markMessagesAsRead);
 router.post('/send/:id', verifyUser, sendMessage);
+router.delete('/unsend/:id', verifyUser, unsendMessage);
 
 export default router;
