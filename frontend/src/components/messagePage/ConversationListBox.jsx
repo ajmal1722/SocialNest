@@ -14,16 +14,6 @@ const ConversationListBox = ({ users, getMessages, setSelectedChat, unreadCounts
         }
     };
 
-    // Filter users based on the search value
-    // const searchUser = async () => {
-    //     const response = await searchUserApi();
-        
-    // }
-
-    const filteredUsers = users?.filter(user => 
-        user.participants.username.toLowerCase().includes(searchValue)
-    );
-
     return (
         <div className='h-full w-full sm:w-[600px] p-3'>
             <div>

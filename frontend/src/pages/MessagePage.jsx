@@ -14,7 +14,7 @@ const MessagePage = () => {
     const [selectedChat, setSelectedChat] = useState(null);
     const [currentUserChattingWith, setCurrentUserChattingWith] = useState(null);
     const [unreadCounts, setUnreadCounts] = useState({});
-    
+
     useEffect(() => {
         const fetchUsers = async () => {
             const response = await convoUserApi();
@@ -34,27 +34,27 @@ const MessagePage = () => {
         return () => {
             socket.off('messagesRead');  // Properly clean up the listener
         };
-    }, [selectedChat, socket]);
+    }, [selectedChat, socket, chatMessages]);
 
     const getMessages = async (conversation) => {
         setChatMessages([])
         const userId = conversation.participants?._id || conversation._id;
         setCurrentUserChattingWith(userId);
         setSelectedChat(conversation);
-        console.log('unread message', conversation)
+        // console.log('unread message', conversation)
 
         const response = await getMessagesApi(userId);
         if (response.messages?.length > 0) {
             setChatMessages(response.messages);
-            
+
             // Reset unread counts for this conversation
             // if (!conversation.participants?._id) {
-                setUnreadCounts(prev => ({
-                    ...prev,
-                    [conversation._id]: 0
-                }));
+            setUnreadCounts(prev => ({
+                ...prev,
+                [conversation._id]: 0
+            }));
             // }
-            
+
             await markMessagesAsReadApi(conversation._id); // Mark messages as read
 
             // Emit the 'messagesRead' event to the server
@@ -72,27 +72,43 @@ const MessagePage = () => {
         // console.log('check', response)
         if (response) {
             setChatMessages([...chatMessages, response.newMessage]);
+
+            // Update the conversation's last message and last message time
+            setUsers(prevUsers => {
+                const updatedUsers = prevUsers.map(user => {
+                    if ((user.participants?._id || user._id) === currentUserChattingWith) {
+                        return {
+                            ...user,
+                            lastMessage: response.newMessage.content, // Assuming the message has a 'content' field
+                            lastMessageAt: response.newMessage.createdAt // Assuming the message has a 'createdAt' field
+                        };
+                    }
+                    return user;
+                });
+                return updatedUsers;
+            });
         }
     };
 
     return (
         <div className='min-h-[85vh] md:col-span-8 col-span-10 flex justify-center items-center'>
             <div className="sm:flex justify-center items-center h-[75vh] md:h-[83vh] md:mt-3 md:mx-7 mr-2">
-                <ConversationListBox 
-                    users={users} 
-                    getMessages={getMessages} 
+                <ConversationListBox
+                    users={users}
+                    getMessages={getMessages}
                     setSelectedChat={setSelectedChat}
                     unreadCounts={unreadCounts}
                     setUnreadCounts={setUnreadCounts}
                 />
-                <ChatBox 
-                    chatMessages={chatMessages} 
+                <ChatBox
+                    chatMessages={chatMessages}
                     setChatMessages={setChatMessages}
-                    onSendMessage={sendMessage} 
+                    onSendMessage={sendMessage}
                     selectedChat={selectedChat}
                     currentUserChattingWith={currentUserChattingWith}
                     unreadCounts={unreadCounts}
                     setUnreadCounts={setUnreadCounts}
+                    setUsers={setUsers}
                 />
             </div>
         </div>

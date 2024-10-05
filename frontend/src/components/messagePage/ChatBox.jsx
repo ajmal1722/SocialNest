@@ -13,7 +13,8 @@ const ChatBox = ({
     selectedChat, 
     currentUserChattingWith, 
     unreadCounts,
-    setUnreadCounts 
+    setUnreadCounts,
+    setUsers
 }) => {
     const [messageInput, setMessageInput] = useState('');
     const userId = useSelector(state => state.auth.userInfo._id);
@@ -31,8 +32,27 @@ const ChatBox = ({
                     ...prevUnreadCounts,
                     [msg.conversationId]: (prevUnreadCounts[msg.conversationId] || 0) + 1
                 }));
-                console.log('unreadCounts', unreadCounts)
+                // console.log('unreadCounts', unreadCounts)
             }
+
+            // Update the conversation's last message and last message time
+            setUsers(prevUsers => {
+                console.log('prevUser:', prevUsers);
+                
+                const updatedUsers = prevUsers.map(user => {
+                    if ((user.participants?._id || user._id) === msg.sender) {
+                        console.log('user:', msg);
+                        
+                        return {
+                            ...user,
+                            lastMessage: msg.message, // Update lastMessage
+                            lastMessageAt: msg.createdAt
+                        };
+                    }
+                    return user;
+                });
+                return updatedUsers;
+            });
         });
 
         // Clean up the connection when the component unmounts
