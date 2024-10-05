@@ -8,16 +8,30 @@ const SingleChat = ({ message, selectedChat }) => {
     const messageTime = message.createdAt ? format(new Date(message.createdAt), 'hh:mm a') : '';
 
     const profilePicture = selectedChat.profilePicture || selectedChat.participants?.profilePicture;
+
+    // Determine if the message is from the current user (sender)
+    const isSender = userInfo._id === message.sender;
+
     return (
-        <div className={`flex ${userInfo._id === message.sender ? 'justify-end' : 'justify-start'} mb-4`}>
-        <img
-            src={userInfo._id === message.sender ? userInfo.profilePicture : profilePicture}
-            alt="User Profile"
-            className='rounded-full h-8 w-8 mr-1'
-        />
-            <div className='mr-2 p-2 bg-blue-500 text-white rounded-md max-w-[70%] break-words min-w-[100px]'>
+        <div className={`flex ${isSender ? 'justify-end' : 'justify-start'} mb-4`}>
+            {!isSender && (
+                <img
+                    src={profilePicture}
+                    alt="User Profile"
+                    className="rounded-full h-8 w-8 mr-1"
+                />
+            )}
+            <div
+                className={`mr-2 p-2 rounded-md max-w-[70%] break-words min-w-[100px] ${
+                    isSender ? 'bg-ternary-dark dark:bg-primary-dark text-white' : 'bg-gray-100 text-black'
+                }`}
+            >
                 <p>{message.message}</p>
-                <p className='text-xs text-gray-300 text-right mt-1'>{messageTime}</p>
+                <p style={{marginTop: '-5px', marginRight: '-2px'}} className={`text-xs text-right 
+                        ${isSender ? 'text-gray-300' : 'text-gray-500'}
+                    `} >
+                    {messageTime}
+                </p>
             </div>
         </div>
     );
