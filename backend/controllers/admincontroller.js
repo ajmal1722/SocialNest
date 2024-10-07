@@ -31,7 +31,7 @@ export const adminLogin = async (req, res) => {
         // console.log(email);
 
         if (!admin) {
-            return res.status(400).json({ error: 'User does not exist' });
+            return res.status(400).json({ error: 'Invalid email' });
         }
 
         if (password) {
@@ -76,6 +76,69 @@ export const isAdminProtected = async (req, res) => {
     res.status(200).json({ admin: req.user, isAuthenticated: true });
 }
 
+export const getMonthlyStats = async (req, res) => {
+    try {
+        const currentYear = new Date().getFullYear();
+
+        // Initialize an array to store user and post count for each month
+        const monthlyStats = Array.from({ length: 12 }, (_, i) => ({
+            month: i + 1,
+            totalUsers: 0,
+            totalPosts: 0
+        }));
+
+        // Fetch new users grouped by month
+        const usersByMonth = await User.aggregate([
+            {
+                $match: {
+                    createdAt: {
+                        $gte: new Date(`${currentYear}-01-01`),
+                        $lt: new Date(`${currentYear + 1}-01-01`)
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: { month: { $month: '$createdAt' } },
+                    totalUsers: { $sum: 1 }
+                }
+            }
+        ]);
+
+        // Fetch new posts grouped by month
+        const postsByMonth = await Post.aggregate([
+            {
+                $match: {
+                    createdAt: {
+                        $gte: new Date(`${currentYear}-01-01`),
+                        $lt: new Date(`${currentYear + 1}-01-01`)
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: { month: { $month: '$createdAt' } },
+                    totalPosts: { $sum: 1 }
+                }
+            }
+        ]);
+
+        // Update the monthly stats array with the fetched data
+        usersByMonth.forEach(userData => {
+            monthlyStats[userData._id.month - 1].totalUsers = userData.totalUsers;
+        });
+
+        postsByMonth.forEach(postData => {
+            monthlyStats[postData._id.month - 1].totalPosts = postData.totalPosts;
+        });
+
+        res.status(200).json(monthlyStats);
+    } catch (error) {
+        console.error('Error fetching reported posts:', error);
+        return res.status(500).json({ error: error.message });
+    }
+}
+
 export const fetchReportPost = async (req, res) => {
     try {
         const reportedPosts = await Report.aggregate([
@@ -117,8 +180,16 @@ export const fetchReportPost = async (req, res) => {
             }
         ]);
         
-        // Return the fetched reported posts in the response
-        return res.status(200).json({ reportedPosts });
+        // Update the monthly stats array with the fetched data
+        usersByMonth.forEach(userData => {
+            monthlyStats[userData._id.month - 1].totalUsers = userData.totalUsers;
+        });
+
+        postsByMonth.forEach(postData => {
+            monthlyStats[postData._id.month - 1].totalPosts = postData.totalPosts;
+        });
+
+        res.status(200).json(monthlyStats);
     } catch (error) {
         console.error('Error fetching reported posts:', error);
         return res.status(500).json({ error: error.message });
