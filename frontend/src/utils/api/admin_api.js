@@ -52,3 +52,13 @@ export const banUserApi = async (id) => {
         console.log("error fetching users", error.response.data);
     }
 }
+
+export const adminLogoutApi = async () => {
+    try {
+        const response = await adminInstance.get('/logout');
+        console.log('res', response)
+        return response.data;
+    } catch (error) {
+        console.log('Error while logging out', error)
+    }
+}

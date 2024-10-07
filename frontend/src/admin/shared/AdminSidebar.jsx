@@ -1,6 +1,17 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { IoMdLogOut } from "react-icons/io";
+import { adminLogoutApi } from '../../utils/api/admin_api';
 
 const AdminSidebar = ({ isOpen }) => {
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        const response = await adminLogoutApi();
+        if (response){
+            navigate('/admin/login')
+        }
+    }
+
     return (
         <aside
             className={`z-50 bg-gray-800 text-white w-64 space-y-6 absolute inset-y-0 left-0 transform ${
@@ -59,6 +70,10 @@ const AdminSidebar = ({ isOpen }) => {
                     >
                         Profile
                     </NavLink>
+                    <button onClick={handleLogout} className='flex items-center gap-1 py-2 p-10 my-5 text-secondary-light font-semibold text-lg'>
+                        <IoMdLogOut className='font-extrabold' />
+                        Logout
+                    </button>
                 </ul>
             </nav>
         </aside>

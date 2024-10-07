@@ -132,7 +132,7 @@ export const getMonthlyStats = async (req, res) => {
             monthlyStats[postData._id.month - 1].totalPosts = postData.totalPosts;
         });
 
-        res.status(200).json(monthlyStats);
+        res.status(200).json({ msg: monthlyStats });
     } catch (error) {
         console.error('Error fetching reported posts:', error);
         return res.status(500).json({ error: error.message });
@@ -180,16 +180,8 @@ export const fetchReportPost = async (req, res) => {
             }
         ]);
         
-        // Update the monthly stats array with the fetched data
-        usersByMonth.forEach(userData => {
-            monthlyStats[userData._id.month - 1].totalUsers = userData.totalUsers;
-        });
-
-        postsByMonth.forEach(postData => {
-            monthlyStats[postData._id.month - 1].totalPosts = postData.totalPosts;
-        });
-
-        res.status(200).json(monthlyStats);
+        // Return the fetched reported posts in the response
+        return res.status(200).json({ reportedPosts });
     } catch (error) {
         console.error('Error fetching reported posts:', error);
         return res.status(500).json({ error: error.message });
@@ -239,3 +231,17 @@ export const banUser = async (req, res) => {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+export const adminLogout = async (req, res) => {
+    try {
+        // Clear the cookies
+        res.clearCookie('adminAccessToken');
+        res.clearCookie('adminRefreshToken');
+
+        // Send a response indicating successful logout
+        res.status(200).json({ message: 'Successfully logged out' });
+    } catch (error) {
+        console.error('Logout error:', error);
+        res.status(500).json({ error: 'An error occurred during logout' });
+    }
+}
