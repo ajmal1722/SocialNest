@@ -1,12 +1,18 @@
-import React from 'react'
+import React from 'react';
 
-const DashboardBox = () => {
+const DashboardBox = ({ title, subTitle, titleCount, subTitleCount }) => {
     return (
-        <div className="bg-white p-6 rounded-lg shadow-md w-3/12">
-            <h2 className="text-2xl font-semibold mb-4">Total Users</h2>
-            <h2 className="text-2xl font-semibold mb-4">Total Users</h2>
+        <div className="bg-white p-5 rounded-lg shadow-md w-5/12">
+                <div className="font-mono shadow-lg w-full p-2 flex justify-between px-5 mb-4">
+                    <h1>{title}</h1>
+                    <h1>{titleCount}</h1>
+                </div>
+                <div className="font-mono shadow-lg w-full p-2 flex justify-between px-5">
+                    <h1>{subTitle}</h1>
+                    <h1>{subTitleCount}</h1>
+                </div>
         </div>
-    )
-}
+    );
+};
 
-export default DashboardBox
+export default DashboardBox;

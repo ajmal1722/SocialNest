@@ -8,7 +8,8 @@ import {
     fetchAllUsers,
     banUser,
     getMonthlyStats,
-    adminLogout
+    adminLogout,
+    getDashboardCounts
 } from '../controllers/admincontroller.js';
 
 // router.post('/signup', adminSignup);
@@ -21,6 +22,7 @@ router.get('/reports', fetchReportPost);
 router.get('/fetch-users', fetchAllUsers);
 router.get('/ban-user/:id', banUser);
 router.get('/monthly-stats', getMonthlyStats);
+router.get('/stats-counts', getDashboardCounts);
 router.get('/logout', adminLogout)
 
 export default router

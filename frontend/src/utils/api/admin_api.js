@@ -23,6 +23,16 @@ export const checkAdminAuthenticatedApi = async () => {
     }
 }
 
+export const fetchStatsCountsApi = async () => {
+    try {
+        const response = await adminInstance.get('/stats-counts');
+        console.log('Dashboard stats counts', response.data);
+        return response.data
+    } catch (error) {
+        console.log("error fetching monthly stats", error.response.data);
+    }
+}
+
 export const fetchMonthlyStatsApi = async () => {
     try {
         const response = await adminInstance.get('/monthly-stats');

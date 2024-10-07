@@ -76,6 +76,33 @@ export const isAdminProtected = async (req, res) => {
     res.status(200).json({ admin: req.user, isAuthenticated: true });
 }
 
+export const getDashboardCounts = async (req, res) => {
+    try {
+        // 1. Get the total count of Users
+        const totalUsers = await User.countDocuments();
+
+        // 2. Get the total count of Posts
+        const totalPosts = await Post.countDocuments();
+
+        // 3. Get the count of Blocked Users (assuming you have an 'isBlocked' field)
+        const blockedUsers = await User.countDocuments({ isBlocked: true });
+
+        // 4. Get the count of Reported Posts (assuming you have an 'isReported' field in posts)
+        const reportedPosts = await Post.countDocuments({ isReported: true });
+
+        // Sending the response with counts
+        return res.status(200).json({
+            totalUsers,
+            totalPosts,
+            blockedUsers,
+            reportedPosts
+        });
+    } catch (error) {
+        console.error('Error fetching Dashboard stats:', error);
+        return res.status(500).json({ error: error.message });
+    }
+};
+
 export const getMonthlyStats = async (req, res) => {
     try {
         const currentYear = new Date().getFullYear();
