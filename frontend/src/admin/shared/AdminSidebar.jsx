@@ -39,7 +39,7 @@ const AdminSidebar = ({ isOpen }) => {
                     >
                         Reports
                     </NavLink>
-                    <NavLink
+                    {/* <NavLink
                         to="/admin/notifications"
                         className={({ isActive }) =>
                             isActive
@@ -48,7 +48,7 @@ const AdminSidebar = ({ isOpen }) => {
                         }
                     >
                         Notifications
-                    </NavLink>
+                    </NavLink> */}
                     <NavLink
                         to="/admin/profile"
                         className={({ isActive }) =>
