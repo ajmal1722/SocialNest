@@ -1,5 +1,5 @@
 import Admin from "../models/adminSchema.js";
-import Report from '../models/reportSchema.js';
+import ReportedPost from '../models/reportSchema.js';
 import User from "../models/userSchema.js";
 import { Post } from '../models/postSchema.js';
 import bcrypt from 'bcryptjs';
@@ -84,11 +84,11 @@ export const getDashboardCounts = async (req, res) => {
         // 2. Get the total count of Posts
         const totalPosts = await Post.countDocuments();
 
-        // 3. Get the count of Blocked Users (assuming you have an 'isBlocked' field)
-        const blockedUsers = await User.countDocuments({ isBlocked: true });
+        // 3. Get the count of Blocked Users (based on 'isBanned' field in User model)
+        const blockedUsers = await User.countDocuments({ isBanned: true });
 
-        // 4. Get the count of Reported Posts (assuming you have an 'isReported' field in posts)
-        const reportedPosts = await Post.countDocuments({ isReported: true });
+        // 4. Get the count of Reported Posts from the ReportedPost model
+        const reportedPosts = await ReportedPost.countDocuments();
 
         // Sending the response with counts
         return res.status(200).json({

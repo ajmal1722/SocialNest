@@ -29,7 +29,7 @@ const AdminDashboard = () => {
                 <DashboardBox 
                     title={'Total Users'} 
                     titleCount={dashboardStats.totalUsers} 
-                    subTitle={'Blocked Users'}
+                    subTitle={'Banned Users'}
                     subTitleCount={dashboardStats.blockedUsers}
                 />
                 <DashboardBox 
