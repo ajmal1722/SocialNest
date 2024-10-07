@@ -22,14 +22,17 @@ const SingleChat = ({ message, selectedChat }) => {
                 />
             )}
             <div
-                className={`mr-2 p-2 rounded-md max-w-[70%] break-words min-w-[100px] ${
-                    isSender ? 'bg-ternary-dark dark:bg-primary-dark text-white' : 'bg-gray-100 text-black'
-                }`}
+                className={`mr-2 p-2 rounded-md max-w-[70%] break-words min-w-[100px] ${isSender ? 'bg-ternary-dark dark:bg-primary-dark text-white' : 'bg-gray-100 text-black'
+                    }`}
             >
                 <p>{message.message}</p>
-                <p style={{marginTop: '-5px', marginRight: '-2px'}} className={`text-xs text-right 
+                <p style={{ marginTop: '-5px', marginLeft: '30px' }} className={`text-xs text-right 
                         ${isSender ? 'text-gray-300' : 'text-gray-500'}
                     `} >
+                    {/* {isSender &&
+                        <span className='mr-1 font-semibold'>
+                            ✓
+                        </span>} */}
                     {messageTime}
                 </p>
             </div>
