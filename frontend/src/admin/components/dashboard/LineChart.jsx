@@ -1,37 +1,45 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart, CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend } from 'chart.js';
+import { fetchMonthlyStatsApi } from '../../../utils/api/admin_api';
 
 // Register the required components for Chart.js
 Chart.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
 
 const LineChart = () => {
+    const [chartData, setChartData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchMonthlyStats = async () => {
+            try {
+                const response = await fetchMonthlyStatsApi();
+                if (response && response.length > 0) {
+                    setChartData(response);
+                } else {
+                    setChartData([]);
+                }
+            } catch (error) {
+                setError("Failed to fetch data");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchMonthlyStats();
+    }, []);
+
     // Dummy data for months
     const months = [
         'January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'
     ];
 
-    // Hardcoded dummy data
-    const dummyData = [
-        { month: 1, totalUsers: 100, totalPosts: 50 },
-        { month: 2, totalUsers: 200, totalPosts: 120 },
-        { month: 3, totalUsers: 300, totalPosts: 80 },
-        { month: 4, totalUsers: 400, totalPosts: 160 },
-        { month: 5, totalUsers: 500, totalPosts: 190 },
-        { month: 6, totalUsers: 600, totalPosts: 210 },
-        { month: 7, totalUsers: 300, totalPosts: 240 },
-        { month: 8, totalUsers: 800, totalPosts: 300 },
-        { month: 9, totalUsers: 900, totalPosts: 250 },
-        { month: 10, totalUsers: 600, totalPosts: 270 },
-        { month: 11, totalUsers: 100, totalPosts: 350 },
-        { month: 12, totalUsers: 100, totalPosts: 400 }
-    ];
-
     // Generate labels and data points from the dummy data
-    const labels = dummyData.map(item => months[item.month - 1]);
-    const userCounts = dummyData.map(item => item.totalUsers);
-    const postCounts = dummyData.map(item => item.totalPosts);
+    const labels = chartData?.map(item => months[item.month - 1]) || [];
+    const userCounts = chartData?.map(item => item.totalUsers) || [];
+    const postCounts = chartData?.map(item => item.totalPosts) || [];
 
     // Data for the chart
     const data = {
@@ -89,10 +97,22 @@ const LineChart = () => {
         }
     };
 
+    if (loading) {
+        return <p>Loading chart data...</p>;
+    }
+
+    if (error) {
+        return <p>{error}</p>;
+    }
+
     return (
         <div className='m-6 lg:w-10/12 w-full'>
             <h2>Monthly Users and Posts Statistics</h2>
-            <Line data={data} options={options} />
+            {chartData.length > 0 ? (
+                <Line data={data} options={options} />
+            ) : (
+                <p>No data available for the chart.</p>
+            )}
         </div>
     );
 };

@@ -16,10 +16,20 @@ export const adminLoginApi = async (data) => {
 export const checkAdminAuthenticatedApi = async () => {
     try {
         const response = await adminInstance.get('/is-admin-protected');
-        console.log(response.data);
+        // console.log(response.data);
         return response.data
     } catch (error) {
         console.log("error:", error.response.data);
+    }
+}
+
+export const fetchMonthlyStatsApi = async () => {
+    try {
+        const response = await adminInstance.get('/monthly-stats');
+        console.log('monthly stats', response.data);
+        return response.data
+    } catch (error) {
+        console.log("error fetching monthly stats", error.response.data);
     }
 }
 

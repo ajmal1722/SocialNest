@@ -132,7 +132,7 @@ export const getMonthlyStats = async (req, res) => {
             monthlyStats[postData._id.month - 1].totalPosts = postData.totalPosts;
         });
 
-        res.status(200).json({ msg: monthlyStats });
+        res.status(200).json(monthlyStats);
     } catch (error) {
         console.error('Error fetching reported posts:', error);
         return res.status(500).json({ error: error.message });

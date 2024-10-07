@@ -10,7 +10,6 @@ const AdminDashboard = () => {
                 <DashboardBox />
             </div>
             <LineChart />
-            <LineChart />
         </>
     );
 };
