@@ -8,7 +8,7 @@ const DeleteModal = ({ showModal, setShowModal, setShowOptions, postId, handleDe
             handleDelete(postId);
         } else if (action === 'archive') {
             handleArchive(postId);
-        } else if (action === 'ban user') {
+        } else if (action === 'ban user' || action === 'unban user') {
             handleBan(id)
         }
         setShowModal(false);

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Space, Table, Tag, Avatar, Image, Button, message } from 'antd';
-import { fetchAllUsersApi, banUserApi } from '../../utils/api/admin_api';
+import { fetchAllUsersApi, banAndUnBanUserApi } from '../../utils/api/admin_api';
 import ReusableModal from '../../components/reusable/ReusableModal';
 import UserDetails from '../components/reusable/UserDetails';
 import ConfirmationModal from '../../components/reusable/ConfirmationModal'
@@ -9,6 +9,7 @@ const AdminUserManagement = () => {
     const [users, setUsers] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+    const [confirmationAction, setConfirmationAction] = useState('');
     const [selectedUser, setSelectedUser] = useState(null);
 
     useEffect(() => {
@@ -29,19 +30,20 @@ const AdminUserManagement = () => {
         setShowModal(true)
     }
 
-    const openConfirmationModal = async (user) => {
+    const openConfirmationModal = async (user, action) => {
         setSelectedUser(user)
+        setConfirmationAction(action)
         setShowConfirmationModal(true)
     }
 
-    const banUser = async (id) => {
-        const response = await banUserApi(id);
+    const banAndUnBanUser = async (id) => {
+        const response = await banAndUnBanUserApi(id);
         if (response) {
             message.success(response.message);
 
             setUsers((prevUsers) =>
                 prevUsers.map((user) =>
-                    user._id === id ? { ...user, isBanned: true } : user
+                    user._id === id ? { ...user, isBanned: confirmationAction === 'ban' } : user
                 )
             );
         }
@@ -77,11 +79,12 @@ const AdminUserManagement = () => {
                     {record.isBanned ?
                         (<Tag 
                             color='volcano'
-                            className='px-5 py-1 cursor-not-allowed'
+                            className='px-5 py-1 cursor-pointer'
+                            onClick={() => openConfirmationModal(record, 'unban')}
                         >
                             Banned
                         </Tag>) : (
-                        <Button onClick={() => openConfirmationModal(record)}>
+                        <Button onClick={() => openConfirmationModal(record, 'ban')}>
                             Ban User
                         </Button>
                     )}
@@ -99,12 +102,12 @@ const AdminUserManagement = () => {
                 Content={() => <UserDetails data={selectedUser} />}
             />
             <ConfirmationModal
-                action={'ban user'}
+                action={confirmationAction === 'ban' ? 'ban user' : 'unban user'}
                 showModal={showConfirmationModal}
                 setShowModal={setShowConfirmationModal}
                 id={selectedUser?._id}
-                message='Are you sure you want to ban this user?'
-                handleBan={banUser}
+                message={`Are you sure you want to ${confirmationAction} this user?`} 
+                handleBan={banAndUnBanUser}
             />
         </>
     )

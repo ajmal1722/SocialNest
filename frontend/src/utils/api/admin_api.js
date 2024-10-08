@@ -63,7 +63,7 @@ export const fetchAllUsersApi = async () => {
     }
 }
 
-export const banUserApi = async (id) => {
+export const banAndUnBanUserApi = async (id) => {
     try {
         const response = await adminInstance.get(`/ban-user/${id}`);
         console.log(response.data);

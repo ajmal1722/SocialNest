@@ -243,23 +243,21 @@ export const banUser = async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        // Check if user is already banned
+        // Toggle ban/unban
         if (user.isBanned) {
-            return res.status(400).json({ message: 'User is already banned' });
-            // user.isBanned = false;
-            // await user.save()
-            // return res.status(200).json({ message: 'User has been unbanned successfully' });
+            // Unban the user
+            user.isBanned = false;
+            await user.save();
+            return res.status(200).json({ message: 'User has been unbanned successfully' });
+        } else {
+            // Ban the user
+            user.isBanned = true;
+            user.refreshToken = null; // Remove refresh token if banning the user
+            await user.save();
+            return res.status(200).json({ message: 'User has been banned successfully' });
         }
-
-        // Ban the user
-        user.isBanned = true;
-        user.refreshToken = null;
-        await user.save();
-
-        // Send success response
-        return res.status(200).json({ message: 'User has been banned successfully' });
     } catch (error) {
-        console.error('Error banning user:', error);
+        console.error('Error banning/unbanning user:', error);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
