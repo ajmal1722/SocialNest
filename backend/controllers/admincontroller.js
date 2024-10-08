@@ -105,46 +105,60 @@ export const getDashboardCounts = async (req, res) => {
 
 export const getMonthlyStats = async (req, res) => {
     try {
-        const currentYear = new Date().getFullYear();
-
+        const currentDate = new Date(); // Get the current date
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth() + 1; // Get current month (0-indexed, so +1)
+        console.log(currentMonth)
+        
         // Initialize an array to store user and post count for each month
-        const monthlyStats = Array.from({ length: 12 }, (_, i) => ({
-            month: i + 1,
-            totalUsers: 0,
-            totalPosts: 0
-        }));
+        const monthlyStats = Array.from({ length: 12 }, (_, i) => {
+            const month = (currentMonth - i + 11) % 12 + 1; // Calculate month (0-indexed so adjust accordingly)
+            const year = month > currentMonth ? currentYear - 1 : currentYear; // Adjust year based on month
+            return {
+                month,
+                year,
+                totalUsers: 0,
+                totalPosts: 0
+            };
+        }).reverse(); // Reverse the array to have the correct order (oldest to most recent)
 
-        // Fetch new users grouped by month
+        // Fetch new users grouped by year and month
         const usersByMonth = await User.aggregate([
             {
                 $match: {
                     createdAt: {
-                        $gte: new Date(`${currentYear}-01-01`),
-                        $lt: new Date(`${currentYear + 1}-01-01`)
+                        $gte: new Date(currentDate.setMonth(currentDate.getMonth() - 11)), // 11 months back
+                        $lt: new Date() // Up to the current date
                     }
                 }
             },
             {
                 $group: {
-                    _id: { month: { $month: '$createdAt' } },
+                    _id: {
+                        year: { $year: '$createdAt' },
+                        month: { $month: '$createdAt' }
+                    },
                     totalUsers: { $sum: 1 }
                 }
             }
         ]);
 
-        // Fetch new posts grouped by month
+        // Fetch new posts grouped by year and month
         const postsByMonth = await Post.aggregate([
             {
                 $match: {
                     createdAt: {
-                        $gte: new Date(`${currentYear}-01-01`),
-                        $lt: new Date(`${currentYear + 1}-01-01`)
+                        $gte: new Date(currentDate.setMonth(currentDate.getMonth() - 11)), // 11 months back
+                        $lt: new Date() // Up to the current date
                     }
                 }
             },
             {
                 $group: {
-                    _id: { month: { $month: '$createdAt' } },
+                    _id: {
+                        year: { $year: '$createdAt' },
+                        month: { $month: '$createdAt' }
+                    },
                     totalPosts: { $sum: 1 }
                 }
             }
@@ -152,19 +166,27 @@ export const getMonthlyStats = async (req, res) => {
 
         // Update the monthly stats array with the fetched data
         usersByMonth.forEach(userData => {
-            monthlyStats[userData._id.month - 1].totalUsers = userData.totalUsers;
+            const { month, year } = userData._id;
+            const stats = monthlyStats.find(stats => stats.month === month && stats.year === year);
+            if (stats) {
+                stats.totalUsers = userData.totalUsers;
+            }
         });
 
         postsByMonth.forEach(postData => {
-            monthlyStats[postData._id.month - 1].totalPosts = postData.totalPosts;
+            const { month, year } = postData._id;
+            const stats = monthlyStats.find(stats => stats.month === month && stats.year === year);
+            if (stats) {
+                stats.totalPosts = postData.totalPosts;
+            }
         });
 
         res.status(200).json(monthlyStats);
     } catch (error) {
-        console.error('Error fetching reported posts:', error);
+        console.error('Error fetching monthly stats:', error);
         return res.status(500).json({ error: error.message });
     }
-}
+};
 
 export const fetchReportPost = async (req, res) => {
     try {
