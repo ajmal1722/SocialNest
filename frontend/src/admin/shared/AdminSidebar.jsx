@@ -60,7 +60,7 @@ const AdminSidebar = ({ isOpen }) => {
                     >
                         Notifications
                     </NavLink> */}
-                    <NavLink
+                    {/* <NavLink
                         to="/admin/profile"
                         className={({ isActive }) =>
                             isActive
@@ -69,7 +69,7 @@ const AdminSidebar = ({ isOpen }) => {
                         }
                     >
                         Profile
-                    </NavLink>
+                    </NavLink> */}
                     <button onClick={handleLogout} className='flex items-center gap-1 py-2 p-10 my-5 text-secondary-light font-semibold text-lg'>
                         <IoMdLogOut className='font-extrabold' />
                         Logout

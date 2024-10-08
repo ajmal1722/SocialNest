@@ -28,6 +28,10 @@ const verifyAccessToken = async (req, res, next) => {
                     return res.status(401).json({ error: 'User not found' });
                 }
 
+                if (user.isBanned) {
+                    return res.status(403).json({ error: 'Your account is Banned' });
+                }
+
                 req.user = decoded.userId;
                 next();
             });
@@ -44,6 +48,10 @@ const verifyAccessToken = async (req, res, next) => {
                 const user = await User.findById(decoded.userId);
                 if (!user || user.refreshToken !== refreshToken) {
                     return res.status(401).json({ error: 'Invalid refresh token' });
+                }
+                
+                if (user.isBanned) {
+                    return res.status(403).json({ error: 'Your account is Banned' });
                 }
 
                 const newAccessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '15m' });
