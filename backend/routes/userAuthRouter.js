@@ -13,7 +13,7 @@ import {
     singleUserDetails,
     updateUserProfile,
     searchUser,
-    blockUser,
+    blockUnblockUser,
 } from '../controllers/userAuthController.js';
 
 router.post('/signup', userSignup);
@@ -39,6 +39,6 @@ router.put('/update-data', upload.single('image'), updateUserProfile)
 
 router.post('/search', searchUser);
 
-router.get('/block/:id', blockUser)
+router.get('/block/:id', blockUnblockUser)
 
 export default router;

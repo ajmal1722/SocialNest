@@ -168,7 +168,7 @@ export const getMonthlyStats = async (req, res) => {
 
 export const fetchReportPost = async (req, res) => {
     try {
-        const reportedPosts = await Report.aggregate([
+        const reportedPosts = await ReportedPost.aggregate([
             {
                 $lookup: {
                     from: 'posts',
@@ -203,6 +203,11 @@ export const fetchReportPost = async (req, res) => {
                     'user_details.followers': 0,
                     'user_details.following': 0,
                     'user_details.savedPosts': 0,
+                }
+            },
+            {
+                $sort: {
+                    createdAt: -1
                 }
             }
         ]);

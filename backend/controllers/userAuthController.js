@@ -414,26 +414,44 @@ const searchUser = async (req, res) => {
     }
 }
 
-const blockUser = async (req, res) => {
+const blockUnblockUser = async (req, res) => {
     try {
-        const userId = req.user;
-        const blockUserId = req.params.id;
-        console.log('id:', userId)
+        const userId = req.user; // The authenticated user
+        const blockUserId = req.params.id; // The ID of the user to block/unblock
 
+        // Prevent users from blocking themselves
         if (userId === blockUserId) {
             return res.status(400).json({ error: 'You cannot block yourself' });
         }
 
-        await Users.findByIdAndUpdate(userId, {
-            $addToSet: { blockedUsers: blockUserId }
-        });
+        // Find the user to see if the blockUserId is already in the blockedUsers array
+        const user = await Users.findById(userId);
 
-        res.status(200).json({ message: 'User blocked successfully' });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Check if the user is already blocked
+        const isBlocked = user.blockedUsers.includes(blockUserId);
+
+        if (isBlocked) {
+            // If the user is already blocked, perform the "unblock" action
+            await Users.findByIdAndUpdate(userId, {
+                $pull: { blockedUsers: blockUserId }
+            });
+            res.status(200).json({ message: 'User unblocked successfully' });
+        } else {
+            // If the user is not blocked, perform the "block" action
+            await Users.findByIdAndUpdate(userId, {
+                $addToSet: { blockedUsers: blockUserId }
+            });
+            res.status(200).json({ message: 'User blocked successfully' });
+        }
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: error.message });
     }
-}
+};
 
 export {
     userSignup, 
@@ -445,5 +463,5 @@ export {
     singleUserDetails,
     updateUserProfile,
     searchUser,
-    blockUser,
+    blockUnblockUser,
 };
