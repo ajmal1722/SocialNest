@@ -7,59 +7,62 @@ import mongoose from 'mongoose';
 import cloudinary from '../utils/cloudinary.js';
 
 export const getHomePagePosts = async (req, res) => {
-    const { page, limit } = req.query;
-    const userId = req.user;
+    const { page, limit } = req.query;  // Default to page 1 and limit 10
+    const userId = req.user;  // Get logged-in user's ID
 
-    try {        
-        // Find reported post IDs by the user
+    try {
+        // Find IDs of reported posts by the logged-in user
         const reportedPosts = await Report.find({ reportedBy: userId }).distinct('postId');
-        console.log('reportedPosts', reportedPosts, userId);
 
+        // Find the list of blocked users for the logged-in user
+        const user = await Users.findById(userId).select('blockedUsers');
+        const blockedUsers = user?.blockedUsers || [];
+
+        // Fetch posts excluding reported posts and posts by blocked users
         const posts = await Post.aggregate([
             {
                 $match: {
-                    isDeleted: false,
-                    isArchived: false,
-                    _id: { $nin: reportedPosts }, // Exclude reported posts
+                    isDeleted: false,  // Exclude deleted posts
+                    isArchived: false,  // Exclude archived posts
+                    _id: { $nin: reportedPosts },  // Exclude reported posts
+                    author_id: { $nin: blockedUsers }  // Exclude posts from blocked users
                 }
             },
             {
                 $lookup: {
-                  from: 'users',
-                  localField: 'author_id',
-                  foreignField: '_id',
-                  as: 'author_details'
+                    from: 'users',  // Join with users collection to get author details
+                    localField: 'author_id',  // Local field (author ID)
+                    foreignField: '_id',  // Foreign field (user ID)
+                    as: 'author_details'  // Alias for the joined author data
                 }
-            }, 
+            },
             {
-                $unwind: {
-                  path: '$author_details',
-                }
+                $unwind: '$author_details'  // Flatten the author_details array
             },
             {
                 $project: {
-                    'author_details.refreshToken': 0,
-                    'author_details.password': 0,
+                    'author_details.refreshToken': 0,  // Exclude refreshToken from the response
+                    'author_details.password': 0,  // Exclude password from the response
                 }
             },
             {
-                $sort: {
-                  createdAt: -1
-                }
-            }, 
+                $sort: { createdAt: -1 }  // Sort posts by newest first
+            },
             {
-                $skip: (page - 1) * limit
-            }, 
+                $skip: (page - 1) * limit  // Skip documents for pagination
+            },
             {
-                $limit: parseInt(limit)
+                $limit: parseInt(limit)  // Limit the number of posts per page
             }
-        ])
+        ]);
 
+        // Return posts as response
         res.status(200).json(posts);
     } catch (error) {
+        console.error('Error fetching posts:', error);
         res.status(500).json({ message: 'Error fetching posts', error });
     }
-}
+};
 
 export const createPost = async (req, res) => {
     try {
