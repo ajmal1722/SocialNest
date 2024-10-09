@@ -6,18 +6,20 @@ import ChatListing from "./ChatListing";
 import MessageBoxFooter from "./MessageBoxFooter";
 import NoMessage from "./NoMessage";
 
-const ChatBox = ({ 
-    chatMessages, 
-    setChatMessages, 
-    onSendMessage, 
-    selectedChat, 
-    currentUserChattingWith, 
+const ChatBox = ({
+    chatMessages,
+    setChatMessages,
+    onSendMessage,
+    selectedChat,
+    currentUserChattingWith,
     unreadCounts,
     setUnreadCounts,
     setUsers
 }) => {
     const [messageInput, setMessageInput] = useState('');
-    const userId = useSelector(state => state.auth.userInfo._id);
+    const [isBlocked, setIsBlocked] = useState(false);
+
+    const userInfo = useSelector(state => state.auth.userInfo);
     const { socket } = useSocket(); // Use the shared socket instance
 
     useEffect(() => {
@@ -38,11 +40,11 @@ const ChatBox = ({
             // Update the conversation's last message and last message time
             setUsers(prevUsers => {
                 console.log('prevUser:', prevUsers);
-                
+
                 const updatedUsers = prevUsers.map(user => {
                     if ((user.participants?._id || user._id) === msg.sender) {
                         console.log('user:', msg);
-                        
+
                         return {
                             ...user,
                             lastMessage: msg.message, // Update lastMessage
@@ -61,12 +63,18 @@ const ChatBox = ({
         };
     }, [socket, currentUserChattingWith, setChatMessages, setUnreadCounts]);
 
+    useEffect(() => {
+        // Check if the user you're chatting with is blocked
+        const isUserChattingWithBlocked = userInfo?.blockedUsers?.includes(currentUserChattingWith);
+        setIsBlocked(isUserChattingWithBlocked);
+    }, [userInfo, currentUserChattingWith]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (messageInput.trim().length > 0) {
             // Construct a message object
             const newMessage = {
-                senderId: userId,
+                senderId: userInfo._id,
                 receiverId: selectedChat.participants?._id || selectedChat._id,
                 message: messageInput,
             };
@@ -88,11 +96,17 @@ const ChatBox = ({
                         setChatMessages={setChatMessages}
                         selectedChat={selectedChat}
                     />
-                    <MessageBoxFooter
-                        messageInput={messageInput}
-                        setMessageInput={setMessageInput}
-                        handleSubmit={handleSubmit}
-                    />
+                    {isBlocked ?
+                        <p className="text-center py-2 text-sm font-semibold text-secondary-light dark:text-red-500">
+                            You're blocked by this user.
+                        </p> : (
+                            <MessageBoxFooter
+                                messageInput={messageInput}
+                                setMessageInput={setMessageInput}
+                                handleSubmit={handleSubmit}
+                            />
+                        )
+                    }
                 </div>
             ) : (
                 <NoMessage />
