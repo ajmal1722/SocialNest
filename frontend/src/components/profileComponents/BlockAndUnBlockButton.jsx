@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Spin, message } from "antd";
 import { blockUserApi } from "../../utils/api/user_api";
+import { update_blocked_users } from "../../redux/slices/authSlice";
 
 const BlockAndUnBlockButton = ({ data }) => {
+    const dispatch = useDispatch();
+
     const [isUserBlocked, setIsUserBlocked] = useState(false);
     const [loading, setLoading] = useState(false);
     const userInfo = useSelector((state) => state.auth.userInfo);
@@ -20,8 +23,11 @@ const BlockAndUnBlockButton = ({ data }) => {
         try {
             const response = await blockUserApi(data._id);
             if (response) {
-                setIsUserBlocked(!isUserBlocked); // Toggle the blocked state
-                message.success(response.message)
+                setIsUserBlocked(!isUserBlocked); // Toggle the blocked state in the UI
+                message.success(response.message);
+
+                // Dispatch the action to update the blocked users in Redux
+                dispatch(update_blocked_users(data._id));
             }
         } catch (error) {
             console.error('Error blocking/unblocking user:', error);

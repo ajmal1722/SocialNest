@@ -19,10 +19,20 @@ const authSlice = createSlice({
         },
         unfollow_user: (state, action) => {
             state.userInfo.following = state.userInfo.following.filter(id => id !== action.payload)
+        },
+        update_blocked_users: (state, action) => {
+            const userId = action.payload;
+            
+            const isBlocked = state.userInfo.blockedUsers.includes(userId)
+            if (!isBlocked) {
+                state.userInfo.blockedUsers.push(userId)
+            } else {
+                state.userInfo.blockedUsers = state.userInfo.blockedUsers.filter(id => id !== userId);
+            }
         }
     }
 })
 
-export const { set_credentials, clear_credetials, follow_user, unfollow_user } = authSlice.actions;
+export const { set_credentials, clear_credetials, follow_user, unfollow_user, update_blocked_users } = authSlice.actions;
 
 export default authSlice.reducer;
