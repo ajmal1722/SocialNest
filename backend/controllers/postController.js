@@ -17,6 +17,11 @@ export const getHomePagePosts = async (req, res) => {
         // Find the list of blocked users for the logged-in user
         const user = await Users.findById(userId).select('blockedUsers');
         const blockedUsers = user?.blockedUsers || [];
+        // blockedUsers.push(userId)
+
+        // Find users who have blocked the logged-in user
+        const usersBlockingMe = await Users.find({ blockedUsers: userId }).select('_id');
+        const usersBlockingMeIds = usersBlockingMe.map(user => user._id);
 
         // Fetch posts excluding reported posts and posts by blocked users
         const posts = await Post.aggregate([
@@ -25,7 +30,7 @@ export const getHomePagePosts = async (req, res) => {
                     isDeleted: false,  // Exclude deleted posts
                     isArchived: false,  // Exclude archived posts
                     _id: { $nin: reportedPosts },  // Exclude reported posts
-                    author_id: { $nin: blockedUsers }  // Exclude posts from blocked users
+                    author_id: { $nin: [...blockedUsers, ...usersBlockingMeIds] } // Exclude posts from blocked users and users who blocked me
                 }
             },
             {
