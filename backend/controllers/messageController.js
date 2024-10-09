@@ -11,7 +11,7 @@ export const fetchConversations = async (req, res) => {
         // Find conversations where the userId is a participant
         const conversations = await Conversation.find({ participants: userId })
             .sort({ lastMessageAt: -1 }) // Sort by lastMessageAt in descending order (newest first)
-            .populate('participants', 'username profilePicture') // Populate participant details
+            .populate('participants', 'username profilePicture blockedUsers') // Populate participant details
             .exec();
 
         // Filter out the current user's data from participants

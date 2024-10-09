@@ -65,6 +65,7 @@ const ChatBox = ({
 
     useEffect(() => {
         // Check if the user you're chatting with is blocked
+        console.log('this is selected chat', selectedChat?.participants)
         const isUserChattingWithBlocked = userInfo?.blockedUsers?.includes(currentUserChattingWith);
         setIsBlocked(isUserChattingWithBlocked);
     }, [userInfo, currentUserChattingWith]);
@@ -97,13 +98,14 @@ const ChatBox = ({
                         selectedChat={selectedChat}
                     />
                     {isBlocked ?
-                        <p className="text-center py-2 text-sm font-semibold text-secondary-light dark:text-red-500">
-                            You're blocked by this user.
+                        <p className="text-center mx-5 py-2 text-sm font-semibold text-secondary-light dark:text-red-500">
+                            You can't send message to a blocked user.
                         </p> : (
                             <MessageBoxFooter
                                 messageInput={messageInput}
                                 setMessageInput={setMessageInput}
                                 handleSubmit={handleSubmit}
+                                selectedChat={selectedChat}
                             />
                         )
                     }
