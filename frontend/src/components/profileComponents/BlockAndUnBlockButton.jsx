@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Spin } from "antd";
+import { Spin, message } from "antd";
 import { blockUserApi } from "../../utils/api/user_api";
 
 const BlockAndUnBlockButton = ({ data }) => {
@@ -21,6 +21,7 @@ const BlockAndUnBlockButton = ({ data }) => {
             const response = await blockUserApi(data._id);
             if (response) {
                 setIsUserBlocked(!isUserBlocked); // Toggle the blocked state
+                message.success(response.message)
             }
         } catch (error) {
             console.error('Error blocking/unblocking user:', error);
