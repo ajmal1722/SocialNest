@@ -384,6 +384,7 @@ const updateUserProfile = async (req, res) => {
 
 const searchUser = async (req, res) => {
     try {
+        const userId = req.user;
         const { searchText } = req.body;
 
         // Validate input
@@ -393,10 +394,15 @@ const searchUser = async (req, res) => {
 
         // Build the search query
         const query = {
-            $or: [
-                { username: { $regex: searchText, $options: 'i' } }, 
-                { email: { $regex: searchText, $options: 'i' } },    
-                { name: { $regex: searchText, $options: 'i' } }, 
+            $and: [
+                {
+                    $or: [
+                        { username: { $regex: searchText, $options: 'i' } },
+                        { email: { $regex: searchText, $options: 'i' } },
+                        { name: { $regex: searchText, $options: 'i' } },
+                    ]
+                },
+                { _id: { $ne: userId } }  // Exclude the logged-in user
             ]
         };
 

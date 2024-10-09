@@ -9,9 +9,7 @@ const ConversationListBox = ({ users, getMessages, setSelectedChat, unreadCounts
     const handleChange = async (e) => {
         setSearchValue(e.target.value.toLowerCase());
         const response = await searchUserApi({ searchText: e.target.value.toLowerCase().trim() });
-        if (response) {
-            setSearchedUsers(response);
-        }
+        setSearchedUsers(response);
     };
 
     return (
