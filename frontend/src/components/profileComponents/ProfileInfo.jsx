@@ -6,6 +6,7 @@ import DateFormatter from "../reusable/DateFormatter";
 import ContentDisplayingModal from "../reusable/ContentDisplayingModal";
 import LogoutButton from "../authentication/LogoutButton";
 import FollowAndUnfollowButton from "../reusable/FollowAndUnfollowButton";
+import BlockAndUnBlockButton from "./BlockAndUnBlockButton";
 import { Link } from "react-router-dom";
 
 const ProfileInfo = ({ profileData, posts }) => {
@@ -67,12 +68,13 @@ const ProfileInfo = ({ profileData, posts }) => {
                         </Link>
                         <LogoutButton />
                     </div> : (
-                        <div className="flex justify-center px-5">
+                        <div className="flex gap-2 justify-center px-5 text-white">
                             <FollowAndUnfollowButton 
-                                data={profileData} 
+                                data={profileData}
                                 followButtonStyle={'bg-blue-500 text-white font-semibold px-10 p-1 rounded-lg'}
                                 unFollowButtonStyle={'bg-ternary-dark dark:bg-secondary-dark text-white font-semibold px-10 p-1 rounded-lg '}
                             />
+                            <BlockAndUnBlockButton data={profileData} />
                         </div>
                 )}
                 </div>
