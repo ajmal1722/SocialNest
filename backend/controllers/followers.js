@@ -1,4 +1,5 @@
 import Users from '../models/userSchema.js';
+import Notifications from '../models/notificationSchema.js';
 
 export const fetchSuggestions = async (req, res) => {
     try {
@@ -63,9 +64,8 @@ export const fetchFollowing = async (req, res) => {
 
 export const followUser = async (req, res) => {
     try { 
-        const userId = req.user;
-        const userToFollowId = req.params.id;
-        console.log('userId:', req.params);
+        const userId = req.user; // The user who is following
+        const userToFollowId = req.params.id; // The user being followed
 
         const user = await Users.findById(userId);
         const userToFollow = await Users.findById(userToFollowId);
@@ -73,28 +73,38 @@ export const followUser = async (req, res) => {
         if (!userToFollow) {
             return res.status(404).json({ message: 'User not found' });
         }
-        
+
+        // Check if the user is already following the target user
         if (user.following.includes(userToFollowId)) {
             return res.status(400).json({ message: 'You are already following this user' });
         }
 
+        // Add the user to the following list and the target user to the followers list
         user.following.push(userToFollowId);
         userToFollow.followers.push(userId);
 
-        await user.save()
-        await userToFollow.save()
+        await user.save();
+        await userToFollow.save();
+
+        // Create a new notification for the followed user
+        const newNotification = new Notifications({
+            recipientId: userToFollowId,  // The user being followed (the recipient of the notification)
+            senderId: userId,             // The user who is following (the sender of the notification)
+            type: 'follow',               // Notification type
+        });
+
+        await newNotification.save(); // Save the notification to the database
 
         res.status(200).json({ message: 'User followed successfully', id: userToFollowId });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-}
+};
 
 export const unfollowUser = async (req, res) => {
     try {
-        const userId = req.user;
-        const userToUnfollowId = req.params.id;
-        console.log(userId, userToUnfollowId);
+        const userId = req.user; // The user who is unfollowing
+        const userToUnfollowId = req.params.id; // The user being unfollowed
 
         // Find the current user and the user to unfollow
         const user = await Users.findById(userId);
@@ -104,9 +114,8 @@ export const unfollowUser = async (req, res) => {
         if (!userToUnfollow) {
             return res.status(404).json({ message: 'User not found' });
         }
-        console.log(user);
 
-        // Check if the current user is following the user to unfollow
+        // Check if the current user is actually following the user to unfollow
         if (!user.following.includes(userToUnfollowId)) {
             return res.status(400).json({ message: 'You are not following this user' });
         }
@@ -121,9 +130,16 @@ export const unfollowUser = async (req, res) => {
         await user.save();
         await userToUnfollow.save();
 
-        res.status(200).json({ message: 'User unfollowed successfully', id: userToUnfollowId });
+        // Delete the follow notification from the Notifications collection
+        await Notifications.findOneAndDelete({
+            recipientId: userToUnfollowId,
+            senderId: userId,
+            type: 'follow'
+        });
+
+        res.status(200).json({ message: 'User unfollowed successfully and notification deleted', id: userToUnfollowId });
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.status(500).json({ error: error.message });
     }
-}
+};
