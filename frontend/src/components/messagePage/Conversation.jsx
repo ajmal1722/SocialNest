@@ -13,7 +13,7 @@ const Conversation = ({ user, getMessages, unreadCount, setSelectedChat }) => {
     const isOnline = onlineUsers.includes(userId);
 
     return (
-        <div onClick={() => getMessages(user)} className='flex border w-full cursor-pointer'>
+        <div onClick={() => getMessages(user)} className='flex shadow w-full cursor-pointer'>
             <div className='flex items-center relative'>
                 <img
                     src={profilePicture} alt=""
@@ -35,10 +35,10 @@ const Conversation = ({ user, getMessages, unreadCount, setSelectedChat }) => {
                     )}
                 </div>
                 <div className='flex justify-between text-ellipsis'>
-                    <p>
+                    <p className=''>
                         {user.lastMessage?.length > 20 ? `${user.lastMessage?.substring(0, 23)}...` : user.lastMessage}
                     </p>
-                    <p className='text-xs text-gray-300 text-right mt-2'>{messageTime}</p>
+                    <p className='text-xs text-gray-600 dark:text-gray-300 text-right mt-2'>{messageTime}</p>
                 </div>
 
             </div>
