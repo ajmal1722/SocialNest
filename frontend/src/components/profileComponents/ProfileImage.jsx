@@ -7,7 +7,7 @@ const ProfileImage = ({ initialUser }) => {
     <div className='mt-10 flex justify-center'>
       <img
         src={initialUser ? initialUser.profilePicture : userInfo.profilePicture} alt=""
-        className='rounded-full w-auto max-w-52 object-cover'
+        className='rounded-full max-h-56'
       />
     </div>
   );
