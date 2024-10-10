@@ -10,6 +10,7 @@ import postRouter from './routes/postRouter.js'; // Router for post-related endp
 import followRouter from './routes/followRouter.js'; // Router for follow-related endpoints
 import messageRouter from './routes/messageRouter.js'; // Router for message-related endpoints
 import adminRouter from './routes/adminRouter.js'; // Router for admin-related endpoints
+import notificationRouter from './routes/notificationRouter.js'; // Router for notificaton related endpoints
 import { specs, swaggerUi } from './utils/swagger.js'; // Swagger for API documentation
 import { initializeSocket } from './sockets/index.js'; // Socket.io initialization
 
@@ -43,6 +44,7 @@ app.use('/user', userAuthRouter); // Routes for user authentication
 app.use('/post', postRouter); // Routes for posts (create, delete, etc.)
 app.use('/follow', followRouter); // Routes for following/unfollowing users
 app.use('/messages', messageRouter); // Routes for message-specific functionalities
+app.use('/notification', notificationRouter); // Routes for notification-specific functionalities
 app.use('/admin', adminRouter); // Routes for admin-specific functionalities
 
 // Define server port, fallback to 3000 if not set in environment
