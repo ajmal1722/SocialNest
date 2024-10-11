@@ -8,9 +8,7 @@ export const createNotification = async (recipientId, senderId, type) => {
         type,               // Notification type
     });
 
-    await newNotification.save(); // Save the notification to the database
-
-    
+    await newNotification.save(); // Save the notification to the database 
 }
 
 export const deleteNotification = async (recipientId, senderId, type) => {

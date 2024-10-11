@@ -6,6 +6,9 @@ import Report from '../models/reportSchema.js';
 import mongoose from 'mongoose';
 import cloudinary from '../utils/cloudinary.js';
 import { createNotification, deleteNotification } from '../utils/reusable/manageNotification.js';
+import { getSocketIo } from '../sockets/index.js';
+import userSocketMap from '../sockets/userSocketMap.js';
+import { Socket } from 'socket.io';
 
 export const getHomePagePosts = async (req, res) => {
     const { page, limit } = req.query;  // Default to page 1 and limit 10
@@ -266,11 +269,15 @@ export const likeOrUnlikePost = async (req, res) => {
     try {
         const postId = req.params.id;
         const userId = req.user;
+        const io = getSocketIo();  // Retrieve the initialized Socket.io instance
 
         const post = await Post.findById(postId);
         if (!post) {
             return res.status(404).json({ error: 'Post not found' });
         }
+
+        // Convert post.author_id to a string for comparison
+        const authorId = post.author_id.toString();  // Convert ObjectId to string
 
         // Check if the user has already liked the post
         const hasLiked = post.likes.includes(userId);
@@ -281,7 +288,17 @@ export const likeOrUnlikePost = async (req, res) => {
             await post.save();
 
             // Remove the liked notification if the user unliked the post
-            deleteNotification(post.author_id, userId, 'like');
+            await deleteNotification(authorId, userId, 'like');
+
+            // Emit real-time notification for unliking
+            const recipientSocketId = userSocketMap.get(authorId);  // Now uses string key
+            if (recipientSocketId) {
+                io.to(recipientSocketId).emit('notification', {
+                    type: 'unlike',
+                    senderId: userId,
+                    post,
+                });
+            }
 
             return res.status(200).json({ message: 'Post unliked successfully', post });
         } else {
@@ -289,8 +306,19 @@ export const likeOrUnlikePost = async (req, res) => {
             post.likes.push(userId);
             await post.save();
 
-            // If user liked send the notification
-            createNotification(post.author_id, userId, 'like')
+            // If user liked, create the notification
+            await createNotification(authorId, userId, 'like');
+
+            // Emit real-time notification for liking
+            const recipientSocketId = userSocketMap.get(authorId);  // Now uses string key
+            console.log('recipientSocketId:', recipientSocketId, userSocketMap, authorId);
+            if (recipientSocketId) {
+                io.to(recipientSocketId).emit('notification', {
+                    type: 'like',
+                    senderId: userId,
+                    post,
+                });
+            }
 
             return res.status(200).json({ message: 'Post liked successfully', post });
         }
@@ -298,7 +326,7 @@ export const likeOrUnlikePost = async (req, res) => {
         console.log('Error message:', error);
         res.status(500).json({ status: 'Failed', error: error.message });
     }
-}
+};
 
 export const addComment = async (req, res) => {
     try {
