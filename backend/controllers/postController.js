@@ -5,6 +5,7 @@ import Collection from '../models/collectionsSchema.js';
 import Report from '../models/reportSchema.js';
 import mongoose from 'mongoose';
 import cloudinary from '../utils/cloudinary.js';
+import { createNotification, deleteNotification } from '../utils/reusable/manageNotification.js';
 
 export const getHomePagePosts = async (req, res) => {
     const { page, limit } = req.query;  // Default to page 1 and limit 10
@@ -278,11 +279,19 @@ export const likeOrUnlikePost = async (req, res) => {
             // If already liked, remove the like (unlike)
             post.likes = post.likes.filter(id => id.toString() !== userId);
             await post.save();
+
+            // Remove the liked notification if the user unliked the post
+            deleteNotification(post.author_id, userId, 'like');
+
             return res.status(200).json({ message: 'Post unliked successfully', post });
         } else {
             // If not liked, add the like
             post.likes.push(userId);
             await post.save();
+
+            // If user liked send the notification
+            createNotification(post.author_id, userId, 'like')
+
             return res.status(200).json({ message: 'Post liked successfully', post });
         }
     } catch (error) {

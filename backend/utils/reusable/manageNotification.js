@@ -1,3 +1,4 @@
+import userSocketMap from "../../sockets/userSocketMap.js";
 import Notifications from "../../models/notificationSchema.js";
 
 export const createNotification = async (recipientId, senderId, type) => {
@@ -8,6 +9,8 @@ export const createNotification = async (recipientId, senderId, type) => {
     });
 
     await newNotification.save(); // Save the notification to the database
+
+    
 }
 
 export const deleteNotification = async (recipientId, senderId, type) => {

@@ -1,5 +1,4 @@
 import Users from '../models/userSchema.js';
-import Notifications from '../models/notificationSchema.js';
 import { createNotification, deleteNotification } from '../utils/reusable/manageNotification.js';
 
 export const fetchSuggestions = async (req, res) => {
