@@ -1,5 +1,6 @@
 import Users from '../models/userSchema.js';
 import Notifications from '../models/notificationSchema.js';
+import { createNotification, deleteNotification } from '../utils/reusable/manageNotification.js';
 
 export const fetchSuggestions = async (req, res) => {
     try {
@@ -87,13 +88,7 @@ export const followUser = async (req, res) => {
         await userToFollow.save();
 
         // Create a new notification for the followed user
-        const newNotification = new Notifications({
-            recipientId: userToFollowId,  // The user being followed (the recipient of the notification)
-            senderId: userId,             // The user who is following (the sender of the notification)
-            type: 'follow',               // Notification type
-        });
-
-        await newNotification.save(); // Save the notification to the database
+        createNotification(userToFollowId, userId, 'follow')
 
         res.status(200).json({ message: 'User followed successfully', id: userToFollowId });
     } catch (error) {
@@ -131,11 +126,7 @@ export const unfollowUser = async (req, res) => {
         await userToUnfollow.save();
 
         // Delete the follow notification from the Notifications collection
-        await Notifications.findOneAndDelete({
-            recipientId: userToUnfollowId,
-            senderId: userId,
-            type: 'follow'
-        });
+        deleteNotification(userToUnfollowId, userId, 'follow')
 
         res.status(200).json({ message: 'User unfollowed successfully and notification deleted', id: userToUnfollowId });
     } catch (error) {
