@@ -35,7 +35,7 @@ const NotificationListing = () => {
     }, [socket]);
 
     return (
-        <div>
+        <div className=''>
             <h2>Notifications</h2>
             {notifications.length > 0 ? (
                 notifications.map((notification) => (

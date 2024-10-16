@@ -1,6 +1,7 @@
 import React from 'react';
 
 const SingleNotification = ({ notification }) => {
+    console.log('front end notification:', notification)
     return (
         <div className='flex items-center gap-4 p-3 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-150'>
             {/* Sender's Profile Picture */}
@@ -9,13 +10,19 @@ const SingleNotification = ({ notification }) => {
                 alt={`${notification.senderId.name}'s profile`}
                 className='w-12 h-12 rounded-full object-cover'
             />
+            {/* Sender's Name */}
+
 
             {/* Notification Details */}
             <div className='flex flex-col'>
-                {/* Sender's Name */}
                 <span className='font-medium text-gray-900 dark:text-gray-100'>
-                    {notification.senderId.name}
+                    {notification.senderId.username}
                 </span>
+            </div>
+
+            {/* Notification Details */}
+            <div className='flex flex-col'>
+
                 {/* Notification Message */}
                 <span className='text-sm text-gray-600 dark:text-gray-300'>
                     {notification.type}

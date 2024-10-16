@@ -23,7 +23,7 @@ const NotificationPage = () => {
         fetchSuggestion()
     }, [])
     return (
-        <div className="min-h-[70vh] md:col-span-8 col-span-10 px-4 lg:px-8 mt-4 mb-16 md:mb-1">
+        <div className="min-h-[70vh] md:col-span-6 col-span-10 px-4 lg:px-8 mt-4 mb-16 md:mb-1">
             <NotificationListing />
             <RightSidbar content={<SuggestionList userInfo={suggestions} />} />
         </div>
