@@ -1,7 +1,7 @@
-import React from 'react';
+import NotificationMessage from "./NotificationMessage";
+import DateFormatter from "../reusable/DateFormatter";
 
 const SingleNotification = ({ notification }) => {
-    console.log('front end notification:', notification)
     return (
         <div className='flex items-center gap-4 p-3 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-150'>
             {/* Sender's Profile Picture */}
@@ -10,8 +10,6 @@ const SingleNotification = ({ notification }) => {
                 alt={`${notification.senderId.name}'s profile`}
                 className='w-12 h-12 rounded-full object-cover'
             />
-            {/* Sender's Name */}
-
 
             {/* Notification Details */}
             <div className='flex flex-col'>
@@ -20,18 +18,12 @@ const SingleNotification = ({ notification }) => {
                 </span>
             </div>
 
-            {/* Notification Details */}
-            <div className='flex flex-col'>
-
-                {/* Notification Message */}
-                <span className='text-sm text-gray-600 dark:text-gray-300'>
-                    {notification.type}
-                </span>
-            </div>
+            {/* Notification Message */}
+            <NotificationMessage notification={notification} />
 
             {/* Notification Time */}
             <span className='ml-auto text-xs text-gray-500 dark:text-gray-400'>
-                {new Date(notification.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            <DateFormatter date={notification.createdAt}/>
             </span>
         </div>
     );

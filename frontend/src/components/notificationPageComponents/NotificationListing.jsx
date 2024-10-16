@@ -5,13 +5,20 @@ import SingleNotification from './SingleNotification';
 
 const NotificationListing = () => {
     const [notifications, setNotifications] = useState([]);
+    const [isLoading, setIsLoading] = useState(true); // Loading state
     const { socket } = useSocket();
 
     // Fetch initial notifications on component mount
     useEffect(() => {
         const fetchNotifications = async () => {
-            const response = await fetchNotificationsApi();
-            setNotifications(response); // Load existing notifications from API
+            try {
+                const response = await fetchNotificationsApi();
+                setNotifications(response); // Load existing notifications from API
+            } catch (error) {
+                console.error('Error fetching notifications:', error);
+            } finally {
+                setIsLoading(false); // Set loading to false after data is fetched
+            }
         };
 
         fetchNotifications();
@@ -20,7 +27,6 @@ const NotificationListing = () => {
     // Handle real-time notifications via socket
     useEffect(() => {
         const handleNewNotification = (notification) => {
-            console.log(notification)
             // Add the new notification to the top of the list
             setNotifications((prevNotifications) => [notification, ...prevNotifications]);
         };
@@ -35,9 +41,11 @@ const NotificationListing = () => {
     }, [socket]);
 
     return (
-        <div className=''>
+        <div>
             <h2>Notifications</h2>
-            {notifications.length > 0 ? (
+            {isLoading ? (
+                <p className='text-center my-8'>Loading...</p> // Loading indicator
+            ) : notifications.length > 0 ? (
                 notifications.map((notification) => (
                     <SingleNotification 
                         key={notification._id}
