@@ -1,5 +1,7 @@
 import Users from '../models/userSchema.js';
 import { createNotification, deleteNotification } from '../utils/reusable/manageNotification.js';
+import { getSocketIo } from '../sockets/index.js';
+import userSocketMap from '../sockets/userSocketMap.js';
 
 export const fetchSuggestions = async (req, res) => {
     try {
@@ -66,6 +68,7 @@ export const followUser = async (req, res) => {
     try { 
         const userId = req.user; // The user who is following
         const userToFollowId = req.params.id; // The user being followed
+        const io = getSocketIo(); // Socket.IO instance
 
         const user = await Users.findById(userId);
         const userToFollow = await Users.findById(userToFollowId);
@@ -87,7 +90,18 @@ export const followUser = async (req, res) => {
         await userToFollow.save();
 
         // Create a new notification for the followed user
-        createNotification(userToFollowId, userId, 'follow')
+        const notification = await createNotification(userToFollowId, userId, 'follow');
+
+        // Send a real-time notification via socket if the user is online
+        const userToFollowSocketId = userSocketMap.get(userToFollowId); // Check if user is online
+        if (userToFollowSocketId) {
+            io.to(userToFollowSocketId).emit('notification', {
+                senderId: userId,
+                type: 'follow',
+                createdAt: new Date(),
+                notification
+            });
+        }
 
         res.status(200).json({ message: 'User followed successfully', id: userToFollowId });
     } catch (error) {
