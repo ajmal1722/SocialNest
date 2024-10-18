@@ -113,6 +113,7 @@ export const unfollowUser = async (req, res) => {
     try {
         const userId = req.user; // The user who is unfollowing
         const userToUnfollowId = req.params.id; // The user being unfollowed
+        const io = getSocketIo(); // Socket.IO instance
 
         // Find the current user and the user to unfollow
         const user = await Users.findById(userId);
@@ -139,7 +140,16 @@ export const unfollowUser = async (req, res) => {
         await userToUnfollow.save();
 
         // Delete the follow notification from the Notifications collection
-        deleteNotification(userToUnfollowId, userId, 'follow')
+        const notificationDeleted = await deleteNotification(userToUnfollowId, userId, 'follow');
+
+        // Send a real-time event to the unfollowed user to remove the notification from their UI
+        const userToUnfollowSocketId = userSocketMap.get(userToUnfollowId); // Check if the user is online
+        if (userToUnfollowSocketId) {
+            io.to(userToUnfollowSocketId).emit('removeNotification', {
+                type: 'follow',
+                senderId: userId,
+            });
+        }
 
         res.status(200).json({ message: 'User unfollowed successfully and notification deleted', id: userToUnfollowId });
     } catch (error) {

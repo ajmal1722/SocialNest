@@ -29,6 +29,16 @@ export const SocketProvider = ({ children }) => {
                 setNotifications(prev => [notification, ...prev]); // Append the new notification
             });
 
+            // Handle removing notifications in real-time
+            newSocket.on('removeNotification', ({ type, senderId }) => {
+                console.log('remove notification', type, senderId)
+                setNotifications(prevNotifications =>
+                    prevNotifications.filter(
+                        notification => !(notification.type === type && notification.senderId._id === senderId)
+                    )
+                );
+            });
+
             // Cleanup when component unmounts or user disconnects
             return () => {
                 newSocket.disconnect();
