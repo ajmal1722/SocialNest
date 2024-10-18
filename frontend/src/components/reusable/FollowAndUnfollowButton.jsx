@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Spin } from "antd";
+import { notification, Spin } from "antd";
+import { useSocket } from "../../utils/socket/socketContext";
 import { followUserApi, unoFllowUserApi } from "../../utils/api/follow_api";
 import { follow_user, unfollow_user } from "../../redux/slices/authSlice";
 
@@ -8,10 +9,18 @@ const FollowAndUnfollowButton = ({ data, followButtonStyle, unFollowButtonStyle 
     const userInfo = useSelector(state => state.auth.userInfo);
     const following = userInfo.following;
     const dispatch = useDispatch();
+    const { socket } = useSocket();
 
     const [isOwner, setIsOwner] = useState(false);
     const [showUnfollowButton, setShowUnfollowButton] = useState(false);
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+
+    // useEffect(() => {
+    //     console.log('hello');
+    //     socket.on('notification', notification => {
+    //         console.log('follow notification:', notification);
+    //     })
+    // }, [socket])
 
     useEffect(() => {
         if (data._id === userInfo._id) {

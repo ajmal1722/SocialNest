@@ -70,7 +70,7 @@ export const followUser = async (req, res) => {
         const userToFollowId = req.params.id; // The user being followed
         const io = getSocketIo(); // Socket.IO instance
 
-        const user = await Users.findById(userId);
+        const user = await Users.findById(userId).select('-password -refreshToken');
         const userToFollow = await Users.findById(userToFollowId);
 
         if (!userToFollow) {
@@ -96,7 +96,7 @@ export const followUser = async (req, res) => {
         const userToFollowSocketId = userSocketMap.get(userToFollowId); // Check if user is online
         if (userToFollowSocketId) {
             io.to(userToFollowSocketId).emit('notification', {
-                senderId: userId,
+                senderId: user,
                 type: 'follow',
                 createdAt: new Date(),
                 notification

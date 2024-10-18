@@ -4,16 +4,17 @@ import { fetchNotificationsApi } from '../../utils/api/notification_api';
 import SingleNotification from './SingleNotification';
 
 const NotificationListing = () => {
-    const [notifications, setNotifications] = useState([]);
     const [isLoading, setIsLoading] = useState(true); // Loading state
-    const { socket } = useSocket();
+    const { socket, notifications, setNotifications } = useSocket();
 
     // Fetch initial notifications on component mount
     useEffect(() => {
         const fetchNotifications = async () => {
             try {
                 const response = await fetchNotificationsApi();
-                setNotifications(response); // Load existing notifications from API
+                console.log('response:', response)
+                setNotifications(response)
+                // setNotifications((prev) => [...response, ...prev]); // Merge API notifications with existing
             } catch (error) {
                 console.error('Error fetching notifications:', error);
             } finally {
@@ -23,22 +24,6 @@ const NotificationListing = () => {
 
         fetchNotifications();
     }, []);
-
-    // Handle real-time notifications via socket
-    useEffect(() => {
-        const handleNewNotification = (notification) => {
-            // Add the new notification to the top of the list
-            setNotifications((prevNotifications) => [notification, ...prevNotifications]);
-        };
-
-        // Listen for 'notification' event from the server
-        socket.on('notification', handleNewNotification);
-
-        // Cleanup on component unmount
-        return () => {
-            socket.off('notification', handleNewNotification);
-        };
-    }, [socket]);
 
     return (
         <div>

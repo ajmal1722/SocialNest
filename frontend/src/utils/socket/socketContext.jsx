@@ -7,22 +7,29 @@ const SocketContext = createContext();
 export const SocketProvider = ({ children }) => {
     const userInfo = useSelector(state => state.auth.userInfo);
     const [socket, setSocket] = useState(null);
-    const [onlineUsers, setOnlineUsers] = useState([])
+    const [onlineUsers, setOnlineUsers] = useState([]);
+    const [notifications, setNotifications] = useState([]);
 
     useEffect(() => {
         let newSocket;
 
         if (userInfo) {
-            newSocket = io('http://localhost:8000');
+            newSocket = io('http://localhost:8000'); // Replace with your backend URL if necessary
             setSocket(newSocket);
 
             // Listen for online users or any other events
             newSocket.on('onlineUsers', (users) => {
-                console.log('Online users:', users);
+                // console.log('Online users:', users);
                 setOnlineUsers(users);
             });
 
-            // Cleanup when component unmounts or when user disconnects
+            // Handle incoming notifications
+            newSocket.on('notification', notification => {
+                console.log('Received notification:', notification);
+                setNotifications(prev => [notification, ...prev]); // Append the new notification
+            });
+
+            // Cleanup when component unmounts or user disconnects
             return () => {
                 newSocket.disconnect();
                 setSocket(null);
@@ -39,7 +46,7 @@ export const SocketProvider = ({ children }) => {
     }, [userInfo]);
 
     return (
-        <SocketContext.Provider value={{ socket, onlineUsers }}>
+        <SocketContext.Provider value={{ socket, onlineUsers, notifications, setNotifications }}>
             {children}
         </SocketContext.Provider>
     );
