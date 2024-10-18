@@ -276,6 +276,8 @@ export const likeOrUnlikePost = async (req, res) => {
             return res.status(404).json({ error: 'Post not found' });
         }
 
+        const user = await Users.findById(userId).select('profilePicture username')
+
         // Convert post.author_id to a string for comparison
         const authorId = post.author_id.toString();  // Convert ObjectId to string
 
@@ -295,7 +297,7 @@ export const likeOrUnlikePost = async (req, res) => {
             if (recipientSocketId) {
                 io.to(recipientSocketId).emit('notification', {
                     type: 'unlike',
-                    senderId: userId,
+                    senderId: user,
                     post,
                 });
             }
@@ -315,7 +317,7 @@ export const likeOrUnlikePost = async (req, res) => {
             if (recipientSocketId) {
                 io.to(recipientSocketId).emit('notification', {
                     type: 'like',
-                    senderId: userId,
+                    senderId: user,
                     post,
                 });
             }
