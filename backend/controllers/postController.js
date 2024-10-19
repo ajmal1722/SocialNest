@@ -277,7 +277,7 @@ export const likeOrUnlikePost = async (req, res) => {
             return res.status(404).json({ error: 'Post not found' });
         }
 
-        const user = await Users.findById(userId).select('profilePicture username')
+        const user = await Users.findById(userId).select('profilePicture username');
 
         // Convert post.author_id to a string for comparison
         const authorId = post.author_id.toString();  // Convert ObjectId to string
@@ -291,7 +291,7 @@ export const likeOrUnlikePost = async (req, res) => {
             await post.save();
 
             // Remove the liked notification if the user unliked the post
-            await deleteNotification(authorId, userId, 'like');
+            await deleteNotification(authorId, userId, 'like', postId);
 
             // Emit real-time notification for unliking
             const recipientSocketId = userSocketMap.get(authorId);  // Now uses string key
@@ -309,14 +309,8 @@ export const likeOrUnlikePost = async (req, res) => {
             post.likes.push(userId);
             await post.save();
 
-            // Create a new notification
-            const newNotification = new Notifications({
-                recipientId: authorId,  // The author of the post
-                senderId: userId,       // The user who liked the post
-                type: 'like',           // The type of notification (like)
-                postId: post._id,       // The ID of the liked post
-            });
-            await newNotification.save(); // Save the notification 
+            // Create a new notification for liking the post
+            await createNotification(authorId, userId, 'like', postId);
 
             // Emit real-time notification for liking
             const recipientSocketId = userSocketMap.get(authorId);  // Now uses string key

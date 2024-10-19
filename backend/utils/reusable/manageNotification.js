@@ -1,19 +1,33 @@
 import Notifications from "../../models/notificationSchema.js";
 
-export const createNotification = async (recipientId, senderId, type) => {
+// Function to create a notification
+export const createNotification = async (recipientId, senderId, type, postId = null) => {
     const newNotification = new Notifications({
-        recipientId,  // The user being followed (the recipient of the notification)
-        senderId,             // The user who is following (the sender of the notification)
-        type,               // Notification type
+        recipientId,  // The recipient of the notification (e.g., post author)
+        senderId,     // The sender of the notification (e.g., user liking the post)
+        type,         // Notification type (like, comment, follow, etc.)
     });
 
-    await newNotification.save(); // Save the notification to the database 
-}
+    // If the type is 'like' or 'comment', include the postId
+    if (type === 'like' || type === 'comment') {
+        newNotification.postId = postId;  // Attach the postId to the notification
+    }
 
-export const deleteNotification = async (recipientId, senderId, type) => {
-    await Notifications.findOneAndDelete({
+    await newNotification.save(); // Save the notification to the database
+};
+
+// Function to delete a notification
+export const deleteNotification = async (recipientId, senderId, type, postId = null) => {
+    const query = {
         recipientId, 
         senderId,
         type, 
-    });
-}
+    };
+
+    // If the type is 'like' or 'comment', include the postId in the query
+    if (type === 'like' || type === 'comment') {
+        query.postId = postId;
+    }
+
+    await Notifications.findOneAndDelete(query);  // Delete the matching notification from the database
+};
