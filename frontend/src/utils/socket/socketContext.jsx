@@ -30,14 +30,27 @@ export const SocketProvider = ({ children }) => {
             });
 
             // Handle removing notifications in real-time
-            newSocket.on('removeNotification', ({ type, senderId }) => {
-                console.log('remove notification', type, senderId)
+            newSocket.on('removeNotification', ({ type, senderId, post }) => {
+                console.log('remove notification', type, senderId, post);
+            
                 setNotifications(prevNotifications =>
-                    prevNotifications.filter(
-                        notification => !(notification.type === type && notification.senderId._id === senderId)
-                    )
+                    // Filter the existing notifications based on the removal conditions
+                    prevNotifications.filter(notification => {
+                        // Check if the notification type is 'like' or 'comment'
+                        if (type === 'like' || type === 'comment') {
+                            // For 'like' and 'comment', compare notification sender and post IDs
+                            // Only remove the notification if both senderId and postId match
+                            return !(notification.type === type && 
+                                    notification.senderId._id === senderId && 
+                                    notification.post._id === post._id);
+                        } else {
+                            // For other notification types, compare only senderId and type
+                            // Remove if both type and senderId match
+                            return !(notification.type === type && notification.senderId._id === senderId);
+                        }
+                    })
                 );
-            });
+            });            
 
             // Cleanup when component unmounts or user disconnects
             return () => {

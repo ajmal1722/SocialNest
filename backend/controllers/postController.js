@@ -320,6 +320,7 @@ export const likeOrUnlikePost = async (req, res) => {
                     type: 'like',
                     senderId: user,
                     post,
+                    createdAt: Date.now()
                 });
             }
 

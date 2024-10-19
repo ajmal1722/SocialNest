@@ -16,14 +16,14 @@ const NotificationMessage = ({ notification }) => {
     };
 
     return (
-        <div className=''>
+        <div className='flex items-center gap-4'>
             {/* Notification message */}
             <p className='text-sm text-gray-600 dark:text-gray-300'>
                 {renderMessage()}
             </p>
 
             {/* Post preview for like/comment notifications */}
-            {(notification.type === 'like' || notification.type === 'comment') && notification.post && (
+            {(notification.type === 'like' || notification.type === 'comment') && notification.post?.content_type === 'Image' && (
                 <div className='mt-2'>
                     <img
                         src={notification.post.image_url || notification.postId.image_url} // Assuming post has an imageUrl
