@@ -1,6 +1,7 @@
 import React from 'react';
 
 const NotificationMessage = ({ notification }) => {
+    console.log('notification type:', notification)
     const renderMessage = () => {
         switch (notification.type) {
             case 'follow':
@@ -15,17 +16,17 @@ const NotificationMessage = ({ notification }) => {
     };
 
     return (
-        <div className='flex flex-col'>
+        <div className=''>
             {/* Notification message */}
-            <span className='text-sm text-gray-600 dark:text-gray-300'>
+            <p className='text-sm text-gray-600 dark:text-gray-300'>
                 {renderMessage()}
-            </span>
+            </p>
 
             {/* Post preview for like/comment notifications */}
             {(notification.type === 'like' || notification.type === 'comment') && notification.post && (
                 <div className='mt-2'>
                     <img
-                        src={notification.post.imageUrl} // Assuming post has an imageUrl
+                        src={notification.post.image_url} // Assuming post has an imageUrl
                         alt='Post preview'
                         className='w-16 h-16 object-cover rounded-md'
                     />

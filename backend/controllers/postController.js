@@ -3,6 +3,7 @@ import Users from '../models/userSchema.js';
 import SavedPost from '../models/savedPostSchema.js';
 import Collection from '../models/collectionsSchema.js';
 import Report from '../models/reportSchema.js';
+import Notifications from '../models/notificationSchema.js';
 import mongoose from 'mongoose';
 import cloudinary from '../utils/cloudinary.js';
 import { createNotification, deleteNotification } from '../utils/reusable/manageNotification.js';
@@ -295,9 +296,9 @@ export const likeOrUnlikePost = async (req, res) => {
             // Emit real-time notification for unliking
             const recipientSocketId = userSocketMap.get(authorId);  // Now uses string key
             if (recipientSocketId) {
-                io.to(recipientSocketId).emit('notification', {
-                    type: 'unlike',
-                    senderId: user,
+                io.to(recipientSocketId).emit('removeNotification', {
+                    type: 'like',
+                    senderId: userId,
                     post,
                 });
             }
@@ -308,8 +309,14 @@ export const likeOrUnlikePost = async (req, res) => {
             post.likes.push(userId);
             await post.save();
 
-            // If user liked, create the notification
-            await createNotification(authorId, userId, 'like');
+            // Create a new notification
+            const newNotification = new Notifications({
+                recipientId: authorId,  // The author of the post
+                senderId: userId,       // The user who liked the post
+                type: 'like',           // The type of notification (like)
+                postId: post._id,       // The ID of the liked post
+            });
+            await newNotification.save(); // Save the notification 
 
             // Emit real-time notification for liking
             const recipientSocketId = userSocketMap.get(authorId);  // Now uses string key

@@ -1,4 +1,3 @@
-import userSocketMap from "../../sockets/userSocketMap.js";
 import Notifications from "../../models/notificationSchema.js";
 
 export const createNotification = async (recipientId, senderId, type) => {
