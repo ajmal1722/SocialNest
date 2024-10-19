@@ -26,7 +26,7 @@ const NotificationMessage = ({ notification }) => {
             {(notification.type === 'like' || notification.type === 'comment') && notification.post && (
                 <div className='mt-2'>
                     <img
-                        src={notification.post.image_url} // Assuming post has an imageUrl
+                        src={notification.post.image_url || notification.postId.image_url} // Assuming post has an imageUrl
                         alt='Post preview'
                         className='w-16 h-16 object-cover rounded-md'
                     />
