@@ -334,37 +334,53 @@ export const likeOrUnlikePost = async (req, res) => {
 
 export const addComment = async (req, res) => {
     try {
-        const userId = req.user;
+        const userId = req.user;  // Get the ID of the logged-in user (commenter)
         const { comment, postId } = req.body;
+        const io = getSocketIo();
 
+        // Find the post by postId
         const post = await Post.findById(postId);
 
         if (!post) {
             return res.status(404).json({ status: 'Failed', error: 'Post not found' });
         }
 
+        // Create the comment object
         const newComment = {
             user_id: userId,
             author_id: post.author_id,
             content: comment,
             createdAt: new Date(),
             updatedAt: new Date(),
-        }
+        };
 
+        // Add the new comment to the post's comments array
         post.comments.push(newComment);
-
         await post.save();
-        
-        // lookup for the user details
+
+        // Look up user details for the commenter
         const user = await Users.findById(userId, 'username profilePicture');
         const populatedComment = {
             ...newComment,
             user_details: {
                 _id: user._id,
                 username: user.username,
-                profilePicture: user.profilePicture
-            }
+                profilePicture: user.profilePicture,
+            },
         };
+
+        // **Send a notification** to the post author about the new comment
+        if (userId !== post.author_id.toString()) {  // Avoid sending notification to self
+            await createNotification(post.author_id, userId, 'comment', postId);
+
+            // Send the notification in real-time (using socket.io)
+            io.to(post.author_id.toString()).emit('newNotification', {
+                type: 'comment',
+                senderId: userId,
+                postId,
+                message: `${user.username} commented on your post.`,
+            });
+        }
 
         console.log('Comment added successfully');
         res.status(200).json({ status: 'Success', comments: populatedComment });
@@ -372,7 +388,7 @@ export const addComment = async (req, res) => {
         console.log('Error message:', error);
         res.status(500).json({ status: 'Failed', error: error.message });
     }
-}
+};
 
 export const fetchComments = async (req, res) => {
     try {
