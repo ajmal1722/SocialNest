@@ -332,11 +332,12 @@ export const likeOrUnlikePost = async (req, res) => {
     }
 };
 
+
 export const addComment = async (req, res) => {
     try {
         const userId = req.user;  // Get the ID of the logged-in user (commenter)
         const { comment, postId } = req.body;
-        const io = getSocketIo();
+        const io = getSocketIo();  // Get the socket.io instance
 
         // Find the post by postId
         const post = await Post.findById(postId);
@@ -370,16 +371,24 @@ export const addComment = async (req, res) => {
         };
 
         // **Send a notification** to the post author about the new comment
-        if (userId !== post.author_id.toString()) {  // Avoid sending notification to self
-            await createNotification(post.author_id, userId, 'comment', postId);
+        const authorId = post.author_id.toString();  // Ensure authorId is a string for comparison
+        if (userId !== authorId) {  // Avoid sending notification to self
+            await createNotification(authorId, userId, 'comment', postId);  // Create notification for the author
 
-            // Send the notification in real-time (using socket.io)
-            io.to(post.author_id.toString()).emit('newNotification', {
-                type: 'comment',
-                senderId: userId,
-                postId,
-                message: `${user.username} commented on your post.`,
-            });
+            // Emit real-time notification for comment
+            const recipientSocketId = userSocketMap.get(authorId);  // Now uses string key
+            console.log('recipientSocketId:', recipientSocketId, userSocketMap, authorId);
+            if (recipientSocketId) {
+                io.to(recipientSocketId).emit('notification', {
+                    type: 'comment',
+                    senderId: user,  // Sender details
+                    post: {
+                        _id: post._id,
+                        image_url: post.image_url,  // Assuming you want to send the post's image or any relevant data
+                    },
+                    createdAt: Date.now(),  // Timestamp of the notification
+                });
+            }
         }
 
         console.log('Comment added successfully');

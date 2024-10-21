@@ -50,7 +50,11 @@ export const SocketProvider = ({ children }) => {
                         }
                     })
                 );
-            });            
+            });
+            
+            // newSocket.on('comment', (comment) => {
+            //     console.log('comment notification:', comment)
+            // })
 
             // Cleanup when component unmounts or user disconnects
             return () => {
