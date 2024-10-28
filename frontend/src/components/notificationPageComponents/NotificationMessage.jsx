@@ -9,7 +9,7 @@ const NotificationMessage = ({ notification }) => {
             case 'like':
                 return `liked your post`;
             case 'comment':
-                return `commented on your post`;
+                return `commented on your post ${notification.commentMessage}`;
             default:
                 return 'You have a new notification';
         }

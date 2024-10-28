@@ -373,7 +373,7 @@ export const addComment = async (req, res) => {
         // **Send a notification** to the post author about the new comment
         const authorId = post.author_id.toString();  // Ensure authorId is a string for comparison
         if (userId !== authorId) {  // Avoid sending notification to self
-            await createNotification(authorId, userId, 'comment', postId);  // Create notification for the author
+            await createNotification(authorId, userId, 'comment', postId, comment);  // Create notification for the author
 
             // Emit real-time notification for comment
             const recipientSocketId = userSocketMap.get(authorId);  // Now uses string key
@@ -386,6 +386,7 @@ export const addComment = async (req, res) => {
                         _id: post._id,
                         image_url: post.image_url,  // Assuming you want to send the post's image or any relevant data
                     },
+                    commentMessage: comment,
                     createdAt: Date.now(),  // Timestamp of the notification
                 });
             }
