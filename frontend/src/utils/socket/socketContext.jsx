@@ -25,7 +25,7 @@ export const SocketProvider = ({ children }) => {
 
             // Handle incoming notifications
             newSocket.on('notification', notification => {
-                console.log('Received notification:', notification);
+                console.log('Received notification:', notification.post.image_url);
                 setNotifications(prev => [notification, ...prev]); // Append the new notification
             });
 

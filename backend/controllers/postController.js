@@ -373,13 +373,15 @@ export const addComment = async (req, res) => {
         // **Send a notification** to the post author about the new comment
         const authorId = post.author_id.toString();  // Ensure authorId is a string for comparison
         if (userId !== authorId) {  // Avoid sending notification to self
-            await createNotification(authorId, userId, 'comment', postId, comment);  // Create notification for the author
+            const notification = await createNotification(authorId, userId, 'comment', postId, comment);  // Create notification for the author
 
+            console.log('notification:', notification)
             // Emit real-time notification for comment
             const recipientSocketId = userSocketMap.get(authorId);  // Now uses string key
             console.log('recipientSocketId:', recipientSocketId, userSocketMap, authorId);
             if (recipientSocketId) {
                 io.to(recipientSocketId).emit('notification', {
+                    _id: notification._id,
                     type: 'comment',
                     senderId: user,  // Sender details
                     post: {

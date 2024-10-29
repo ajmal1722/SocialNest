@@ -17,6 +17,7 @@ export const createNotification = async (recipientId, senderId, type, postId = n
     }
 
     await newNotification.save(); // Save the notification to the database
+    return newNotification;
 };
 
 // Function to delete a notification
