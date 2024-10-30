@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useForm, FormProvider } from 'react-hook-form';
 import { ToastContainer } from "react-toastify";
+import { Spin } from 'antd'
 import NavigationButton from '../components/reusable/NavigationButton'
 import TextInput from "../components/reusable/TextInput";
 import SubmitButton from "../components/reusable/SubmitButton";
@@ -10,6 +11,7 @@ import { createPost, updatePostApi } from "../utils/api/post_api";
 const CreatePostPage = ({ initialData = null }) => {
     const [contentType, setContentType] = useState('Blog')
     const [files, setFiles] = useState([]);
+    const [loading, setLoading] = useState(false)
     const methods = useForm();
     const { reset } = methods;
 
@@ -27,15 +29,20 @@ const CreatePostPage = ({ initialData = null }) => {
 
     const submitTextPost = async (data) => {
         const postData = { contentType, ...data }
+        setLoading(true)
         // console.log('Post Data:', postData);
         if (initialData) {
             console.log('updata:', postData);
             
             // If initialData is provided, update the post
-            await updatePostApi(initialData._id, postData);
+            const response = await updatePostApi(initialData._id, postData);
+            console.log('response:', response);
+            setLoading(false)
         } else {
             // Otherwise, create a new post
-            await createPost(postData);
+            const response = await createPost(postData);
+            console.log('response123:', response)
+            setLoading(false)
         }
 
         reset()
@@ -88,7 +95,9 @@ const CreatePostPage = ({ initialData = null }) => {
                     ) : <ImageInput onFilesChange={setFiles} />
                     }
                     <div className="flex justify-end my-6">
-                        <SubmitButton content={'Post'} />
+                        {loading ? 
+                            <Spin className="mx-5 my-3" /> : 
+                            <SubmitButton content={'Post'} />}
                     </div>
                 </form>
             </FormProvider>
