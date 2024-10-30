@@ -33,11 +33,19 @@ const ArchivedPosts = () => {
                 setActiveLink={setActiveLink}
             />
             <Row gutter={16} className='mt-12'>
-                {archivedPosts.map((post) => (
-                    activeLink === 'Blogs' ?
-                        <SingleBlogCard key={post._id} post={post} setArchivedPosts={setArchivedPosts} /> :
-                        <SinglePostCard key={post._id} post={post} setArchivedPosts={setArchivedPosts} />
-                ))}
+                {archivedPosts.length > 0 ? (
+                    archivedPosts.map((post) => (
+                        activeLink === 'Blogs' ? (
+                            <SingleBlogCard key={post._id} post={post} setArchivedPosts={setArchivedPosts} />
+                        ) : (
+                            <SinglePostCard key={post._id} post={post} setArchivedPosts={setArchivedPosts} />
+                        )
+                    ))
+                ) : (
+                    <div className="text-center w-full py-10">
+                        {activeLink === 'Blogs' ? "No Blogs to display" : "No Images to display"}
+                    </div>
+                )}
             </Row>
         </div>
     );
