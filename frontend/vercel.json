@@ -9,7 +9,7 @@
                 },
                 {
                     "key": "Access-Control-Allow-Origin",
-                    "value": "https://social-nest-alpha.vercel.app/"
+                    "value": "https://social-nest-alpha.vercel.app"
                 },
                 {
                     "key": "Access-Control-Allow-Methods",
