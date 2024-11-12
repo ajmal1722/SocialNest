@@ -8,7 +8,7 @@ export const initializeSocket = httpServer => {
     // Create a new Socket.io instance, attaching it to the provided HTTP server
     io = new Server(httpServer, {
         cors: {
-            origin: 'http://localhost:5173', // Allow connections from this origin
+            origin: 'https://social-nest-backend.vercel.app/', // Allow connections from this origin
             methods: ['GET', 'POST'], // Allowed methods for WebSocket
             credentials: true, // Allow cookies in WebSocket connections
         }

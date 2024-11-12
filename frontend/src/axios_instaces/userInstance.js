@@ -1,7 +1,7 @@
 import axios from "axios"; 
 
 const instance = axios.create({
-    baseURL: 'http://localhost:8000/user',
+    baseURL: 'https://social-nest-backend.vercel.app/user',
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',

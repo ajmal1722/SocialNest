@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const notificationInstanse = axios.create({
-    baseURL: 'http://localhost:8000/notification',
+    baseURL: 'https://social-nest-backend.vercel.app/notification',
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const followInstance = axios.create({
-    baseURL: 'http://localhost:8000/follow',
+    baseURL: 'https://social-nest-backend.vercel.app/follow',
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
