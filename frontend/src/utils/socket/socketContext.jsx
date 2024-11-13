@@ -14,7 +14,10 @@ export const SocketProvider = ({ children }) => {
         let newSocket;
 
         if (userInfo) {
-            newSocket = io('https://social-nest-backend.vercel.app'); // Replace with your backend URL if necessary
+            newSocket = io('https://social-nest-backend.vercel.app', { // Replace with your backend URL if necessary
+                transports: ['websocket'],
+                withCredentials: true
+            }); 
             setSocket(newSocket);
 
             // Listen for online users or any other events
